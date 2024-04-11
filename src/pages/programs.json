@@ -1,0 +1,23 @@
+{
+    "id": 1,
+    "confirm_survey": 0,
+    "name": null,
+    "category_name": "1",
+    "program_name": "테스트 - 진행 중",
+    "status": 0,
+    "apply_status": 1,
+    "application_form": null,
+    "survey_form": null,
+    "quota": 0,
+    "status_name": "진행",
+    "start_date": "2024-02-22 22:00:00",
+    "end_date": "2024-03-02 17:00:00",
+    "manager_name": "김광 교수님",
+    "manager_contact": "010124123",
+    "applicants_num": 2,
+    "file_name": "https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg",
+    "file_type": 0,
+    "regdate": 1707122236000,
+    "applystart_date": "2024-02-05 00:00:00",
+    "applyend_date": "2024-02-15 23:00:00"
+}

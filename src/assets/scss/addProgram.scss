@@ -1,0 +1,24 @@
+.datePicker {
+  padding: 10px;
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid #e8e7ed;
+}
+
+.datePicker-wrapper {
+}
+
+.programImage {
+  object-fit: cover;
+  object-position: top;
+}
+
+.main-program-card {
+  position: relative;
+}
+
+.main-program-badge {
+  position: absolute;
+  top: 0px;
+  right: -15px;
+}

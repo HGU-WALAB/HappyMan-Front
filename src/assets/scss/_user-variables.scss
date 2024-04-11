@@ -1,0 +1,13 @@
+//
+// user-variables.scss
+// Use this to overwrite Bootstrap and Geeks variables
+//
+// Example of a variable override to change Geeks primary color
+// Remove the "//" to comment it in and see it in action!
+// $primary: #000;
+
+/*Program> Detail> 신청서 > 학생 이름 버튼 */
+.Applicant .btn-check:focus + .btn,
+.btn:focus {
+  box-shadow: none !important;
+}
