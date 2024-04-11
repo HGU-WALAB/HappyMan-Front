@@ -16,13 +16,13 @@ import axios from "axios";
 import { getCategory } from "services/mainApi";
 import { get } from "jquery";
 
-const Main = ({ login }) => {
-    const [totalInfo, setTotalInfo] = useState([]);
+const Main = ({ totalInfo, eventInfo }) => {
+    // const [totalInfo, setTotalInfo] = useState([]);
     const [categoryInfo, setCategoryInfo] = useState([]);
     const [competitionInfo, setCompetitionInfo] = useState([]);
     const [volunteerInfo, setVolunteerInfo] = useState([]);
     const [campInfo, setCampInfo] = useState([]);
-    const [eventInfo, setEventInfo] = useState([]);
+    // const [eventInfo, setEventInfo] = useState([]);
     const [macbookInfo, setMacbookInfo] = useState([]);
     const [studyInfo, setStudyInfo] = useState([]);
     const [internInfo, setInternInfo] = useState([]);
@@ -31,6 +31,13 @@ const Main = ({ login }) => {
     const [totalLoading, setTotalLoading] = useState(false);
     const [fileInfo, setFileInfo] = useState([]);
     const [categories, setCategories] = useState([]); // json 형식의 로딩을 위해서
+    const [selectedCategory, setSelectedCategory] = useState("all"); // 카테고리별로 보여주기 위함
+    const [activeTab, setActiveTab] = useState("all");
+
+    const handleTabChange = (categoryId) => {
+        console.log("카테고리 ID : ", categoryId);
+        setActiveTab(categoryId.toString());
+    };
 
     const Home = {
         programBySelectedCategory: [
@@ -51,7 +58,7 @@ const Main = ({ login }) => {
                 // Home.categories 대신 categories를 사용
                 setCategories(categoryData.categories);
                 setTotalLoading(false);
-                console.log(categoryData.categories);
+                console.log("카테고리 데이터 : ", categoryData.categories);
             } catch (error) {
                 console.error("카테고리 정보를 가져오는 데 실패했습니다.", error);
                 setTotalLoading(false);
@@ -73,8 +80,7 @@ const Main = ({ login }) => {
                                 <Container>
                                     <Row className="mb-6">
                                         <Col md={12}>
-                                            <Tab.Container defaultActiveKey="total">
-                                                {/* 코드 간소화 */}
+                                            {/* <Tab.Container defaultActiveKey="all">
                                                 <Nav className="nav-lb-tab fs-4">
                                                     {categories.map((category) => (
                                                         <Nav.Item key={category.id}>
@@ -86,6 +92,56 @@ const Main = ({ login }) => {
                                                 </Nav>
 
                                                 <Tab.Content>
+                                                    {categories.map((category) => (
+                                                        <Tab.Pane key={category.id} eventKey={category.id.toString()} className="pb-4 p-4 ps-0 pe-0">
+                                                            <AllProgramsData
+                                                                categoryId={category.id.toString()}
+                                                                total_data={totalInfo}
+                                                                category_data={eventInfo}
+                                                            />
+                                                        </Tab.Pane>
+                                                    ))}
+                                                </Tab.Content>
+                                            </Tab.Container> */}
+
+                                            <Tab.Container activeKey={activeTab} onSelect={handleTabChange}>
+                                                <Nav className="nav-lb-tab fs-4">
+                                                    {categories.map((category) => (
+                                                        <Nav.Item key={category.id}>
+                                                            <Nav.Link eventKey={category.id.toString()} className="mb-sm-3 mb-md-0">
+                                                                {category.name}
+                                                            </Nav.Link>
+                                                        </Nav.Item>
+                                                    ))}
+                                                </Nav>
+
+                                                <Tab.Content>
+                                                    {categories.map((category) => (
+                                                        <Tab.Pane key={category.id} eventKey={category.id.toString()} className="pb-4 p-4 ps-0 pe-0">
+                                                            {/* 머저리같았음을 기억하기 */}
+                                                            {activeTab === category.id.toString() && <AllProgramsData categoryId={category.id} />}
+                                                        </Tab.Pane>
+                                                    ))}
+                                                </Tab.Content>
+                                            </Tab.Container>
+
+                                            {/* <Tab.Container defaultActiveKey="total">
+                                                <Nav className="nav-lb-tab fs-4">
+                                                    {categories.map((category) => (
+                                                        <Nav.Item key={category.id}>
+                                                            <Nav.Link eventKey={category.id.toString()} className="mb-sm-3 mb-md-0">
+                                                                {category.name}
+                                                            </Nav.Link>
+                                                        </Nav.Item>
+                                                    ))}
+                                                </Nav>
+
+                                                <Tab.Content>
+                                                    <Tab.Pane eventKey="all" className="pb-4 p-4 ps-0 pe-0">
+                                                        <Row>
+                                                            <AllProgramsData category="all" total_data={totalInfo} />
+                                                        </Row>
+                                                    </Tab.Pane>
                                                     <Tab.Pane eventKey="1" className="pb-4 p-4 ps-0 pe-0">
                                                         <Row>
                                                             <AllProgramsData category="0" total_data={totalInfo} category_data={totalInfo} />
@@ -137,7 +193,7 @@ const Main = ({ login }) => {
                                                         </Row>
                                                     </Tab.Pane>
                                                 </Tab.Content>
-                                            </Tab.Container>
+                                            </Tab.Container> */}
                                         </Col>
                                     </Row>
                                 </Container>

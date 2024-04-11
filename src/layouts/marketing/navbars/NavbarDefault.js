@@ -109,35 +109,6 @@ const NavbarDefault = ({ headerstyle }, { props }) => {
         }
     };
 
-    // 로그아웃 프로세스
-    // 세션스토리지에서 userData, token 삭제 후 페이지 "/"로 돌리기, 후에 refresh()로 리렌더링하기
-    // const logout = async () => {
-    //     // console.log("로그아웃됨 시도!");
-    //     setIsLogin(true);
-    //     const params = new URLSearchParams();
-    //     params.append("email", window.sessionStorage.getItem("email"));
-    //     params.append("manageID", window.sessionStorage.getItem("id"));
-
-    //     // await axios.post(process.env.REACT_APP_RESTAPI_HOST + "logout", params);
-
-    //     const auth2 = window.gapi.auth2.getAuthInstance();
-    //     auth2.signOut().then(function () {
-    //         window.sessionStorage.removeItem("email");
-    //         window.sessionStorage.removeItem("name");
-    //         window.sessionStorage.removeItem("token");
-    //         window.sessionStorage.removeItem("expires_at");
-    //         window.sessionStorage.removeItem("status");
-    //         window.sessionStorage.removeItem("id");
-    //         window.sessionStorage.removeItem("profileImg");
-    //         window.sessionStorage.removeItem("myname");
-    //         window.sessionStorage.removeItem("myemail");
-
-    //         setIsLogin(false);
-    //         console.log("로그아웃 성공!!!");
-    //         navigate("/swap/main");
-    //     });
-    // };
-
     // 로그인 실패 시
     const onFailure = (error) => {
         console.log(error);

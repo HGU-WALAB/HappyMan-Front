@@ -205,23 +205,23 @@ const AddNewCourse = () => {
                 />
             ),
         },
-        // {
-        //     id: 2,
-        //     title: "프로그램 신청서 Form 제작",
-        //     // content: <CoursesMedia data={formData} handleChange={handleChange} setStart_date={setStart_date} setEnd_date={setEnd_date} submit={addProgram} previous={previous} />,
-        //     content: (
-        //         <ApplicationFormPractice
-        //             data={formData}
-        //             handleChange={handleChange}
-        //             setEnd_date={setEnd_date}
-        //             next={next}
-        //             previous={previous}
-        //             saveApplication={saveApplication}
-        //         />
-        //     ),
-        //     // content: <FormBuilder />,
-        //     // content: <ApplicationForm data={formData} handleChange={handleChange} setStart_date={setStart_date} setEnd_date={setEnd_date} submit={addProgram} previous={previous} />,
-        // },
+        {
+            id: 2,
+            title: "프로그램 신청서 Form 제작",
+            // content: <CoursesMedia data={formData} handleChange={handleChange} setStart_date={setStart_date} setEnd_date={setEnd_date} submit={addProgram} previous={previous} />,
+            content: (
+                <ApplicationFormPractice
+                    data={formData}
+                    handleChange={handleChange}
+                    setEnd_date={setEnd_date}
+                    next={next}
+                    previous={previous}
+                    saveApplication={saveApplication}
+                />
+            ),
+            // content: <FormBuilder />,
+            // content: <ApplicationForm data={formData} handleChange={handleChange} setStart_date={setStart_date} setEnd_date={setEnd_date} submit={addProgram} previous={previous} />,
+        },
         // 임시로 주석처리 240403
         // {
         //     id: 3,

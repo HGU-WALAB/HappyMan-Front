@@ -21,20 +21,45 @@ const Whole = styled.div`
 
 const AllProgramsData = (props) => {
     const [programs, setPrograms] = useState([]); // json 형식의 로딩을 위해서
+    const { categoryId } = props;
+
+    // // 카테고리 정보 받아오기
+    // useEffect(() => {
+    //     async function fetchPrograms() {
+    //         try {
+    //             const programData = await getPrograms();
+    //             setPrograms(programData.programs);
+    //             console.log("해당 탭의 정보는 1 : ", programData);
+    //             console.log("해당 탭의 정보는 2 : ", categoryId);
+    //         } catch (error) {
+    //             console.error("프로그램 정보를 불러오는 동안 오류가 발생했습니다:", error);
+    //         }
+    //     }
+    //     fetchPrograms();
+    // }, []);
+
     useEffect(() => {
         async function fetchPrograms() {
             try {
                 const programData = await getPrograms();
-                setPrograms(programData.programs);
+                console.log("categoryId: ", categoryId); // 1. categoryId 확인
+                console.log("categoryId type:", typeof categoryId);
+                console.log("프로그램 데이터:", programData.programs); // 2. 프로그램 데이터 확인
+                const filteredPrograms = programData.programs.filter((program) => program.categoryId === categoryId);
+                setPrograms(filteredPrograms);
+                console.log("필터링된 프로그램 : ", filteredPrograms);
             } catch (error) {
                 console.error("프로그램 정보를 불러오는 동안 오류가 발생했습니다:", error);
             }
         }
         fetchPrograms();
-    }, []);
-    // 가져온 데이터를 categoryId -> 여기서는 숫자로 구분한 카테고리 종류 로 구분함 -> 이후 사용하기 위함
-    // const filteredData = programs.filter((item) => item.categoryId === props.category);
-    // console.log("FilteredData", filteredData);
+    }, [categoryId]);
+
+    // // 카테고리 ID
+    // var categoryIds = programs.map(function (program) {
+    //     return program.categoryId;
+    // });
+    // console.log("받아온 카테고리 id는 : ", categoryIds);
 
     const [term, setTerm] = useState("진행");
     const [searchTerm, setSearchTerm] = useState("");
@@ -43,10 +68,6 @@ const AllProgramsData = (props) => {
     const [userInfo, setUserInfo] = useState();
 
     var ID = parseInt(window.sessionStorage.getItem("id"));
-
-    // useLayoutEffect(() => {
-    //     readApplicantInformation(ID);
-    // }, []);
 
     const getFilterTerm = (event) => {
         setTermLoading(false);
@@ -140,57 +161,57 @@ const AllProgramsData = (props) => {
                 </Row>
                 <Row className="mt-4 m-3">
                     {termLoading ? (
-                        term === "전체" ? (
-                            programs
-                                .filter((project) => Object.values(project).join(" ").toLowerCase().includes(searchTerm.toLowerCase()))
-                                .map((item, index) => {
-                                    var address = process.env.REACT_APP_DEFAULT_URL + "program/" + item.id.toString();
-
-                                    return (
-                                        <Col lg={3} md={6} sm={12} key={index}>
-                                            <Card className={`mb-4 card-hover mx-2 main-program-card`}>
-                                                <Link to={address}>
-                                                    {item.file_name ? (
-                                                        <Image
-                                                            src={`${process.env.REACT_APP_RESTAPI_HOST}${item.image}`}
-                                                            alt=""
-                                                            className="card-img-top rounded-top-md programImage"
-                                                            width="100px"
-                                                            height="170px"
-                                                        />
-                                                    ) : (
-                                                        <Image
-                                                            src={programImage}
-                                                            alt=""
-                                                            className="card-img-top rounded-top-md programImage"
-                                                            width="100px"
-                                                            height="170px"
-                                                        />
-                                                    )}
-                                                </Link>
-                                                <Card.Body style={{ height: "6rem" }}>
-                                                    <span className="text-dark fw-bold">
-                                                        <Badge bg="primary" className="me-3 main-program-badge">
-                                                            {" "}
-                                                            {createDday(item.applyend_date)}
-                                                        </Badge>
-                                                    </span>
-                                                    <h3 className="h4 text-truncate-line-2 " style={{ height: "2.7rem" }}>
-                                                        <Link to={address} className="text-inherit">
-                                                            {item.name}
-                                                        </Link>
-                                                    </h3>
-                                                </Card.Body>
-                                                <Card.Footer>
-                                                    <Row className="align-items-center g-0">
-                                                        <Col className="col-auto">
-                                                            <div className={`lh-1  "d-none"`}>
-                                                                <div className="fw-bold">신청마감일자</div>
-                                                                <div className={` mt-1 `}>{moment(item.applyend_date).format("YY-MM-DD HH:mm")}</div>
-                                                            </div>
-                                                        </Col>
-                                                        <Col className="col ms-2">{/* <span>{item.name}</span> */}</Col>
-                                                        {/* <Col className="col-auto">
+                        programs
+                            .filter((program) => program.categoryId === categoryId) // categoryId와 일치하는 프로그램만 필터링
+                            .filter((program) => Object.values(program).join(" ").toLowerCase().includes(searchTerm.toLowerCase()))
+                            .map((item, index) => {
+                                // 클릭한 페이지로 이동할 수 있게 해 줌
+                                var address = process.env.REACT_APP_DEFAULT_URL + "program/" + item.id.toString();
+                                return (
+                                    <Col lg={3} md={6} sm={12} key={index}>
+                                        <Card className={`mb-4 card-hover mx-2 main-program-card`}>
+                                            <Link to={address}>
+                                                {item.image ? (
+                                                    <Image
+                                                        src={`${process.env.REACT_APP_RESTAPI_HOST}${item.image}`}
+                                                        alt=""
+                                                        className="card-img-top rounded-top-md programImage"
+                                                        width="100px"
+                                                        height="170px"
+                                                    />
+                                                ) : (
+                                                    <Image
+                                                        src={programImage}
+                                                        alt=""
+                                                        className="card-img-top rounded-top-md programImage"
+                                                        width="100px"
+                                                        height="170px"
+                                                    />
+                                                )}
+                                            </Link>
+                                            <Card.Body style={{ height: "6rem" }}>
+                                                <span className="text-dark fw-bold">
+                                                    <Badge bg="primary" className="me-3 main-program-badge">
+                                                        {" "}
+                                                        {createDday(item.applyend_date)}
+                                                    </Badge>
+                                                </span>
+                                                <h3 className="h4 text-truncate-line-2 " style={{ height: "2.7rem" }}>
+                                                    <Link to={address} className="text-inherit">
+                                                        {item.name}
+                                                    </Link>
+                                                </h3>
+                                            </Card.Body>
+                                            <Card.Footer>
+                                                <Row className="align-items-center g-0">
+                                                    <Col className="col-auto">
+                                                        <div className={`lh-1  "d-none"`}>
+                                                            <div className="fw-bold">신청마감일자</div>
+                                                            <div className={` mt-1 `}>{moment(item.applyend_date).format("YY-MM-DD HH:mm")}</div>
+                                                        </div>
+                                                    </Col>
+                                                    <Col className="col ms-2">{/* <span>{item.name}</span> */}</Col>
+                                                    {/* <Col className="col-auto">
                                                             <Tippy content="프로그램 찜하기" animation={"scale"}>
                                                                 <Button
                                                                     onClick={() => onToggle(item.id)}
@@ -205,85 +226,12 @@ const AllProgramsData = (props) => {
                                                                 </Button>
                                                             </Tippy>
                                                         </Col> */}
-                                                    </Row>
-                                                </Card.Footer>
-                                            </Card>
-                                        </Col>
-                                    );
-                                })
-                        ) : (
-                            programs
-                                .filter((project) => Object.values(project).join(" ").toLowerCase().includes(term.toLowerCase()))
-                                .filter((project) => Object.values(project).join(" ").toLowerCase().includes(searchTerm.toLowerCase()))
-                                .map((item, index) => {
-                                    // 클릭한 페이지로 이동할 수 있게 해 줌
-                                    var address = process.env.REACT_APP_DEFAULT_URL + "program/" + item.id.toString();
-                                    return (
-                                        <Col lg={3} md={6} sm={12} key={index}>
-                                            <Card className={`mb-4 card-hover mx-2 main-program-card`}>
-                                                <Link to={address}>
-                                                    {item.image ? (
-                                                        <Image
-                                                            src={`${process.env.REACT_APP_RESTAPI_HOST}${item.image}`}
-                                                            alt=""
-                                                            className="card-img-top rounded-top-md programImage"
-                                                            width="100px"
-                                                            height="170px"
-                                                        />
-                                                    ) : (
-                                                        <Image
-                                                            src={programImage}
-                                                            alt=""
-                                                            className="card-img-top rounded-top-md programImage"
-                                                            width="100px"
-                                                            height="170px"
-                                                        />
-                                                    )}
-                                                </Link>
-                                                <Card.Body style={{ height: "6rem" }}>
-                                                    <span className="text-dark fw-bold">
-                                                        <Badge bg="primary" className="me-3 main-program-badge">
-                                                            {" "}
-                                                            {createDday(item.applyend_date)}
-                                                        </Badge>
-                                                    </span>
-                                                    <h3 className="h4 text-truncate-line-2 " style={{ height: "2.7rem" }}>
-                                                        <Link to={address} className="text-inherit">
-                                                            {item.name}
-                                                        </Link>
-                                                    </h3>
-                                                </Card.Body>
-                                                <Card.Footer>
-                                                    <Row className="align-items-center g-0">
-                                                        <Col className="col-auto">
-                                                            <div className={`lh-1  "d-none"`}>
-                                                                <div className="fw-bold">신청마감일자</div>
-                                                                <div className={` mt-1 `}>{moment(item.applyend_date).format("YY-MM-DD HH:mm")}</div>
-                                                            </div>
-                                                        </Col>
-                                                        <Col className="col ms-2">{/* <span>{item.name}</span> */}</Col>
-                                                        {/* <Col className="col-auto">
-                                                            <Tippy content="프로그램 찜하기" animation={"scale"}>
-                                                                <Button
-                                                                    onClick={() => onToggle(item.id)}
-                                                                    type="button"
-                                                                    className="p-0 bg-transparent border-0 text-primary"
-                                                                >
-                                                                    {alllikeData.includes(item.id) ? (
-                                                                        <i className="fas fa-bookmark"></i>
-                                                                    ) : (
-                                                                        <i className="far fa-bookmark"></i>
-                                                                    )}
-                                                                </Button>
-                                                            </Tippy>
-                                                        </Col> */}
-                                                    </Row>
-                                                </Card.Footer>
-                                            </Card>
-                                        </Col>
-                                    );
-                                })
-                        )
+                                                </Row>
+                                            </Card.Footer>
+                                        </Card>
+                                    </Col>
+                                );
+                            })
                     ) : (
                         <></>
                     )}

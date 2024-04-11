@@ -37,10 +37,13 @@ const NavbarProfile = ({ logout }) => {
 
     // 로그아웃 시도 시 사용하는 기능 -> 세션스토리지 값 지우고 메인화면으로 되돌림
     const handleLogout = () => {
+        // if (window.confirm("정말 로그아웃하시겠습니까?")) {
         // alert("로그아웃 시도!");
         sessionStorage.clear();
         navigate("/swap");
+        // }
     };
+
     const userData = JSON.parse(window.sessionStorage.getItem("userData"));
     const name = userData ? userData.name : null;
     const status = userData ? userData.status : null;
@@ -68,6 +71,7 @@ const NavbarProfile = ({ logout }) => {
                             </div>
                         </div>
                     </Dropdown.Item>
+                    {/* 구글 -> 히즈넷 로그인으로 전환함에 따라 프로필,설정 불필요
                     <Dropdown.Divider />
                     <Dropdown.Item eventKey="2">
                         <i className="fe fe-user me-2"></i> 프로필
@@ -75,6 +79,7 @@ const NavbarProfile = ({ logout }) => {
                     <Dropdown.Item>
                         <i className="fe fe-settings me-2"></i> <Link to="/swap/mypage">설정</Link>
                     </Dropdown.Item>
+                    */}
                     <Dropdown.Divider />
                     {/* 구글 로그아웃 -> 자체 로그아웃으로 프로세스 변경 */}
                     <Dropdown.Item className="mb-3" onClick={handleLogout}>

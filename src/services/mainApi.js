@@ -19,7 +19,7 @@ export async function getPrograms() {
     try {
         const response = await axios.get(`${process.env.REACT_APP_RESTAPI_HOST}/api/happyman/all/programs`);
         const programData = response.data;
-        console.log("프로그램 정보 불러오기 성공");
+        console.log("프로그램 정보 불러오기 성공 : ", programData);
         return programData;
     } catch (error) {
         console.log("프로그램 정보 불러오기 실패");
