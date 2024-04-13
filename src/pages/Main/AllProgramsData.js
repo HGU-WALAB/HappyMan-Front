@@ -20,7 +20,8 @@ const Whole = styled.div`
 `;
 
 const AllProgramsData = (props) => {
-    const [programs, setPrograms] = useState([]); // json 형식의 로딩을 위해서
+    const [programs, setPrograms] = useState([]);
+    const [defaultCategory, setDefaultCategory] = useState("전체");
     const { categoryId } = props;
 
     // // 카테고리 정보 받아오기
@@ -42,12 +43,8 @@ const AllProgramsData = (props) => {
         async function fetchPrograms() {
             try {
                 const programData = await getPrograms();
-                console.log("categoryId: ", categoryId); // 1. categoryId 확인
-                console.log("categoryId type:", typeof categoryId);
-                console.log("프로그램 데이터:", programData.programs); // 2. 프로그램 데이터 확인
                 const filteredPrograms = programData.programs.filter((program) => program.categoryId === categoryId);
                 setPrograms(filteredPrograms);
-                console.log("필터링된 프로그램 : ", filteredPrograms);
             } catch (error) {
                 console.error("프로그램 정보를 불러오는 동안 오류가 발생했습니다:", error);
             }
@@ -156,7 +153,7 @@ const AllProgramsData = (props) => {
                         <input type="search" className="form-control mx-3" placeholder="프로그램을 검색하세요" onChange={getSearchTerm} />
                     </Col>
                     <Col xxl={2} lg={2} md={6} xs={12}>
-                        <Form.Control as={FormSelect} options={categoryOptions} onChange={getFilterTerm} />
+                        <Form.Control as={FormSelect} options={categoryOptions} defaultValue={defaultCategory} onChange={getFilterTerm} />
                     </Col>
                 </Row>
                 <Row className="mt-4 m-3">

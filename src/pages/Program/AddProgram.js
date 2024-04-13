@@ -185,6 +185,7 @@ const AddNewCourse = () => {
 
     // 표시할 단계들
     const steps = [
+        // formData로 받아온 모든 정보를 관리, 나머지 항목은 데이터 구성을 위함
         {
             id: 1,
             title: "프로그램 기본 정보 작성",

@@ -1,3 +1,11 @@
+/* 
+프로그램 추가의 1단계 
+
+image / file / file / name(프로그램명) / quota (정원) / currentQuota (현원) / information (프로그램 정보) 
+/ applyStartDate, applyEndDate (신청 시작,마감) / startDate, endDate (프로그램 시작, 종료) 
+/ managerName / managerContact / categoryId (정한 카테고리에 따라 부여)  
+*/
+
 import React, { useState, useLayoutEffect } from "react";
 import { Card, Row, Form, Button, Col, InputGroup } from "react-bootstrap";
 import DatePicker from "react-datepicker";

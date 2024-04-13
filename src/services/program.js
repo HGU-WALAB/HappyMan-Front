@@ -22,9 +22,9 @@ export async function addProgram(e) {
     }
 }
 
-export const getProgramDetails = async () => {
+export const getProgramDetails = async (programId) => {
     try {
-        const response = await axios.get(`${process.env.REACT_APP_RESTAPI_HOST}/api/happyman/programs/9`, {
+        const response = await axios.get(`${process.env.REACT_APP_RESTAPI_HOST}/api/happyman/programs/${programId}`, {
             headers: {
                 Authorization: "Bearer " + sessionStorage.getItem("token"),
             },

@@ -118,7 +118,7 @@ const Main = ({ totalInfo, eventInfo }) => {
                                                 <Tab.Content>
                                                     {categories.map((category) => (
                                                         <Tab.Pane key={category.id} eventKey={category.id.toString()} className="pb-4 p-4 ps-0 pe-0">
-                                                            {/* 머저리같았음을 기억하기 */}
+                                                            {/* 머저리같았음을 기억하기 .toString()은 죄악이다 */}
                                                             {activeTab === category.id.toString() && <AllProgramsData categoryId={category.id} />}
                                                         </Tab.Pane>
                                                     ))}

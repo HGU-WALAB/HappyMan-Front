@@ -251,7 +251,10 @@ const Program = () => {
     useEffect(() => {
         const fetchProgramDetails = async () => {
             try {
-                const data = await getProgramDetails();
+                const url = window.location.href;
+                const programId = parseInt(url.substring(url.lastIndexOf("/") + 1));
+                console.log("프로그램아이디 : ", programId);
+                const data = await getProgramDetails(programId); // 프로그램 ID를 매개변수로 전달
                 setProgramData(data); // 프로그램 데이터 상태 업데이트
                 setProgramLoad(true); // 프로그램 데이터 로딩이 완료되었으므로 true로 설정
             } catch (error) {
