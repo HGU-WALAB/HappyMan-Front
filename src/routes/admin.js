@@ -31,33 +31,33 @@ function Admin() {
     return (
         <Routes>
             {/* 전 라우터 공통 :  */}
-            <Route path={process.env.REACT_APP_DEFAULT_URL + "/"} element={<Main />} />
-            <Route path={process.env.REACT_APP_DEFAULT_URL + "main"} element={<Main />} />
-            <Route path={process.env.REACT_APP_DEFAULT_URL + "login-ing"} element={<LoginIng />} />
+            <Route path={process.env.REACT_APP_DEPLOY_URL + "/"} element={<Main />} />
+            <Route path={process.env.REACT_APP_DEPLOY_URL + "main"} element={<Main />} />
+            <Route path={process.env.REACT_APP_DEPLOY_URL + "login-ing"} element={<LoginIng />} />
 
             {/* 로그인 상태 */}
-            <Route path={process.env.REACT_APP_DEFAULT_URL + "program/:id"} element={<ProgramDetail />} />
-            <Route path={process.env.REACT_APP_DEFAULT_URL + "program/:id/application"} element={<Application />} />
+            <Route path={process.env.REACT_APP_DEPLOY_URL + "program/:id"} element={<ProgramDetail />} />
+            <Route path={process.env.REACT_APP_DEPLOY_URL + "program/:id/application"} element={<Application />} />
 
             {/* Admin 고유 */}
-            <Route path={process.env.REACT_APP_DEFAULT_URL + "admin/addprogram"} element={<AddProgram />} />
-            <Route path={process.env.REACT_APP_DEFAULT_URL + "admin/addtemplate"} element={<AddTemplate />} />
-            <Route path={process.env.REACT_APP_DEFAULT_URL + "admin/addsurvey"} element={<AddSurvey />} />
-            <Route path={process.env.REACT_APP_DEFAULT_URL + "admin"} element={<AdminMain />} />
-            <Route path={process.env.REACT_APP_DEFAULT_URL + "admin/application"} element={<ManageApplication />} />
-            <Route path={process.env.REACT_APP_DEFAULT_URL + "admin/application/detail/:id"} element={<ManageApplicationDetail />} />
-            <Route path={process.env.REACT_APP_DEFAULT_URL + "admin/survey"} element={<ManageSurvey />} />
-            <Route path={process.env.REACT_APP_DEFAULT_URL + "admin/survey/detail/:id"} element={<ManageSurveyDetail />} />
-            <Route path={process.env.REACT_APP_DEFAULT_URL + "admin/student"} element={<ManageStudent />} />
-            <Route path={process.env.REACT_APP_DEFAULT_URL + "admin/instructor"} element={<ManageInstructor />} />
-            <Route path={process.env.REACT_APP_DEFAULT_URL + "admin/user"} element={<ManageUser />} />
-            <Route path={process.env.REACT_APP_DEFAULT_URL + "admin/program"} element={<ManageProgram />} />
-            <Route path={process.env.REACT_APP_DEFAULT_URL + "admin/program/detail/:id"} element={<AdminProgramDetail />} />
-            <Route path={process.env.REACT_APP_DEFAULT_URL + "admin/program/detail/:id/:applicantid"} element={<ApplicationFormView />} />
-            <Route path={process.env.REACT_APP_DEFAULT_URL + "program/:id/survey"} element={<Survey />} />
-            <Route path={process.env.REACT_APP_DEFAULT_URL + "mypage"} element={<MyPageLayout />} />
-            <Route path={process.env.REACT_APP_DEFAULT_URL + "terms-and-conditions"} element={<Terms />} />
-            <Route path={process.env.REACT_APP_DEFAULT_URL + "personal-information"} element={<PersonalInfo />} />
+            <Route path={process.env.REACT_APP_DEPLOY_URL + "admin/addprogram"} element={<AddProgram />} />
+            <Route path={process.env.REACT_APP_DEPLOY_URL + "admin/addtemplate"} element={<AddTemplate />} />
+            <Route path={process.env.REACT_APP_DEPLOY_URL + "admin/addsurvey"} element={<AddSurvey />} />
+            <Route path={process.env.REACT_APP_DEPLOY_URL + "admin"} element={<AdminMain />} />
+            <Route path={process.env.REACT_APP_DEPLOY_URL + "admin/application"} element={<ManageApplication />} />
+            <Route path={process.env.REACT_APP_DEPLOY_URL + "admin/application/detail/:id"} element={<ManageApplicationDetail />} />
+            <Route path={process.env.REACT_APP_DEPLOY_URL + "admin/survey"} element={<ManageSurvey />} />
+            <Route path={process.env.REACT_APP_DEPLOY_URL + "admin/survey/detail/:id"} element={<ManageSurveyDetail />} />
+            <Route path={process.env.REACT_APP_DEPLOY_URL + "admin/student"} element={<ManageStudent />} />
+            <Route path={process.env.REACT_APP_DEPLOY_URL + "admin/instructor"} element={<ManageInstructor />} />
+            <Route path={process.env.REACT_APP_DEPLOY_URL + "admin/user"} element={<ManageUser />} />
+            <Route path={process.env.REACT_APP_DEPLOY_URL + "admin/program"} element={<ManageProgram />} />
+            <Route path={process.env.REACT_APP_DEPLOY_URL + "admin/program/detail/:id"} element={<AdminProgramDetail />} />
+            <Route path={process.env.REACT_APP_DEPLOY_URL + "admin/program/detail/:id/:applicantid"} element={<ApplicationFormView />} />
+            <Route path={process.env.REACT_APP_DEPLOY_URL + "program/:id/survey"} element={<Survey />} />
+            <Route path={process.env.REACT_APP_DEPLOY_URL + "mypage"} element={<MyPageLayout />} />
+            <Route path={process.env.REACT_APP_DEPLOY_URL + "terms-and-conditions"} element={<Terms />} />
+            <Route path={process.env.REACT_APP_DEPLOY_URL + "personal-information"} element={<PersonalInfo />} />
         </Routes>
     );
 }

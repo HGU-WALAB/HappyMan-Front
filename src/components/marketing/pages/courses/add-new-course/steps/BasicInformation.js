@@ -23,6 +23,11 @@ const BasicInformation = (props) => {
     const [ApplyendDate, setApplyEndDate] = useState();
     const [today, setToday] = useState();
 
+    // 제출버튼 (임시)
+    const submitButton = (form) => {
+        props.submit(form);
+    };
+
     // 입력 변수들을 하나의 객체에 담기
     const inputVariables = {
         startDate,
@@ -52,24 +57,24 @@ const BasicInformation = (props) => {
                     <Row>
                         {/* 프로그램 제목 */}
                         <Col xs={12} className="mb-4">
-                            <Form.Group controlId="program_title">
+                            <Form.Group controlId="Title">
                                 <Form.Label>
                                     프로그램 제목 <span className="text-danger">*</span>
                                 </Form.Label>
-                                <Form.Control type="text" placeholder="프로그램 제목을 입력하세요." name="program_title" onChange={handleChange} required />
+                                <Form.Control type="text" placeholder="프로그램 제목을 입력하세요." name="Title" onChange={handleChange} required />
                                 <Form.Control.Feedback type="invalid">제목을 입력해주세요.</Form.Control.Feedback>
                             </Form.Group>
                         </Col>
                         {/* 프로그램 설명 */}
                         <Col xs={12} className="mb-4">
-                            <Form.Group controlId="program_description">
+                            <Form.Group controlId="information">
                                 <Form.Label>
                                     프로그램 설명 <span className="text-danger">*</span>
                                 </Form.Label>
                                 <Form.Control
                                     as="textarea"
                                     rows={10}
-                                    name="program_description"
+                                    name="information"
                                     onChange={handleChange}
                                     placeholder="프로그램에 관한 정보를 입력하세요."
                                     required
@@ -79,7 +84,7 @@ const BasicInformation = (props) => {
                         </Col>
                         {/* file */}
                         <Col xs={12} className="mb-4">
-                            <Form.Group controlId="program_description">
+                            <Form.Group controlId="information">
                                 <Form.Label>첨부 파일 1</Form.Label>
                                 <Form className="upload_input">
                                     <Input id="file" name="file" type="file" onChange={onLoadFile} multiple />
@@ -166,7 +171,7 @@ const BasicInformation = (props) => {
                                         placeholderText="시작 날짜를 선택해주세요."
                                         selected={ApplystartDate}
                                         minDate={today}
-                                        maxDate={startDate}
+                                        // maxDate={startDate}
                                         onChange={(date) => {
                                             setApplyStartDate(date);
                                             props.setApplyStart_date(date);
@@ -191,7 +196,7 @@ const BasicInformation = (props) => {
                                     placeholderText="종료 날짜를 선택해주세요."
                                     selected={ApplyendDate}
                                     minDate={ApplystartDate}
-                                    maxDate={startDate}
+                                    // maxDate={startDate}
                                     onChange={(date) => {
                                         if (ApplystartDate === undefined) {
                                             alert("신청 시작 날짜를 먼저 선택하세요.");
@@ -209,17 +214,17 @@ const BasicInformation = (props) => {
                         <Col md={6} xs={12} className="mb-4">
                             <Form.Group>
                                 <Form.Label>프로그램 정원 (입력 값이 없다면 정원은 무제한이 됩니다.)</Form.Label>
-                                <Form.Control type="number" placeholder="" id="program_quota" name="program_quota" onChange={handleChange} />
+                                <Form.Control type="number" placeholder="" id="quota" name="quota" onChange={handleChange} />
                             </Form.Group>
                         </Col>
 
                         {/* 카테고리 */}
                         <Col md={6} xs={12} className="mb-4">
-                            <Form.Group controlId="program_category">
+                            <Form.Group controlId="categoryId">
                                 <Form.Label>
                                     카테고리 <span className="text-danger">*</span>
                                 </Form.Label>
-                                <select class="form-select" id="program_category" name="program_category" onChange={handleChange} required>
+                                <select class="form-select" id="categoryId" name="categoryId" onChange={handleChange} required>
                                     <option selected value="">
                                         카테고리를 선택해주세요.
                                     </option>
@@ -235,15 +240,15 @@ const BasicInformation = (props) => {
 
                         {/* 문의 */}
                         <Col md={6} xs={12} className="mb-4">
-                            <Form.Group controlId="manager_name">
+                            <Form.Group controlId="managerName">
                                 <Form.Label>담당자</Form.Label>
-                                <Form.Control type="text" placeholder="담당자 이름을 입력하세요." name="manager_name" onChange={handleChange} />
+                                <Form.Control type="text" placeholder="담당자 이름을 입력하세요." name="managerName" onChange={handleChange} />
                             </Form.Group>
                         </Col>
                         <Col md={6} xs={12} className="mb-4">
-                            <Form.Group controlId="manager_contact">
+                            <Form.Group controlId="managerContact">
                                 <Form.Label>담당자 연락처</Form.Label>
-                                <Form.Control type="text" placeholder="담당자 연락처를 입력하세요." name="manager_contact" onChange={handleChange} />
+                                <Form.Control type="text" placeholder="담당자 연락처를 입력하세요." name="managerContact" onChange={handleChange} />
                             </Form.Group>
                         </Col>
 
@@ -258,7 +263,7 @@ const BasicInformation = (props) => {
               </form> */}
 
                             <Form className="upload_input">
-                                <Input id="image" name="file" accept="image/jpeg, image/png, image/jpg" type="file" onChange={onLoadPoster} />
+                                <Input id="image" name="file" accept="image/jpeg, image/png, image/jpg, image/heic" type="file" onChange={onLoadPoster} />
                             </Form>
                         </Col>
                     </Row>
@@ -266,7 +271,7 @@ const BasicInformation = (props) => {
             </Card>
             {/* Button */}
             <div className="d-flex justify-content-end">
-                <Button variant="primary" type="submit">
+                <Button variant="primary" type="submit" onClick={submitButton}>
                     다음
                 </Button>
             </div>

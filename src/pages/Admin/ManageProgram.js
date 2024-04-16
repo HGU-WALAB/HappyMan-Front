@@ -2,7 +2,7 @@
 import React, { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 import { Col, Row, Tab, Card, Nav, Breadcrumb } from "react-bootstrap";
-
+import { useEffect } from "react";
 // import sub custom components
 import CoursesTable from "components/program/CoursesTable";
 import WaitTable from "components/program/WaitTable";
@@ -11,6 +11,8 @@ import WaitTable from "components/program/WaitTable";
 import NavbarVertical from "layouts/dashboard/NavbarVertical";
 import NavbarTop from "layouts/dashboard/NavbarTop";
 import NavbarDefault from "layouts/marketing/navbars/NavbarDefault";
+// 라이브러리 불러오기
+import { getCategory } from "services/mainApi";
 
 const ManageProgram = () => {
     const [showMenu, setShowMenu] = useState(true);
@@ -20,10 +22,13 @@ const ManageProgram = () => {
     return (
         <Fragment>
             <div id="db-wrapper" className={`${showMenu ? "" : "toggled"}`}>
+                {/* 좌측 사이드바 */}
                 <div className="navbar-vertical navbar">
                     <NavbarVertical showMenu={showMenu} onClick={(value) => setShowMenu(value)} />
                 </div>
+                {/* 나머지 우측 내용 */}
                 <div id="page-content">
+                    {/* 상단 토글버튼 + 프로필 */}
                     <div className="header">
                         <NavbarTop
                             data={{
@@ -32,6 +37,7 @@ const ManageProgram = () => {
                             }}
                         />
                     </div>
+                    {/* 프로그램 관리 */}
                     <div className="container-fluid p-4">
                         <Row>
                             <Col lg={12} md={12} sm={12}>
@@ -40,7 +46,7 @@ const ManageProgram = () => {
                                         <h1 className="mb-1 h2 fw-bold">프로그램 </h1>
                                     </div>
                                     <div>
-                                        <Link to="/swap/admin/addprogram" className="btn btn-primary">
+                                        <Link to="/HappyMan/admin/addprogram" className="btn btn-primary">
                                             프로그램 추가
                                         </Link>
                                     </div>
@@ -77,6 +83,7 @@ const ManageProgram = () => {
                                         </Card.Header>
                                         <Card.Body className="p-0">
                                             <Tab.Content>
+                                                {/* 전체 선택 시 */}
                                                 <Tab.Pane eventKey="all" className="pb-4">
                                                     <CoursesTable program_data={3} />
                                                 </Tab.Pane>

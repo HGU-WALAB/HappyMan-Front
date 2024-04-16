@@ -13,7 +13,7 @@ const Footer = ({ bgColor }) => {
                     <Row className="align-items-center g-0 border-top py-2">
                         {/* Desc */}
                         <Col md={6} sm={12} className="text-center text-md-start">
-                            <span>© 2024 SWAP-Duplicate. All Rights Reserved.</span>
+                            <span>© 2024 HGU, HappyMan. All Rights Reserved.</span>
                         </Col>
                         {/* Links */}
                         <Col md={6} sm={12}>
@@ -21,10 +21,10 @@ const Footer = ({ bgColor }) => {
                                 <Link className="nav-link active ps-0" to="#">
                                     About
                                 </Link>
-                                <Link className="nav-link" to="/swap/terms-and-conditions">
+                                <Link className="nav-link" to="/HappyMan/terms-and-conditions">
                                     서비스 이용약관{" "}
                                 </Link>
-                                <Link className="nav-link" to="/swap/personal-information">
+                                <Link className="nav-link" to="/HappyMan/personal-information">
                                     개인정보처리방침
                                 </Link>
                             </nav>

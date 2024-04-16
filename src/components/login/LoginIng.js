@@ -39,7 +39,7 @@ function LoginIng() {
             }
 
             // 페이지 이동
-            window.location.href = "/swap"; // 이동하고자 하는 URL로 변경 (상대경로)
+            window.location.href = "/HappyMan/"; // 이동하고자 하는 URL로 변경 (상대경로)
         };
 
         fetchData();

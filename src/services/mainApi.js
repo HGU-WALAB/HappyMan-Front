@@ -19,10 +19,26 @@ export async function getPrograms() {
     try {
         const response = await axios.get(`${process.env.REACT_APP_RESTAPI_HOST}/api/happyman/all/programs`);
         const programData = response.data;
-        console.log("프로그램 정보 불러오기 성공 : ", programData);
+        console.log("프로그램 정보 불러오기 성공");
         return programData;
     } catch (error) {
         console.log("프로그램 정보 불러오기 실패");
+        throw error;
+    }
+}
+
+export async function getProgramsAfterLogin() {
+    try {
+        const response = await axios.get(`${process.env.REACT_APP_RESTAPI_HOST}/api/happyman/programs`, {
+            headers: {
+                Authorization: "Bearer " + sessionStorage.getItem("token"), // 여기에 공백 추가
+            },
+        });
+        const programData = response.data;
+        console.log("(로그인 후) 프로그램 정보 불러오기 성공");
+        return programData;
+    } catch (error) {
+        console.log("(로그인 후) 프로그램 정보 불러오기 실패");
         throw error;
     }
 }

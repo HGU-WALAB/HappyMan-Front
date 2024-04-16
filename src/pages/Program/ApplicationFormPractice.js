@@ -6,7 +6,7 @@ import axios from "axios";
 import Element from "json/Element";
 import ElementCreate from "json/ElementCreate";
 import jsonSkeleton from "json/jsonSkeleton.json";
-import FormBuilder from "./FormBuilder";
+import FormBuilder from "../FormBuilder";
 
 const ApplicationFormPractice = (props) => {
     const { handleChange, next, saveApplication } = props;
@@ -144,18 +144,20 @@ const ApplicationFormPractice = (props) => {
                 </div>
             )}
 
-            {readyJson && formContent ? (
+            {
+                // readyJson && formContent ? (
                 <FormBuilder content={formContent} propFunction={highFunction} submit={submitButton} saveApplication={saveApplication} template="0" />
-            ) : (
-                <Card className="mb-3  border-0">
-                    <Card.Header className="border-bottom px-4 py-3">
-                        <h4 className="mb-0">프로그램 신청서</h4>
-                    </Card.Header>
-                    <Card.Body>
-                        <h4>신청서 템플릿을 선택해주세요 :)</h4>
-                    </Card.Body>
-                </Card>
-            )}
+                // ) : (
+                //     <Card className="mb-3  border-0">
+                //         <Card.Header className="border-bottom px-4 py-3">
+                //             <h4 className="mb-0">프로그램 신청서</h4>
+                //         </Card.Header>
+                //         <Card.Body>
+                //             <h4>신청서 템플릿을 선택해주세요 :)</h4>
+                //         </Card.Body>
+                //     </Card>
+                // )
+            }
         </Form>
     );
 };

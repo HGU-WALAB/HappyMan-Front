@@ -18,9 +18,6 @@ function App() {
     const token = userData ? userData.exp : null;
     const status = userData ? userData.status : null;
 
-    // console.log("status:", status);
-    // console.log("token:", token);
-
     // 토큰 존재 + 유효 + 사용자 ADMIN인지 확인
     const isAdmin = token !== null && status === "ADMIN" && token < today.getTime();
     // 토큰 존재 + 유효 + 사용자 USER인지 확인
@@ -34,16 +31,14 @@ function App() {
             <RecoilRoot>
                 <recoilPersist persistAtoms={[tokenState]} />
                 <BrowserRouter>
-                    {isAdmin ? (
-                        // 토큰이 0이거나 -2인 경우에는 Admin
-                        <Admin />
-                    ) : isUser ? (
-                        // 토큰이 1인 경우에는 User
-                        <User />
-                    ) : (
-                        // 토큰이 아예 없는 경우에는 notLogin
-                        <NotLogin />
-                    )}
+                    {isAdmin
+                        ? // 관리자 권한이 있는 경우에는 Admin
+                          (console.log("관리자 라우터"), (<Admin />))
+                        : isUser
+                        ? // 유저 권한이 있는 경우에는 User
+                          (console.log("사용자 라우터"), (<User />))
+                        : // 토큰이 아예 없는 경우에는 notLogin
+                          (console.log("미가입 라우터"), (<NotLogin />))}
 
                     {/* 임시용 */}
                     {/* <User /> */}

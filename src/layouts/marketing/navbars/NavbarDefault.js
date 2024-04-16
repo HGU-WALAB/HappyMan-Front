@@ -44,17 +44,17 @@ const NavbarDefault = ({ headerstyle }, { props }) => {
                 {/* 관리자일 때  */}
                 {status === "ADMIN" ? (
                     <Nav>
-                        <Nav.Link className="h4" href="/swap/admin/program">
+                        <Nav.Link className="h4" href="/HappyMan/admin/program">
                             관리자 페이지
                         </Nav.Link>
-                        <Nav.Link className="h4" href="/swap/mypage">
+                        <Nav.Link className="h4" href="/HappyMan/mypage">
                             마이페이지
                         </Nav.Link>
                     </Nav>
                 ) : (
                     // 사용자일 때
                     <Nav>
-                        <Nav.Link className="h4" href="/swap/mypage">
+                        <Nav.Link className="h4" href="/HappyMan/mypage">
                             마이페이지
                         </Nav.Link>
                     </Nav>
@@ -81,7 +81,7 @@ const NavbarDefault = ({ headerstyle }, { props }) => {
 
         if (res.data == "notHandong") {
             alert("한동 메일로 로그인하여 주세요.");
-            navigate("/swap/");
+            navigate("/HappyMan/");
         } else if (res.data !== "fail" && res.data !== "newUser") {
             const r = await axios.get(process.env.REACT_APP_RESTAPI_HOST + "user/loggedinUser/" + res.data.id);
             window.sessionStorage.setItem("email", response.profileObj.email);
@@ -102,7 +102,7 @@ const NavbarDefault = ({ headerstyle }, { props }) => {
         } else if (res.data === "newUser") {
             console.log("user 등록 페이지로 가기!!");
 
-            navigate("/swap/sign-up", { state: { data: response.profileObj, tokenObj: response.tokenObj } });
+            navigate("/HappyMan/sign-up", { state: { data: response.profileObj, tokenObj: response.tokenObj } });
         } else {
             alert("로그인 할 수 없습니다. 관리자에게 문의해주세요.");
             setIsLogin(false);
@@ -132,7 +132,7 @@ const NavbarDefault = ({ headerstyle }, { props }) => {
                 className={`${isLogin ? "bg-white" : ""} navbar p-2 ${headerstyle === "dark" ? "navbar-dark bg-dark" : "navbar-default py-2"}`}
             >
                 <Container fluid className="px-0 ps-2">
-                    <Navbar.Brand as={Link} to="/swap/">
+                    <Navbar.Brand as={Link} to="/HappyMan/">
                         <Image src={Logo} alt="" width="120px" />
                     </Navbar.Brand>
 

@@ -8,7 +8,7 @@ import GKStepper from "components/elements/stepper/GKStepper";
 
 // import sub components ( Steps )
 import BasicInformation from "components/marketing/pages/courses/add-new-course/steps/BasicInformation";
-import ApplicationFormPractice from "pages/ApplicationFormPractice";
+import ApplicationFormPractice from "pages/Program/ApplicationFormPractice";
 import SurveyForm from "pages/SurveyForm";
 
 const AddNewCourse = () => {
@@ -24,19 +24,17 @@ const AddNewCourse = () => {
     const [preview, setPreview] = useState();
     const [application, setApplication] = useState();
     const [formData, setFormData] = useState({
-        program_title: "Title",
-        program_category: "1",
-        program_description: "Hello, world!",
-        program_quota: "0",
-        program_img: "img",
-        start_date: "",
-        end_date: "",
-        Applystart_date: "",
-        Applyend_date: "",
-        manager_name: "",
-        manager_contact: "",
-        application_form: "",
-        poster: "",
+        image: "img", // 프로그램 포스터
+        name: "Title", // 프로그램명
+        quota: "1", // 프로그램 정원
+        information: "0", // 프로그램 정보
+        applyStartDate: "",
+        applyEndDate: "",
+        startDate: "",
+        endDate: "",
+        managerName: "",
+        managerContact: "",
+        categoryId: "",
     });
 
     const onLoadPoster = async (e) => {
@@ -49,6 +47,9 @@ const AddNewCourse = () => {
     };
 
     const handleChange = (event) => {
+        // 입력된 값과 해당 입력 필드의 이름 출력
+        console.log("입력된 값:", event.target.value);
+        console.log("입력 필드의 이름:", event.target.name);
         setFormData({
             ...formData,
             [event.target.name]: event.target.value,
@@ -112,7 +113,7 @@ const AddNewCourse = () => {
         // 가져가는 값들 (기존의 step 들에서 저장함)
         params.append("admin_id", window.sessionStorage.getItem("id"));
         params.append("category_id", formData.program_category);
-        // params.append("application_form", formData.application_form);
+        params.append("application_form", formData.application_form);
         params.append("program_quota", formData.program_quota);
         params.append("program_name", formData.program_title);
         params.append("information", formData.program_description);
@@ -126,7 +127,7 @@ const AddNewCourse = () => {
         params.append("survey_form", survey_form);
 
         if (window.confirm("프로그램을 추가하시겠습니까?")) {
-            const response = await axios.post(process.env.REACT_APP_RESTAPI_HOST + "program/add", params).then((response) => {
+            const response = await axios.post(process.env.REACT_APP_RESTAPI_HOST + "admin/programs").then((response) => {
                 // 포스터 업로드
                 if (poster != null) {
                     imgFormData.append("program_id", response.data);
@@ -179,7 +180,7 @@ const AddNewCourse = () => {
 
             alert(formData.program_title + " 프로그램이 추가 되었습니다.");
 
-            navigate("/swap/admin/program");
+            navigate("/HappyMan/admin/program");
         }
     };
 
@@ -191,6 +192,7 @@ const AddNewCourse = () => {
             title: "프로그램 기본 정보 작성",
             content: (
                 <BasicInformation
+                    // 이게 내부에서 담는 정보
                     data={formData}
                     handleChange={handleChange}
                     setStart_date={setStart_date}
@@ -203,6 +205,7 @@ const AddNewCourse = () => {
                     preview={preview}
                     onLoadPoster={onLoadPoster}
                     onLoadFile={onLoadFile}
+                    submit={addProgram}
                 />
             ),
         },

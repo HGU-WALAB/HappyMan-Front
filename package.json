@@ -1,6 +1,6 @@
 {
-    "homepage": "http://walab.handong.edu/swap/",
-    "name": "swap",
+    "homepage": "http://walab.info/HappyMan",
+    "name": "HappyMan",
     "version": "1.2.0",
     "private": true,
     "dependencies": {
@@ -42,6 +42,7 @@
         "react-dropzone": "^11.3.2",
         "react-feather": "^2.0.9",
         "react-flatpickr": "^3.10.7",
+        "react-form-builder2": "^0.16.5",
         "react-google-login": "^5.2.2",
         "react-input-mask": "^2.0.4",
         "react-jquery-sortable": "0.1.0-alpha.5",

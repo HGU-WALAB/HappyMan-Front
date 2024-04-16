@@ -61,75 +61,75 @@ window.$ = $;
 require("formBuilder/dist/form-render.min.js");
 
 const FormRender = (props) => {
-  const navigate = useNavigate();
-  console.log("props id", props.param.programid, props.param.userid);
-  const [test, setTest] = useState(0);
-  const [originalFormData, setoriginalFormData] = useState([]);
-  const [readyFormContent, setReadyFormContent] = useState([]);
-  var programID = parseInt(props.param.programid);
-  var userID = parseInt(props.param.userid);
-  var formRenderInstance = "";
-  useLayoutEffect(() => {
-    readFormData(programID);
-  }, []);
+    const navigate = useNavigate();
+    console.log("props id", props.param.programid, props.param.userid);
+    const [test, setTest] = useState(0);
+    const [originalFormData, setoriginalFormData] = useState([]);
+    const [readyFormContent, setReadyFormContent] = useState([]);
+    var programID = parseInt(props.param.programid);
+    var userID = parseInt(props.param.userid);
+    var formRenderInstance = "";
+    useLayoutEffect(() => {
+        readFormData(programID);
+    }, []);
 
-  useEffect(() => {
-    componentDidMount();
-  }, [originalFormData]);
+    useEffect(() => {
+        componentDidMount();
+    }, [originalFormData]);
 
-  const componentDidMount = async () => {
-    const getUserDataBtn = document.getElementById("get-user-data");
-    const fbRender = document.getElementById("fb-render");
-    const formData = JSON.stringify(originalFormData);
+    const componentDidMount = async () => {
+        const getUserDataBtn = document.getElementById("get-user-data");
+        const fbRender = document.getElementById("fb-render");
+        const formData = JSON.stringify(originalFormData);
 
-    formRenderInstance = $(fbRender).formRender({ formData });
-    getUserDataBtn.addEventListener(
-      "click",
-      () => {
-        // console.log(window.JSON.stringify($(fbRender).formRender("userData")));
-        console.log(formRenderInstance.userData);
-        addFormData();
-      },
+        formRenderInstance = $(fbRender).formRender({ formData });
+        getUserDataBtn.addEventListener(
+            "click",
+            () => {
+                // console.log(window.JSON.stringify($(fbRender).formRender("userData")));
+                console.log(formRenderInstance.userData);
+                addFormData();
+            },
 
-      false
+            false
+        );
+    };
+
+    const readFormData = async (id) => {
+        console.log("id", id);
+        const response = await axios.get(process.env.REACT_APP_RESTAPI_HOST + "application/readApplicationForm/" + id);
+        console.log(response.data[0].content);
+        var json_total = response.data[0].content;
+        var json_sub = json_total.slice(1, json_total.length - 1);
+        console.log(json_sub);
+        var arr = JSON.parse("[" + json_sub + "]");
+        console.log(arr);
+        setoriginalFormData(arr);
+        console.log(originalFormData);
+    };
+
+    const addFormData = async () => {
+        var params = new URLSearchParams();
+        params.append("program_id", programID);
+        params.append("user_id", userID);
+        params.append("content", JSON.stringify(formRenderInstance.userData));
+        const response = await axios.post(process.env.REACT_APP_RESTAPI_HOST + "applicant/apply", params);
+
+        console.log(JSON.stringify(formRenderInstance.userData));
+        alert(" 프로그램이 신청 되었습니다.");
+        navigate("/HappyMan/mypage");
+    };
+
+    return (
+        <div>
+            <form id="fb-render"></form>
+            <div className="d-flex justify-content-end">
+                <Button className="btn btn-success" id="get-user-data">
+                    신청하기
+                </Button>
+            </div>
+        </div>
     );
-  };
-
-  const readFormData = async (id) => {
-    console.log("id", id);
-    const response = await axios.get(process.env.REACT_APP_RESTAPI_HOST + "application/readApplicationForm/" + id);
-    console.log(response.data[0].content);
-    var json_total = response.data[0].content;
-    var json_sub = json_total.slice(1, json_total.length - 1);
-    console.log(json_sub);
-    var arr = JSON.parse("[" + json_sub + "]");
-    console.log(arr);
-    setoriginalFormData(arr);
-    console.log(originalFormData);
-  };
-
-  const addFormData = async () => {
-    var params = new URLSearchParams();
-    params.append("program_id", programID);
-    params.append("user_id", userID);
-    params.append("content", JSON.stringify(formRenderInstance.userData));
-    const response = await axios.post(process.env.REACT_APP_RESTAPI_HOST + "applicant/apply", params);
-
-    console.log(JSON.stringify(formRenderInstance.userData));
-    alert(" 프로그램이 신청 되었습니다.");
-    navigate("/swap/mypage");
-  };
-
-  return (
-    <div>
-      <form id="fb-render"></form>
-      <div className="d-flex justify-content-end">
-        <Button className="btn btn-success" id="get-user-data">
-          신청하기
-        </Button>
-      </div>
-    </div>
-  );
-  // }
+    // }
 };
 export default FormRender;

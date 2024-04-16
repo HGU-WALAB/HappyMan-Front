@@ -40,7 +40,7 @@ const NavbarProfile = ({ logout }) => {
         // if (window.confirm("정말 로그아웃하시겠습니까?")) {
         // alert("로그아웃 시도!");
         sessionStorage.clear();
-        navigate("/swap");
+        navigate("/HappyMan");
         // }
     };
 

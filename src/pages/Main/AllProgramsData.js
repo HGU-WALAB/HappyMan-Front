@@ -9,11 +9,18 @@ import moment from "moment";
 import styled from "styled-components";
 
 import "tippy.js/animations/scale.css";
-// import custom components
 import programImage from "assets/images/Default_img.png";
 import { FormSelect } from "components/elements/form-select/FormSelect";
-import { getPrograms } from "services/mainApi";
+import { getPrograms, getProgramsAfterLogin } from "services/mainApi";
 import { getProgramDetails } from "services/program";
+
+// 권한 확인
+const today = new Date();
+const userData = JSON.parse(window.sessionStorage.getItem("userData"));
+const token = userData ? userData.exp : null;
+const status = userData ? userData.status : null;
+const isAdmin = token !== null && status === "ADMIN" && token < today.getTime();
+const isUser = token !== null && status === "USER" && token < today.getTime();
 
 const Whole = styled.div`
     /* border: 5px solid red; */
@@ -24,25 +31,15 @@ const AllProgramsData = (props) => {
     const [defaultCategory, setDefaultCategory] = useState("전체");
     const { categoryId } = props;
 
-    // // 카테고리 정보 받아오기
-    // useEffect(() => {
-    //     async function fetchPrograms() {
-    //         try {
-    //             const programData = await getPrograms();
-    //             setPrograms(programData.programs);
-    //             console.log("해당 탭의 정보는 1 : ", programData);
-    //             console.log("해당 탭의 정보는 2 : ", categoryId);
-    //         } catch (error) {
-    //             console.error("프로그램 정보를 불러오는 동안 오류가 발생했습니다:", error);
-    //         }
-    //     }
-    //     fetchPrograms();
-    // }, []);
-
     useEffect(() => {
         async function fetchPrograms() {
             try {
-                const programData = await getPrograms();
+                let programData;
+                if (isAdmin || isUser) {
+                    programData = await getProgramsAfterLogin();
+                } else {
+                    programData = await getPrograms();
+                }
                 const filteredPrograms = programData.programs.filter((program) => program.categoryId === categoryId);
                 setPrograms(filteredPrograms);
             } catch (error) {
@@ -50,7 +47,7 @@ const AllProgramsData = (props) => {
             }
         }
         fetchPrograms();
-    }, [categoryId]);
+    }, [categoryId, isAdmin, isUser]);
 
     // // 카테고리 ID
     // var categoryIds = programs.map(function (program) {
@@ -97,52 +94,41 @@ const AllProgramsData = (props) => {
         { value: "마감", label: "신청 마감" },
     ];
 
-    // const readAllLike = async (userID) => {
-    //     var params = new URLSearchParams();
-    //     params.append("user_id", userID);
-    //     const response = await axios.post(process.env.REACT_APP_RESTAPI_HOST + "like/readAllLike", params);
-    //     response.data.map((item) => {
-    //         if (!alllikeData.includes(item)) {
-    //             setAllLikeData((prevState) => [...prevState, item.program_id]);
-    //         }
-    //     });
-    // };
+    // 찜 추가
+    const addLike = async (programID) => {
+        try {
+            const token = sessionStorage.getItem("token");
+            const response = await axios.post(
+                process.env.REACT_APP_RESTAPI_HOST + "/api/happyman/bookmarks",
+                {
+                    programId: programID,
+                },
+                {
+                    headers: {
+                        Authorization: "Bearer " + token,
+                    },
+                }
+            );
+            console.log("찜 추가 성공! ");
+        } catch (error) {
+            console.error("찜 추가 실패! 에러 : ", error);
+        }
+    };
 
-    // const deleteLike = async (userID, programID) => {
-    //     setAllLikeData(alllikeData.filter((item) => item !== programID));
-    //     var params = new URLSearchParams();
-    //     params.append("user_id", userID);
-    //     params.append("program_id", programID);
-    //     const response = await axios.post(process.env.REACT_APP_RESTAPI_HOST + "like/delete", params);
-    // };
-
-    // const addLike = async (userID, programID) => {
-    //     setAllLikeData((prevState) => [...prevState, programID]);
-    //     var params = new URLSearchParams();
-    //     params.append("user_id", userID);
-    //     params.append("program_id", programID);
-    //     const response = await axios.post(process.env.REACT_APP_RESTAPI_HOST + "like/add", params);
-    // };
-
-    // const readApplicantInformation = async (id) => {
-    //     const response = await axios.get(process.env.REACT_APP_RESTAPI_HOST + "user/loggedinUser/" + id);
-    //     setUserInfo(response.data[0]);
-    //     if (response.data[0].status === 1) {
-    //         readAllLike(ID);
-    //     }
-    // };
-
-    // const onToggle = (programID) => {
-    //     if (userInfo.status === 0) {
-    //         alert("관리자는 찜 기능을 사용하실 수 없습니다. ");
-    //     } else {
-    //         if (alllikeData.includes(programID)) {
-    //             deleteLike(ID, programID);
-    //         } else {
-    //             addLike(ID, programID);
-    //         }
-    //     }
-    // };
+    // 찜 삭제
+    const deleteLike = async (programID) => {
+        try {
+            const token = sessionStorage.getItem("token");
+            await axios.delete(`${process.env.REACT_APP_RESTAPI_HOST}/api/happyman/bookmarks/${programID}`, {
+                headers: {
+                    Authorization: "Bearer " + token,
+                },
+            });
+            console.log("찜 삭제 성공! ");
+        } catch (error) {
+            console.error("찜 삭제 실패! 에러 : ", error);
+        }
+    };
 
     return (
         <Whole>
@@ -160,6 +146,7 @@ const AllProgramsData = (props) => {
                     {termLoading ? (
                         programs
                             .filter((program) => program.categoryId === categoryId) // categoryId와 일치하는 프로그램만 필터링
+                            // .filter((program) => program.categoryOptions === categoryId)
                             .filter((program) => Object.values(program).join(" ").toLowerCase().includes(searchTerm.toLowerCase()))
                             .map((item, index) => {
                                 // 클릭한 페이지로 이동할 수 있게 해 줌
@@ -190,7 +177,7 @@ const AllProgramsData = (props) => {
                                                 <span className="text-dark fw-bold">
                                                     <Badge bg="primary" className="me-3 main-program-badge">
                                                         {" "}
-                                                        {createDday(item.applyend_date)}
+                                                        {createDday(item.applyEndDate)}
                                                     </Badge>
                                                 </span>
                                                 <h3 className="h4 text-truncate-line-2 " style={{ height: "2.7rem" }}>
@@ -204,25 +191,33 @@ const AllProgramsData = (props) => {
                                                     <Col className="col-auto">
                                                         <div className={`lh-1  "d-none"`}>
                                                             <div className="fw-bold">신청마감일자</div>
-                                                            <div className={` mt-1 `}>{moment(item.applyend_date).format("YY-MM-DD HH:mm")}</div>
+                                                            <div className={` mt-1 `}>{moment(item.applyEndDate).format("YY-MM-DD HH:mm")}</div>
                                                         </div>
                                                     </Col>
                                                     <Col className="col ms-2">{/* <span>{item.name}</span> */}</Col>
-                                                    {/* <Col className="col-auto">
-                                                            <Tippy content="프로그램 찜하기" animation={"scale"}>
-                                                                <Button
-                                                                    onClick={() => onToggle(item.id)}
-                                                                    type="button"
-                                                                    className="p-0 bg-transparent border-0 text-primary"
-                                                                >
-                                                                    {alllikeData.includes(item.id) ? (
-                                                                        <i className="fas fa-bookmark"></i>
-                                                                    ) : (
-                                                                        <i className="far fa-bookmark"></i>
-                                                                    )}
-                                                                </Button>
-                                                            </Tippy>
-                                                        </Col> */}
+                                                    <Col className="col-auto">
+                                                        <Tippy content="프로그램 찜하기" animation={"scale"}>
+                                                            <Button
+                                                                onClick={() => {
+                                                                    if (!isAdmin) {
+                                                                        alert("관리자는 찜 기능을 사용하실 수 없습니다. ");
+                                                                    } else {
+                                                                        if (item.isBookmarked) {
+                                                                            deleteLike(item.id);
+                                                                            console.log("좋아요 삭제");
+                                                                        } else {
+                                                                            addLike(item.id);
+                                                                            console.log("좋아요 등록");
+                                                                        }
+                                                                    }
+                                                                }}
+                                                                type="button"
+                                                                className="p-0 bg-transparent border-0 text-primary"
+                                                            >
+                                                                {item.isBookmarked ? <i className="fas fa-bookmark"></i> : <i className="far fa-bookmark"></i>}
+                                                            </Button>
+                                                        </Tippy>
+                                                    </Col>
                                                 </Row>
                                             </Card.Footer>
                                         </Card>

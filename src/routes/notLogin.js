@@ -18,22 +18,22 @@ function Admin() {
     return (
         <>
             <Routes>
-                <Route path={process.env.REACT_APP_DEFAULT_URL} element={<Main />} />
-                <Route path={process.env.REACT_APP_DEFAULT_URL + "main"} element={<Main />} />
-                <Route path={process.env.REACT_APP_DEFAULT_URL + "sign-in"} element={<SignIn />} />
-                <Route path={process.env.REACT_APP_DEFAULT_URL + "approve"} element={<Approve />} />
+                <Route path={process.env.REACT_APP_DEPLOY_URL} element={<Main />} />
+                <Route path={process.env.REACT_APP_DEPLOY_URL + "main"} element={<Main />} />
+                <Route path={process.env.REACT_APP_DEPLOY_URL + "sign-in"} element={<SignIn />} />
+                <Route path={process.env.REACT_APP_DEPLOY_URL + "approve"} element={<Approve />} />
                 {/* 임시로 로그인 프로세스 파일 추가 */}
-                <Route path={process.env.REACT_APP_DEFAULT_URL + "login-ing"} element={<LoginIng />} />
-                <Route path={process.env.REACT_APP_DEFAULT_URL + "mypage"} element={<MyPageLayout />} />
-                <Route path={process.env.REACT_APP_DEFAULT_URL + "admin/program"} element={<ManageProgram />} />
-                <Route path={process.env.REACT_APP_DEFAULT_URL + "admin/program/detail/:id"} element={<AdminProgramDetail />} />
-                <Route path={process.env.REACT_APP_DEFAULT_URL + "admin/program/detail/:id/:applicantid"} element={<ApplicationFormView />} />
+                <Route path={process.env.REACT_APP_DEPLOY_URL + "login-ing"} element={<LoginIng />} />
+                <Route path={process.env.REACT_APP_DEPLOY_URL + "mypage"} element={<MyPageLayout />} />
+                <Route path={process.env.REACT_APP_DEPLOY_URL + "admin/program"} element={<ManageProgram />} />
+                <Route path={process.env.REACT_APP_DEPLOY_URL + "admin/program/detail/:id"} element={<AdminProgramDetail />} />
+                <Route path={process.env.REACT_APP_DEPLOY_URL + "admin/program/detail/:id/:applicantid"} element={<ApplicationFormView />} />
                 {/* <Route path={process.env.REACT_APP_DEFAULT_URL + "admin/*"} element={<Navigate replace to="/swap/" />} />
                 <Route path={process.env.REACT_APP_DEFAULT_URL + "mypage"} element={<Navigate replace to="/swap/" />} /> */}
-                <Route path={process.env.REACT_APP_DEFAULT_URL + "program/:id/application"} element={<Application />} />
-                <Route path={process.env.REACT_APP_DEFAULT_URL + "program/:id"} element={<ProgramDetail />} />
-                <Route path={process.env.REACT_APP_DEFAULT_URL + "terms-and-conditions"} element={<Terms />} />
-                <Route path={process.env.REACT_APP_DEFAULT_URL + "personal-information"} element={<PersonalInfo />} />
+                <Route path={process.env.REACT_APP_DEPLOY_URL + "program/:id/application"} element={<Application />} />
+                <Route path={process.env.REACT_APP_DEPLOY_URL + "program/:id"} element={<ProgramDetail />} />
+                <Route path={process.env.REACT_APP_DEPLOY_URL + "terms-and-conditions"} element={<Terms />} />
+                <Route path={process.env.REACT_APP_DEPLOY_URL + "personal-information"} element={<PersonalInfo />} />
             </Routes>
         </>
     );
