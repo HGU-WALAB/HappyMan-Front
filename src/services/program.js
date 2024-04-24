@@ -5,14 +5,21 @@ import axios from "axios";
 
 // 프로그램 추가
 export async function addProgram(e) {
-    const programData = {
-        image: e.image,
-    };
+    const formData = new FormData();
+    formData.append("image", e.image); // 이미지 파일을 FormData에 추가
+
+    // 추가적인 텍스트 변수들을 FormData에 추가
+    formData.append("text1", e.text1);
+    formData.append("text2", e.text2);
+    formData.append("text3", e.text3);
+    formData.append("text4", e.text4);
+    formData.append("text5", e.text5);
 
     try {
-        await axios.post(`${process.env.REACT_APP_RESTAPI_HOST}/api/happyman/admin/programs`, programData, {
+        await axios.post(`${process.env.REACT_APP_RESTAPI_HOST}/api/happyman/admin/programs`, formData, {
             headers: {
-                Authorization: "Bearer" + sessionStorage.getItem("token"),
+                "Content-Type": "multipart/form-data", // 멀티파트 형식으로 요청을 보내기 위한 헤더
+                Authorization: "Bearer " + sessionStorage.getItem("token"),
             },
         });
         console.log("프로그램 추가 성공!");
@@ -22,6 +29,7 @@ export async function addProgram(e) {
     }
 }
 
+// 프로그램 ID로 상세정보 가져오기
 export const getProgramDetails = async (programId) => {
     try {
         const response = await axios.get(`${process.env.REACT_APP_RESTAPI_HOST}/api/happyman/programs/${programId}`, {
@@ -33,6 +41,24 @@ export const getProgramDetails = async (programId) => {
         return response.data;
     } catch (error) {
         console.log("프로그램 상세 데이터 조회 실패");
+
+        throw error;
+    }
+};
+
+// 관리자 페이지에서 프로그램 전체 정보 가져오기
+export const getProgramAdmin = async () => {
+    try {
+        const response = await axios.get(`${process.env.REACT_APP_RESTAPI_HOST}/api/happyman/admin/programs`, {
+            headers: {
+                Authorization: "Bearer " + sessionStorage.getItem("token"),
+            },
+        });
+        const result = response.data.programs;
+
+        return result;
+    } catch (error) {
+        console.log("관리자 페이지 프로그램 조회 실패");
 
         throw error;
     }

@@ -10,8 +10,10 @@ import DotBadge from "components/elements/bootstrap/DotBadge";
 import { FormSelect } from "components/elements/form-select/FormSelect";
 import moment from "moment";
 import { getCategory } from "services/mainApi";
+import { getProgramAdmin } from "services/program";
 
 const CoursesTable = ({ program_data }) => {
+    console.log("program_data : ", program_data);
     const [programInfo, setProgramInfo] = useState([]);
     const [programList, setProgramList] = useState([]);
     const [waitProgram, setWaitProgram] = useState([]);
@@ -19,12 +21,13 @@ const CoursesTable = ({ program_data }) => {
     const [finishProgram, setFinishProgram] = useState([]);
     const [categories, setCategories] = useState([]);
     const [categoryOptions, setCategoryOptions] = useState([]);
+    const [programData, setProgramData] = useState([]);
     const infinite = "무제한";
 
-    // 카테고리 정보 가져오기
     useEffect(() => {
-        async function fetchCategories() {
+        async function fetchData() {
             try {
+                // 카테고리 정보 가져오기
                 const categoryData = await getCategory();
                 // 카테고리 데이터를 가져와서 categoryOptions 배열로 변환
                 const options = categoryData.categories.map((category) => ({
@@ -34,12 +37,24 @@ const CoursesTable = ({ program_data }) => {
                 // categoryOptions 상태 업데이트
                 setCategoryOptions(options);
                 console.log("카테고리 데이터 : ", options);
+
+                // 프로그램 정보 가져오기
+                const programData = await getProgramAdmin();
+                setProgramData(programData);
+                console.log("관리자 페이지 프로그램 데이터 : ", programData);
             } catch (error) {
-                console.error("카테고리 정보를 가져오는 데 실패했습니다.", error);
+                console.error("데이터 조회 실패: ", error);
             }
         }
-        fetchCategories();
-    }, []);
+
+        fetchData();
+    }, []); // 의존성 배열이 비어있음
+
+    // useEffect의 의존성 배열에 programData 추가
+    useEffect(() => {
+        // 프로그램 데이터가 변경될 때만 readProgram 함수 호출
+        readProgram();
+    }, [programData]);
 
     const filterOptions = [
         { value: "최신등록순", label: "최신등록순" },
@@ -49,18 +64,19 @@ const CoursesTable = ({ program_data }) => {
         { value: "프로그램 진행일자순", label: "프로그램 진행일자순" },
     ];
 
-    useLayoutEffect(() => {
-        readProgram();
-    }, []);
+    // useLayoutEffect(() => {
+    //     readProgram();
+    // }, []);
 
     const columns = useMemo(
         () => [
-            { accessor: "id", Header: "ID", show: false },
+            // { accessor: "id", Header: "ID", show: false },
             {
-                accessor: "program_name",
+                accessor: "name",
                 Header: "제목",
                 Cell: ({ value, row }) => {
-                    const id = "/HappyMan/admin/program/detail/" + row.original.id.toString();
+                    // const id = "/HappyMan/admin/program/detail/" + row.original.id.toString();
+                    const id = "id";
                     return (
                         <Link className="text-inherit" to={id}>
                             <div className="d-flex align-items-center">
@@ -72,7 +88,7 @@ const CoursesTable = ({ program_data }) => {
             },
 
             {
-                accessor: "category_name",
+                accessor: "category",
                 Header: "카테고리",
                 Cell: ({ value, row }) => {
                     return (
@@ -83,7 +99,7 @@ const CoursesTable = ({ program_data }) => {
                 },
             },
             {
-                accessor: "applystart_date",
+                accessor: "applyStartDate",
                 Header: "프로그램 신청일자",
                 Cell: ({ value, row }) => {
                     return (
@@ -91,28 +107,28 @@ const CoursesTable = ({ program_data }) => {
                             <h5 className="mb-0">
                                 {" "}
                                 {moment(value).format("YY-MM-DD HH:mm")} ~ <br />
-                                {moment(row.original.applyend_date).format("YY-MM-DD HH:mm")}
+                                {moment(row.original.applyEndDate).format("YY-MM-DD HH:mm")}
                             </h5>
                         </div>
                     );
                 },
             },
             {
-                accessor: "start_date",
+                accessor: "startDate",
                 Header: "프로그램 진행일자",
                 Cell: ({ value, row }) => {
                     return (
                         <div className="d-flex align-items-center">
                             <h5 className="mb-0">
                                 {moment(value).format("YY-MM-DD HH:mm")} ~ <br />
-                                {moment(row.original.end_date).format("YY-MM-DD HH:mm")}
+                                {moment(row.original.endDate).format("YY-MM-DD HH:mm")}
                             </h5>
                         </div>
                     );
                 },
             },
             {
-                accessor: "applicants_num",
+                accessor: "currentQuota",
                 Header: "신청 현황",
                 Cell: ({ value, row }) => {
                     return (
@@ -146,8 +162,8 @@ const CoursesTable = ({ program_data }) => {
                 },
             },
             {
-                accessor: "name",
-                Header: "작성자",
+                accessor: "managerName",
+                Header: "담당자",
                 Cell: ({ value, row }) => {
                     return (
                         <div className="d-flex align-items-center">
@@ -227,6 +243,7 @@ const CoursesTable = ({ program_data }) => {
         }
     );
 
+    // 필터링 기능
     const getFilterTerm = (event) => {
         let filterTerm = event.target.value;
         // programList.map((item) => {
@@ -240,6 +257,7 @@ const CoursesTable = ({ program_data }) => {
         }
     };
 
+    // 정렬
     const sortChange = (event) => {
         let sortTerm = event.target.value;
 
@@ -278,31 +296,43 @@ const CoursesTable = ({ program_data }) => {
 
     const { pageIndex, globalFilter } = state;
 
+    // 프로그램 가져와서 구분하는 부분
     const readProgram = async () => {
-        const response = await axios.get(process.env.REACT_APP_RESTAPI_HOST + "program");
+        console.log("응답", programData);
 
-        response.data.map((item, i) =>
-            item.status === 0
-                ? setWaitProgram(waitProgram.push(item))
-                : item.status === 1
-                ? setProgressProgram(progressProgram.push(item))
-                : item.status === 2
-                ? setFinishProgram(finishProgram.push(item))
-                : ""
-        );
+        // 상태를 업데이트할 새로운 배열 생성
+        const newWaitProgram = [];
+        const newProgressProgram = [];
+        const newFinishProgram = [];
 
-        if (program_data === 0) {
-            setProgramInfo(waitProgram);
-        } else if (program_data === 1) {
-            setProgramInfo(progressProgram);
-        } else if (program_data === 2) {
-            setProgramInfo(finishProgram);
+        programData.forEach((item) => {
+            if (item.status === "대기") {
+                newWaitProgram.push(item);
+            } else if (item.status === "진행") {
+                newProgressProgram.push(item);
+            } else if (item.status === "마감") {
+                newFinishProgram.push(item);
+            }
+        });
+
+        // 업데이트된 배열로 상태 업데이트
+        setWaitProgram(newWaitProgram);
+        setProgressProgram(newProgressProgram);
+        setFinishProgram(newFinishProgram);
+
+        if (program_data === "대기") {
+            setProgramInfo(newWaitProgram);
+        } else if (program_data === "진행") {
+            setProgramInfo(newProgressProgram);
+        } else if (program_data === "종료") {
+            setProgramInfo(newFinishProgram);
         } else {
-            setProgramInfo(response.data);
+            setProgramInfo(programData);
         }
-        setProgramList(response.data);
+        setProgramList(programData);
     };
 
+    // 프로그램 삭제
     const removeProgram = async (e) => {
         var removeProgramId = [];
 
@@ -339,15 +369,17 @@ const CoursesTable = ({ program_data }) => {
         <Fragment>
             <div className=" overflow-hidden">
                 <Row className="justify-content-md-between m-3 mb-xl-0">
+                    {/* 카테고리별 정렬 */}
                     <Col xxl={2} lg={2} md={6} xs={12}>
                         <Form.Control as={FormSelect} placeholder="카테고리" options={categoryOptions} onChange={getFilterTerm} />
                     </Col>
+                    {/* 검색기능 */}
                     <Col xl={5} lg={6} md={6} xs={12}>
                         <div className="mb-2 mb-lg-4">
                             <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} placeholder="프로그램을 검색하세요" />
                         </div>
                     </Col>
-
+                    {/* 삭제버튼 */}
                     <Col className="d-flex justify-content-end mb-2 mb-lg-4">
                         <Button
                             variant="secondary"
@@ -359,6 +391,7 @@ const CoursesTable = ({ program_data }) => {
                             삭제하기
                         </Button>
                     </Col>
+                    {/* 상세정보별 정렬 */}
                     <Col>
                         <Form.Control as={FormSelect} placeholder="정렬" options={filterOptions} onChange={sortChange} />
                     </Col>
@@ -366,6 +399,7 @@ const CoursesTable = ({ program_data }) => {
             </div>
 
             <div className="table-responsive border-0 overflow-y-hidden">
+                {/* 테이블 리스트 */}
                 <Table {...getTableProps()} className="text-nowrap">
                     <thead className="table-light">
                         {headerGroups.map((headerGroup) => (

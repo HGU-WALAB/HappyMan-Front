@@ -150,7 +150,7 @@ const AllProgramsData = (props) => {
                             .filter((program) => Object.values(program).join(" ").toLowerCase().includes(searchTerm.toLowerCase()))
                             .map((item, index) => {
                                 // 클릭한 페이지로 이동할 수 있게 해 줌
-                                var address = process.env.REACT_APP_DEFAULT_URL + "program/" + item.id.toString();
+                                var address = process.env.REACT_APP_DEPLOY_URL + "program/" + item.id.toString();
                                 return (
                                     <Col lg={3} md={6} sm={12} key={index}>
                                         <Card className={`mb-4 card-hover mx-2 main-program-card`}>
@@ -196,27 +196,33 @@ const AllProgramsData = (props) => {
                                                     </Col>
                                                     <Col className="col ms-2">{/* <span>{item.name}</span> */}</Col>
                                                     <Col className="col-auto">
-                                                        <Tippy content="프로그램 찜하기" animation={"scale"}>
-                                                            <Button
-                                                                onClick={() => {
-                                                                    if (!isAdmin) {
-                                                                        alert("관리자는 찜 기능을 사용하실 수 없습니다. ");
-                                                                    } else {
-                                                                        if (item.isBookmarked) {
-                                                                            deleteLike(item.id);
-                                                                            console.log("좋아요 삭제");
+                                                        {isAdmin || isUser ? (
+                                                            <Tippy content="프로그램 찜하기" animation={"scale"}>
+                                                                <Button
+                                                                    onClick={() => {
+                                                                        if (!isAdmin) {
+                                                                            alert("관리자는 찜 기능을 사용하실 수 없습니다. ");
                                                                         } else {
-                                                                            addLike(item.id);
-                                                                            console.log("좋아요 등록");
+                                                                            if (item.isBookmarked) {
+                                                                                deleteLike(item.id);
+                                                                                console.log("좋아요 삭제");
+                                                                            } else {
+                                                                                addLike(item.id);
+                                                                                console.log("좋아요 등록");
+                                                                            }
                                                                         }
-                                                                    }
-                                                                }}
-                                                                type="button"
-                                                                className="p-0 bg-transparent border-0 text-primary"
-                                                            >
-                                                                {item.isBookmarked ? <i className="fas fa-bookmark"></i> : <i className="far fa-bookmark"></i>}
-                                                            </Button>
-                                                        </Tippy>
+                                                                    }}
+                                                                    type="button"
+                                                                    className="p-0 bg-transparent border-0 text-primary"
+                                                                >
+                                                                    {item.isBookmarked ? (
+                                                                        <i className="fas fa-bookmark"></i>
+                                                                    ) : (
+                                                                        <i className="far fa-bookmark"></i>
+                                                                    )}
+                                                                </Button>
+                                                            </Tippy>
+                                                        ) : null}
                                                     </Col>
                                                 </Row>
                                             </Card.Footer>

@@ -16,8 +16,11 @@ import axios from "axios";
 import { getCategory, getCategoryAfterLogin } from "services/mainApi";
 import { get } from "jquery";
 
-const Main = () => {
+const Main = ({}) => {
+    // const [totalInfo, setTotalInfo] = useState([]);
+    // const [eventInfo, setEventInfo] = useState([]);
     const [totalLoading, setTotalLoading] = useState(false);
+    const [fileInfo, setFileInfo] = useState([]);
     const [categories, setCategories] = useState([]); // json 형식의 로딩을 위해서
     const [selectedCategory, setSelectedCategory] = useState("all"); // 카테고리별로 보여주기 위함
     const [activeTab, setActiveTab] = useState("all");
@@ -56,7 +59,7 @@ const Main = () => {
                                 <Container>
                                     <Row className="mb-6">
                                         <Col md={12}>
-                                            <Tab.Container activeKey={categories.length > 0 ? categories[0].id.toString() : null} onSelect={handleTabChange}>
+                                            <Tab.Container activeKey={activeTab} onSelect={handleTabChange}>
                                                 <Nav className="nav-lb-tab fs-4">
                                                     {categories.map((category) => (
                                                         <Nav.Item key={category.id}>

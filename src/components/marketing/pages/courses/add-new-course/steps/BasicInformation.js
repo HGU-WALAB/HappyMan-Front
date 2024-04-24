@@ -1,11 +1,3 @@
-/* 
-프로그램 추가의 1단계 
-
-image / file / file / name(프로그램명) / quota (정원) / currentQuota (현원) / information (프로그램 정보) 
-/ applyStartDate, applyEndDate (신청 시작,마감) / startDate, endDate (프로그램 시작, 종료) 
-/ managerName / managerContact / categoryId (정한 카테고리에 따라 부여)  
-*/
-
 import React, { useState, useLayoutEffect } from "react";
 import { Card, Row, Form, Button, Col, InputGroup } from "react-bootstrap";
 import DatePicker from "react-datepicker";
@@ -91,16 +83,6 @@ const BasicInformation = (props) => {
                                 </Form>
                             </Form.Group>
                         </Col>
-
-                        {/* 원본파일 보존 */}
-                        {/* <Col xs={12} className="mb-4">
-                            <Form.Group controlId="program_description">
-                                <Form.Label>첨부 파일 2</Form.Label>
-                                <Form className="upload_input">
-                                    <Input id="file" name="file" type="file" onChange={onLoadFile} />
-                                </Form>
-                            </Form.Group>
-                        </Col> */}
 
                         {/* Start Date */}
                         <Col md={6} xs={12} className="mb-4">
@@ -271,7 +253,8 @@ const BasicInformation = (props) => {
             </Card>
             {/* Button */}
             <div className="d-flex justify-content-end">
-                <Button variant="primary" type="submit" onClick={submitButton}>
+                {/* type="submit" */}
+                <Button variant="primary" onClick={submitButton} type="submit">
                     다음
                 </Button>
             </div>

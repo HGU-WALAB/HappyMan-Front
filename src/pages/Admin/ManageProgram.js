@@ -13,12 +13,26 @@ import NavbarTop from "layouts/dashboard/NavbarTop";
 import NavbarDefault from "layouts/marketing/navbars/NavbarDefault";
 // 라이브러리 불러오기
 import { getCategory } from "services/mainApi";
+import { getProgramAdmin } from "services/program";
 
 const ManageProgram = () => {
     const [showMenu, setShowMenu] = useState(true);
     const ToggleMenu = () => {
         return setShowMenu(!showMenu);
     };
+
+    // 프로그램 정보 가져오기
+    useEffect(() => {
+        async function fetchPrograms() {
+            try {
+                const programData = await getProgramAdmin();
+                console.log("관리자 페이지 프로그램 데이터 : ", programData);
+            } catch (error) {
+                console.error("관리자 페이지 프로그램 데이터 조회 실패 : ", error);
+            }
+        }
+        fetchPrograms();
+    }, []);
     return (
         <Fragment>
             <div id="db-wrapper" className={`${showMenu ? "" : "toggled"}`}>
@@ -87,14 +101,17 @@ const ManageProgram = () => {
                                                 <Tab.Pane eventKey="all" className="pb-4">
                                                     <CoursesTable program_data={3} />
                                                 </Tab.Pane>
+                                                {/* <Tab.Pane eventKey="waiting" className="pb-4">
+                                                    <WaitTable program_data={"대기"} />
+                                                </Tab.Pane> */}
                                                 <Tab.Pane eventKey="waiting" className="pb-4">
-                                                    <WaitTable program_data={0} />
+                                                    <CoursesTable program_data={"대기"} />
                                                 </Tab.Pane>
                                                 <Tab.Pane eventKey="progress" className="pb-4">
-                                                    <CoursesTable program_data={1} />
+                                                    <CoursesTable program_data={"진행"} />
                                                 </Tab.Pane>
                                                 <Tab.Pane eventKey="end" className="pb-4">
-                                                    <CoursesTable program_data={2} />
+                                                    <CoursesTable program_data={"종료"} />
                                                 </Tab.Pane>
                                             </Tab.Content>
                                         </Card.Body>
