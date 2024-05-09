@@ -38,7 +38,7 @@ function App() {
                         ? // 유저 권한이 있는 경우에는 User
                           (console.log("사용자 라우터"), (<User />))
                         : // 토큰이 아예 없는 경우에는 notLogin
-                          (console.log("미가입 라우터"), (<NotLogin />))}
+                          (console.log("비로그인 라우터"), (<NotLogin />))}
 
                     {/* 임시용 */}
                     {/* <User /> */}

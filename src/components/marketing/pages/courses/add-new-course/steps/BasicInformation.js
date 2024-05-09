@@ -16,7 +16,24 @@ const BasicInformation = (props) => {
     const [today, setToday] = useState();
 
     // 제출버튼 (임시)
-    const submitButton = (form) => {
+    const submitButton = (event) => {
+        event.preventDefault(); // 기본 동작 방지
+        const form = {
+            Title: props.data.name,
+            information: props.data.information,
+            applyStartDate: props.data.applyStartDate,
+            applyEndDate: props.data.applyEndDate,
+            startDate: props.data.startDate,
+            endDate: props.data.endDate,
+            managerName: props.data.managerName,
+            managerContact: props.data.managerContact,
+            categoryId: props.data.categoryId,
+        };
+
+        // form 객체의 내용을 콘솔에 출력
+        console.log("입력된 내용:", form);
+
+        // 다음 동작 수행
         props.submit(form);
     };
 
