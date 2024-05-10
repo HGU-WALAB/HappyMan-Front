@@ -1,3 +1,7 @@
+/*
+관리자 제어 화면
+*/
+
 // import node module libraries
 import React, { Fragment, useState } from "react";
 import { Link } from "react-router-dom";

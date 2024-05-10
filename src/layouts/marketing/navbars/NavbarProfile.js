@@ -12,6 +12,9 @@ import { Nav, Navbar, InputGroup, Dropdown, Form, ListGroup, Row, Col, OverlayTr
 import axios from "axios";
 import { GoogleLogin, GoogleLogout } from "react-google-login";
 
+import adminImg from "../../../assets/images/profile/admin.png";
+import userImg from "../../../assets/images/profile/user.png";
+
 // import data files
 
 const NavbarProfile = ({ logout }) => {
@@ -37,8 +40,6 @@ const NavbarProfile = ({ logout }) => {
 
     // 로그아웃 시도 시 사용하는 기능 -> 세션스토리지 값 지우고 메인화면으로 되돌림
     const handleLogout = () => {
-        // if (window.confirm("정말 로그아웃하시겠습니까?")) {
-        // alert("로그아웃 시도!");
         sessionStorage.clear();
         navigate("/HappyMan");
         // }
@@ -54,15 +55,14 @@ const NavbarProfile = ({ logout }) => {
                 <Dropdown.Toggle as={Nav.Link} bsPrefix="dt" className="rounded-circle border-bottom-0" id="dropdownUser">
                     <div className="avatar avatar-md avatar-indicators avatar-online">
                         {/* 이걸 바꿔야 함  */}
-                        <Image src={window.sessionStorage.getItem("profileImg")} className="rounded-circle" />
+                        <Image src={adminImg} className="rounded-circle" />
                     </div>
                 </Dropdown.Toggle>
                 <Dropdown.Menu className="dashboard-dropdown dropdown-menu-end mt-4 py-0" aria-labelledby="dropdownUser" align="end">
                     <Dropdown.Item className="mt-3">
                         <div className="d-flex">
                             <div className="avatar avatar-md avatar-indicators avatar-online">
-                                {/* 이걸 바꿔야 함  */}
-                                <Image src={window.sessionStorage.getItem("profileImg")} className="rounded-circle" />
+                                <Image src={adminImg} className="rounded-circle" />
                             </div>
                             {/* {userInformationLoading ? ( */}
                             <div className="ms-3 lh-1">

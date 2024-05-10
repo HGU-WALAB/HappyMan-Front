@@ -40,6 +40,7 @@ function Admin() {
             <Route path={process.env.REACT_APP_DEPLOY_URL + "program/:id/application"} element={<Application />} />
 
             {/* Admin 고유 */}
+            {/* 프로그램 추가 */}
             <Route path={process.env.REACT_APP_DEPLOY_URL + "admin/addprogram"} element={<AddProgram />} />
             <Route path={process.env.REACT_APP_DEPLOY_URL + "admin/addtemplate"} element={<AddTemplate />} />
             <Route path={process.env.REACT_APP_DEPLOY_URL + "admin/addsurvey"} element={<AddSurvey />} />

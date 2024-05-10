@@ -29,8 +29,15 @@ const MyPageLayout = () => {
     return (
         <Fragment>
             <NavbarDefault login />
-            {!isAdmin && (
+            {isAdmin ? (
+                // 관리자 화면 출력
                 <div className="pt-5 pb-5">
+                    <Container>관리자야</Container>
+                </div>
+            ) : (
+                // 일반 사용자 화면 출력
+                <div className="pt-5 pb-5">
+                    사용자야
                     <Container>
                         <ProfileCover userInfo={applicantInformation} />
                         <Tab.Container id="left-tabs-example" defaultActiveKey="my_programs">
