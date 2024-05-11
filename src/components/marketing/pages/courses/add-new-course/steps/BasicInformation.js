@@ -6,50 +6,40 @@ import "assets/scss/addProgram.scss";
 import { ko } from "date-fns/esm/locale";
 import PreviewDefault from "assets/images/previewDefault.png";
 import { Input } from "reactstrap";
+import moment from "moment";
 
 const BasicInformation = (props) => {
-    const { validated, next, handleChange, preview, onLoadPoster, onLoadFile } = props;
-    const [startDate, setStartDate] = useState();
-    const [endDate, setEndDate] = useState();
-    const [ApplystartDate, setApplyStartDate] = useState();
-    const [ApplyendDate, setApplyEndDate] = useState();
-    const [today, setToday] = useState();
+    const { validated, next, handleChange, onLoadPoster, onLoadFile, preview } = props;
+    const { name, information, applyStartDate, applyEndDate, startDate, endDate, managerName, managerContact, categoryId } = props.data;
+    const [today, setToday] = useState(new Date());
 
     // 제출버튼 (임시)
     const submitButton = (event) => {
         event.preventDefault(); // 기본 동작 방지
         const form = {
-            Title: props.data.name,
-            information: props.data.information,
-            applyStartDate: props.data.applyStartDate,
-            applyEndDate: props.data.applyEndDate,
-            startDate: props.data.startDate,
-            endDate: props.data.endDate,
-            managerName: props.data.managerName,
-            managerContact: props.data.managerContact,
-            categoryId: props.data.categoryId,
+            Title: name,
+            information: information,
+            applyStartDate: moment(applyStartDate).format("YYYY-MM-DD HH:mm:ss"),
+            applyEndDate: moment(applyEndDate).format("YYYY-MM-DD HH:mm:ss"),
+            startDate: moment(startDate).format("YYYY-MM-DD HH:mm:ss"),
+            endDate: moment(endDate).format("YYYY-MM-DD HH:mm:ss"),
+            managerName: managerName,
+            managerContact: managerContact,
+            categoryId: categoryId,
         };
 
         // form 객체의 내용을 콘솔에 출력
         console.log("입력된 내용:", form);
 
+        props.next();
+
         // 다음 동작 수행
         props.submit(form);
     };
 
-    // 입력 변수들을 하나의 객체에 담기
-    const inputVariables = {
-        startDate,
-        endDate,
-        ApplystartDate,
-        ApplyendDate,
-        today,
-    };
-
     // 일자 선택을 위해 현재 일자 저장
     useLayoutEffect(() => {
-        var currDate = new Date();
-        setToday(currDate.setDate(currDate.getDate()));
+        setToday(new Date());
     }, []);
 
     // form 내용
@@ -70,7 +60,7 @@ const BasicInformation = (props) => {
                                 <Form.Label>
                                     프로그램 제목 <span className="text-danger">*</span>
                                 </Form.Label>
-                                <Form.Control type="text" placeholder="프로그램 제목을 입력하세요." name="Title" onChange={handleChange} required />
+                                <Form.Control type="text" placeholder="프로그램 제목을 입력하세요." name="name" onChange={handleChange} required value={name} />
                                 <Form.Control.Feedback type="invalid">제목을 입력해주세요.</Form.Control.Feedback>
                             </Form.Group>
                         </Col>
@@ -87,6 +77,7 @@ const BasicInformation = (props) => {
                                     onChange={handleChange}
                                     placeholder="프로그램에 관한 정보를 입력하세요."
                                     required
+                                    value={information}
                                 />
                                 <Form.Control.Feedback type="invalid">프로그램 설명을 입력해주세요.</Form.Control.Feedback>
                             </Form.Group>
@@ -119,8 +110,7 @@ const BasicInformation = (props) => {
                                         minDate={today}
                                         maxDate={endDate}
                                         onChange={(date) => {
-                                            setStartDate(date);
-                                            props.setStart_date(date);
+                                            handleChange({ target: { name: "startDate", value: date } });
                                         }}
                                         showTimeSelect
                                     />
@@ -146,8 +136,7 @@ const BasicInformation = (props) => {
                                         if (startDate === undefined) {
                                             alert("프로그램 시작날짜를 먼저 선택하세요.");
                                         } else {
-                                            setEndDate(date);
-                                            props.setEnd_date(date);
+                                            handleChange({ target: { name: "endDate", value: date } });
                                         }
                                     }}
                                     showTimeSelect
@@ -168,12 +157,11 @@ const BasicInformation = (props) => {
                                         dateFormat="yyyy-MM-dd HH:mm"
                                         className="datePicker form-control"
                                         placeholderText="시작 날짜를 선택해주세요."
-                                        selected={ApplystartDate}
+                                        selected={applyStartDate}
                                         minDate={today}
                                         // maxDate={startDate}
                                         onChange={(date) => {
-                                            setApplyStartDate(date);
-                                            props.setApplyStart_date(date);
+                                            handleChange({ target: { name: "applyStartDate", value: date } });
                                         }}
                                         showTimeSelect
                                     />
@@ -193,15 +181,14 @@ const BasicInformation = (props) => {
                                     dateFormat="yyyy-MM-dd HH:mm"
                                     className="datePicker form-control"
                                     placeholderText="종료 날짜를 선택해주세요."
-                                    selected={ApplyendDate}
-                                    minDate={ApplystartDate}
+                                    selected={applyEndDate}
+                                    minDate={applyStartDate}
                                     // maxDate={startDate}
                                     onChange={(date) => {
-                                        if (ApplystartDate === undefined) {
+                                        if (applyStartDate === undefined) {
                                             alert("신청 시작 날짜를 먼저 선택하세요.");
                                         } else {
-                                            setApplyEndDate(date);
-                                            props.setApplyEnd_date(date);
+                                            handleChange({ target: { name: "applyEndDate", value: date } });
                                         }
                                     }}
                                     showTimeSelect
@@ -223,7 +210,7 @@ const BasicInformation = (props) => {
                                 <Form.Label>
                                     카테고리 <span className="text-danger">*</span>
                                 </Form.Label>
-                                <select class="form-select" id="categoryId" name="categoryId" onChange={handleChange} required>
+                                <select className="form-select" id="categoryId" name="categoryId" onChange={handleChange} required value={categoryId}>
                                     <option selected value="">
                                         카테고리를 선택해주세요.
                                     </option>
@@ -241,13 +228,25 @@ const BasicInformation = (props) => {
                         <Col md={6} xs={12} className="mb-4">
                             <Form.Group controlId="managerName">
                                 <Form.Label>담당자</Form.Label>
-                                <Form.Control type="text" placeholder="담당자 이름을 입력하세요." name="managerName" onChange={handleChange} />
+                                <Form.Control
+                                    type="text"
+                                    placeholder="담당자 이름을 입력하세요."
+                                    name="managerName"
+                                    onChange={handleChange}
+                                    value={managerName}
+                                />
                             </Form.Group>
                         </Col>
                         <Col md={6} xs={12} className="mb-4">
                             <Form.Group controlId="managerContact">
                                 <Form.Label>담당자 연락처</Form.Label>
-                                <Form.Control type="text" placeholder="담당자 연락처를 입력하세요." name="managerContact" onChange={handleChange} />
+                                <Form.Control
+                                    type="text"
+                                    placeholder="담당자 연락처를 입력하세요."
+                                    name="managerContact"
+                                    onChange={handleChange}
+                                    value={managerContact}
+                                />
                             </Form.Group>
                         </Col>
 

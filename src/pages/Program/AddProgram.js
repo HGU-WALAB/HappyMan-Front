@@ -23,11 +23,12 @@ const AddNewCourse = () => {
     const [validated, setValidated] = useState(false);
     const [preview, setPreview] = useState();
     const [application, setApplication] = useState();
+    // 이 값을 하위 컴포넌트들에 넘기고, 다시 받아서 API로 전송
     const [formData, setFormData] = useState({
-        image: "img", // 프로그램 포스터
-        name: "Title", // 프로그램명
-        quota: "1", // 프로그램 정원
-        information: "0", // 프로그램 정보
+        image: "", // 프로그램 포스터
+        name: "", // 프로그램명
+        quota: "", // 프로그램 정원
+        information: "", // 프로그램 정보
         applyStartDate: "",
         applyEndDate: "",
         startDate: "",

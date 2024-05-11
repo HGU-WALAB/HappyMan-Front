@@ -15,7 +15,16 @@ import { GoogleLogin, GoogleLogout } from "react-google-login";
 import adminImg from "../../../assets/images/profile/admin.png";
 import userImg from "../../../assets/images/profile/user.png";
 
-// import data files
+// token 유효성 검사를 위한 현재일자 가져오기
+const today = new Date();
+const userData = JSON.parse(window.sessionStorage.getItem("userData"));
+const token = userData ? userData.exp : null;
+const status = userData ? userData.status : null;
+
+// 토큰 존재 + 유효 + 사용자 ADMIN인지 확인
+const isAdmin = token !== null && status === "ADMIN" && token < today.getTime();
+// 토큰 존재 + 유효 + 사용자 USER인지 확인
+const isUser = token !== null && status === "USER" && token < today.getTime();
 
 const NavbarProfile = ({ logout }) => {
     const navigate = useNavigate();
@@ -55,14 +64,16 @@ const NavbarProfile = ({ logout }) => {
                 <Dropdown.Toggle as={Nav.Link} bsPrefix="dt" className="rounded-circle border-bottom-0" id="dropdownUser">
                     <div className="avatar avatar-md avatar-indicators avatar-online">
                         {/* 이걸 바꿔야 함  */}
-                        <Image src={adminImg} className="rounded-circle" />
+                        {isAdmin && <Image src={adminImg} className="rounded-circle" />}
+                        {isUser && <Image src={userImg} className="rounded-circle" />}
                     </div>
                 </Dropdown.Toggle>
                 <Dropdown.Menu className="dashboard-dropdown dropdown-menu-end mt-4 py-0" aria-labelledby="dropdownUser" align="end">
                     <Dropdown.Item className="mt-3">
                         <div className="d-flex">
                             <div className="avatar avatar-md avatar-indicators avatar-online">
-                                <Image src={adminImg} className="rounded-circle" />
+                                {isAdmin && <Image src={adminImg} className="rounded-circle" />}
+                                {isUser && <Image src={userImg} className="rounded-circle" />}
                             </div>
                             {/* {userInformationLoading ? ( */}
                             <div className="ms-3 lh-1">
