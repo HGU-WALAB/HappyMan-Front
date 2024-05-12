@@ -1,7 +1,8 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import { Col, Row, Container } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import moment from "moment";
 
 // import custom components
 import GKStepper from "components/elements/stepper/GKStepper";
@@ -25,7 +26,9 @@ const AddNewCourse = () => {
     const [application, setApplication] = useState();
     // 이 값을 하위 컴포넌트들에 넘기고, 다시 받아서 API로 전송
     const [formData, setFormData] = useState({
+        // BasicInformation 에서 담을 값
         image: "", // 프로그램 포스터
+        file: "", // 파일
         name: "", // 프로그램명
         quota: "", // 프로그램 정원
         information: "", // 프로그램 정보
@@ -36,6 +39,8 @@ const AddNewCourse = () => {
         managerName: "",
         managerContact: "",
         categoryId: "",
+        // 여기서부터는 ApplicationFormPractice의 값
+        applicationForm: "",
     });
 
     const onLoadPoster = async (e) => {
@@ -49,13 +54,38 @@ const AddNewCourse = () => {
 
     const handleChange = (event) => {
         // 입력된 값과 해당 입력 필드의 이름 출력
-        console.log("입력된 값:", event.target.value);
-        console.log("입력 필드의 이름:", event.target.name);
-        setFormData({
-            ...formData,
-            [event.target.name]: event.target.value,
-        });
+        // console.log("입력된 값:", event.target.value);
+        // console.log("입력 필드의 이름:", event.target.name);
+        console.log("Form Data는 : ", formData);
+
+        // formResults를 콘솔에 출력
+        console.log("formResults in AddNewCourse:", formData.formResults);
+
+        // 날짜 필드인 경우에만 moment 형식으로 변환하여 설정
+        if (
+            event.target.name === "startDate" ||
+            event.target.name === "endDate" ||
+            event.target.name === "applyStartDate" ||
+            event.target.name === "applyEndDate"
+        ) {
+            // moment 형식으로 변환
+            const formattedDate = moment(event.target.value).toDate();
+            setFormData((prevFormData) => ({
+                ...prevFormData,
+                [event.target.name]: formattedDate,
+            }));
+        } else {
+            // 날짜 필드가 아닌 경우 그대로 설정
+            setFormData((prevFormData) => ({
+                ...prevFormData,
+                [event.target.name]: event.target.value,
+            }));
+        }
     };
+
+    useEffect(() => {
+        console.log("FD 는 말이죠 : ", formData);
+    }, [formData]);
 
     // 정보 받아오기
     const getFormatDate = (date) => {
@@ -92,54 +122,56 @@ const AddNewCourse = () => {
     };
 
     // 제출 버튼 클릭시 실행되는 동작 -> 서버에 프로그램 추가 요청
-    const addProgram = async (survey_form) => {
-        var formData = new FormData();
-        var formattedStartDate = getFormatDate(start_date);
-        var formattedEndDate = getFormatDate(end_date);
-        var formattedApplyStartDate = getFormatDate(Applystart_date);
-        var formattedApplyEndDate = getFormatDate(Applyend_date);
+    const addProgram = async () => {
+        const submitData = new FormData();
+        submitData.append("name", formData.name);
+        submitData.append("quota", formData.quota);
+        submitData.append("information", formData.information);
+        submitData.append("applyStartDate", moment(formData.applyStartDate).format("YYYY-MM-DD HH:mm:ss"));
+        submitData.append("applyEndDate", moment(formData.applyEndDate).format("YYYY-MM-DD HH:mm:ss"));
+        submitData.append("startDate", moment(formData.startDate).format("YYYY-MM-DD HH:mm:ss"));
+        submitData.append("endDate", moment(formData.endDate).format("YYYY-MM-DD HH:mm:ss"));
+        submitData.append("managerName", formData.managerName);
+        submitData.append("managerContact", formData.managerContact);
+        submitData.append("categoryId", formData.categoryId);
+        submitData.append("applicationForm", formData.applicationForm);
+        submitData.append("file", formData.file);
+        submitData.append("image", formData.image);
+        console.log("FD is : ", formData);
+        console.log("SD is : ", submitData);
 
-        // 데이터 추가
-        formData.append("categoryId", survey_form.categoryId);
-        formData.append("name", survey_form.name);
-        formData.append("quota", survey_form.quota);
-        formData.append("currentQuota", survey_form.currentQuota);
-        formData.append("information", survey_form.information);
-        formData.append("applyStartDate", formattedApplyStartDate);
-        formData.append("applyEndDate", formattedApplyEndDate);
-        formData.append("startDate", formattedStartDate);
-        formData.append("endDate", formattedEndDate);
-        // formData.append("applicationForm", survey_form.applicationForm);
-        // formData.append("SurveyForm", survey_form.SurveyForm);
-        formData.append("managerName", survey_form.managerName);
-        formData.append("managerContact", survey_form.managerContact);
+        console.log(submitData.get("name"));
 
-        // 이미지 파일 추가
-        if (poster != null) {
-            formData.append("img", poster);
-        }
+        // // 이미지 파일 추가
+        // if (poster != null) {
+        //     formData.append("img", poster);
+        // }
 
-        // 파일 추가
-        if (files != null) {
-            for (var i = 0; i < files.length; i++) {
-                formData.append("attach_file", files[i]);
-            }
-        }
+        // // 파일 추가
+        // if (files != null) {
+        //     for (var i = 0; i < files.length; i++) {
+        //         formData.append("attach_file", files[i]);
+        //     }
+        // }
 
         if (window.confirm("프로그램을 추가하시겠습니까?")) {
             try {
-                const response = await axios.post(process.env.REACT_APP_RESTAPI_HOST + "/admin/programs", formData, {
-                    headers: {
-                        Authorization: "Bearer " + sessionStorage.getItem("token"),
-                        "Content-Type": "multipart/form-data",
-                    },
-                });
+                const response = await axios.post(
+                    process.env.REACT_APP_RESTAPI_HOST + "/api/happyman/admin/programs",
+                    submitData, // FormData를 요청 본문에 설정
+                    {
+                        headers: {
+                            Authorization: "Bearer " + sessionStorage.getItem("token"),
+                            "Content-Type": "multipart/form-data",
+                        },
+                    }
+                );
 
-                alert(survey_form.program_title + " 프로그램이 추가 되었습니다.");
+                alert(" 프로그램이 추가 되었습니다.");
 
                 navigate("/HappyMan/admin/program");
             } catch (error) {
-                console.error("Error adding program:", error);
+                console.error("프로그램 추가 중 에러가 발생했습니다 :", error);
                 // 에러 처리 로직 추가
             }
         }
@@ -182,6 +214,8 @@ const AddNewCourse = () => {
                     next={next}
                     previous={previous}
                     saveApplication={saveApplication}
+                    applicationForm={formData.applicationForm}
+                    submit={addProgram}
                 />
             ),
             // content: <FormBuilder />,

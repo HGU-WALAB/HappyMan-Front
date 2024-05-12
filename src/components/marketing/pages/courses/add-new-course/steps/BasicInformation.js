@@ -13,29 +13,26 @@ const BasicInformation = (props) => {
     const { name, information, applyStartDate, applyEndDate, startDate, endDate, managerName, managerContact, categoryId } = props.data;
     const [today, setToday] = useState(new Date());
 
-    // 제출버튼 (임시)
-    const submitButton = (event) => {
-        event.preventDefault(); // 기본 동작 방지
-        const form = {
-            Title: name,
-            information: information,
-            applyStartDate: moment(applyStartDate).format("YYYY-MM-DD HH:mm:ss"),
-            applyEndDate: moment(applyEndDate).format("YYYY-MM-DD HH:mm:ss"),
-            startDate: moment(startDate).format("YYYY-MM-DD HH:mm:ss"),
-            endDate: moment(endDate).format("YYYY-MM-DD HH:mm:ss"),
-            managerName: managerName,
-            managerContact: managerContact,
-            categoryId: categoryId,
-        };
+    // // 제출버튼 (임시)
+    // const submitButton = (event) => {
+    //     event.preventDefault(); // 기본 동작 방지
+    //     const form = {
+    //         Title: name,
+    //         information: information,
+    //         applyStartDate: moment(applyStartDate).format("YYYY-MM-DD HH:mm:ss"),
+    //         applyEndDate: moment(applyEndDate).format("YYYY-MM-DD HH:mm:ss"),
+    //         startDate: moment(startDate).format("YYYY-MM-DD HH:mm:ss"),
+    //         endDate: moment(endDate).format("YYYY-MM-DD HH:mm:ss"),
+    //         managerName: managerName,
+    //         managerContact: managerContact,
+    //         categoryId: categoryId,
+    //     };
 
-        // form 객체의 내용을 콘솔에 출력
-        console.log("입력된 내용:", form);
+    //     // form 객체의 내용을 콘솔에 출력
+    //     console.log("입력된 내용:", form);
 
-        props.next();
-
-        // 다음 동작 수행
-        props.submit(form);
-    };
+    //     next();
+    // };
 
     // 일자 선택을 위해 현재 일자 저장
     useLayoutEffect(() => {
@@ -60,7 +57,7 @@ const BasicInformation = (props) => {
                                 <Form.Label>
                                     프로그램 제목 <span className="text-danger">*</span>
                                 </Form.Label>
-                                <Form.Control type="text" placeholder="프로그램 제목을 입력하세요." name="name" onChange={handleChange} required value={name} />
+                                <Form.Control type="text" placeholder="프로그램 제목을 입력하세요." name="name" onChange={handleChange} required />
                                 <Form.Control.Feedback type="invalid">제목을 입력해주세요.</Form.Control.Feedback>
                             </Form.Group>
                         </Col>
@@ -110,7 +107,7 @@ const BasicInformation = (props) => {
                                         minDate={today}
                                         maxDate={endDate}
                                         onChange={(date) => {
-                                            handleChange({ target: { name: "startDate", value: date } });
+                                            handleChange({ target: { name: "startDate", value: moment(date).format("YYYY-MM-DD HH:mm:ss") } });
                                         }}
                                         showTimeSelect
                                     />
@@ -127,7 +124,7 @@ const BasicInformation = (props) => {
                                 <DatePicker
                                     required
                                     locale={ko}
-                                    dateFormat="yyyy-MM-dd HH:mm"
+                                    dateFormat="yyyy-MM-dd HH:mm:ss"
                                     className="datePicker form-control"
                                     placeholderText="종료 날짜를 선택해주세요."
                                     selected={endDate}
@@ -136,7 +133,9 @@ const BasicInformation = (props) => {
                                         if (startDate === undefined) {
                                             alert("프로그램 시작날짜를 먼저 선택하세요.");
                                         } else {
-                                            handleChange({ target: { name: "endDate", value: date } });
+                                            const formattedEndDate = moment(date).format("YYYY-MM-DD HH:mm");
+                                            console.log("ED : ", formattedEndDate);
+                                            handleChange({ target: { name: "endDate", value: moment(date).format("YYYY-MM-DD HH:mm:ss") } });
                                         }
                                     }}
                                     showTimeSelect
@@ -161,7 +160,7 @@ const BasicInformation = (props) => {
                                         minDate={today}
                                         // maxDate={startDate}
                                         onChange={(date) => {
-                                            handleChange({ target: { name: "applyStartDate", value: date } });
+                                            handleChange({ target: { name: "applyStartDate", value: moment(date).format("YYYY-MM-DD HH:mm:ss") } });
                                         }}
                                         showTimeSelect
                                     />
@@ -188,7 +187,7 @@ const BasicInformation = (props) => {
                                         if (applyStartDate === undefined) {
                                             alert("신청 시작 날짜를 먼저 선택하세요.");
                                         } else {
-                                            handleChange({ target: { name: "applyEndDate", value: date } });
+                                            handleChange({ target: { name: "applyEndDate", value: moment(date).format("YYYY-MM-DD HH:mm:ss") } });
                                         }
                                     }}
                                     showTimeSelect
@@ -270,7 +269,7 @@ const BasicInformation = (props) => {
             {/* Button */}
             <div className="d-flex justify-content-end">
                 {/* type="submit" */}
-                <Button variant="primary" onClick={submitButton} type="submit">
+                <Button variant="primary" type="submit">
                     다음
                 </Button>
             </div>
