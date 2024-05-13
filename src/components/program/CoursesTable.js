@@ -75,8 +75,8 @@ const CoursesTable = ({ program_data }) => {
                 accessor: "name",
                 Header: "제목",
                 Cell: ({ value, row }) => {
-                    // const id = "/HappyMan/admin/program/detail/" + row.original.id.toString();
-                    const id = "id";
+                    const id = "/HappyMan/admin/program/detail/" + row.original.id.toString();
+                    // const id = "id";
                     return (
                         <Link className="text-inherit" to={id}>
                             <div className="d-flex align-items-center">

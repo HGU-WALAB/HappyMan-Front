@@ -77,8 +77,15 @@ const NavbarProfile = ({ logout }) => {
                             </div>
                             {/* {userInformationLoading ? ( */}
                             <div className="ms-3 lh-1">
-                                {status === "USER" ? <h5 className="mb-1">{name} 학부생 </h5> : <h5 className="mb-1">{name} </h5>}
-                                <p className="mb-0 text-muted">{window.sessionStorage.getItem("myemail")} </p>
+                                {status === "USER" ? (
+                                    <h5 className="mb-1">{name} 학부생</h5>
+                                ) : status === "ADMIN" ? (
+                                    <h5 className="mb-1">관리자 {name}</h5>
+                                ) : (
+                                    <h5 className="mb-1">{name}</h5>
+                                )}
+
+                                <p className="mb-0 text-muted">{window.sessionStorage.getItem("email")} </p>
                             </div>
                         </div>
                     </Dropdown.Item>

@@ -31,16 +31,27 @@ class FormBuilder extends Component {
         };
     }
 
+    // componentDidUpdate(prevProps, prevState) {
+    //     // 이전 props의 formResult와 현재 props의 formResult를 비교하여 변경 여부를 확인합니다.
+    //     if (prevProps.formResult !== this.props.formResult) {
+    //         // console.log("Form Result Updated:", this.props.formResult);
+    //         // formResult를 formData의 applicationForm에 추가합니다.
+    //         const updatedApplicationForm = JSON.parse(this.props.formResult);
+    //         const updatedFormData = { ...this.props.formData, applicationForm: updatedApplicationForm };
+
+    //         // formData를 업데이트합니다.
+    //         this.props.setFormData(updatedFormData);
+    //     }
+    // }
     componentDidUpdate(prevProps, prevState) {
         // 이전 props의 formResult와 현재 props의 formResult를 비교하여 변경 여부를 확인합니다.
         if (prevProps.formResult !== this.props.formResult) {
-            // console.log("Form Result Updated:", this.props.formResult);
             // formResult를 formData의 applicationForm에 추가합니다.
             const updatedApplicationForm = JSON.parse(this.props.formResult);
-            const updatedFormData = { ...this.props.formData, applicationForm: updatedApplicationForm };
+            const updatedFormData = { ...this.props.data, applicationForm: updatedApplicationForm };
 
             // formData를 업데이트합니다.
-            this.props.setFormData(updatedFormData);
+            this.props.setData(updatedFormData);
         }
     }
 
@@ -54,16 +65,25 @@ class FormBuilder extends Component {
 
         var formBuilder = $(this.fb.current).formBuilder({ formData });
 
+        // if (this.props.template === "2") {
+        //     document.getElementById("saveApplication").addEventListener("click", () => {
+        //         const result = formBuilder.actions.save();
+        //         this.setState({ formResult: JSON.stringify(result, null, 2) }, () => {
+        //             // 상위 컴포넌트로 formResult 전달
+        //             this.props.updateFormResult(this.state.formResult);
+        //         });
+        //     });
+        // }
+
         if (this.props.template === "2") {
             document.getElementById("saveApplication").addEventListener("click", () => {
-                const result = formBuilder.actions.save();
+                const result = this.formBuilderInstance.actions.save();
                 this.setState({ formResult: JSON.stringify(result, null, 2) }, () => {
                     // 상위 컴포넌트로 formResult 전달
                     this.props.updateFormResult(this.state.formResult);
                 });
             });
         }
-
         if (this.props.template === "1") {
             document.getElementById("saveData").addEventListener("click", () => {
                 const result = formBuilder.actions.save();
@@ -186,8 +206,9 @@ class FormBuilder extends Component {
         this.props.saveApplication(this.state.formResult);
         this.props.submit(this.state.formResult);
         // console.log("받아온 from data는 : ", this.props.data);
-        this.props.data.applicationForm = JSON.parse(this.state.formResult);
-        console.log("최종확인 ", this.state.formResult);
+        // this.props.data.applicationForm = JSON.stringify(this.state.formResult);
+        this.props.data.applicationForm = this.state.formResult;
+        console.log("최종확인 ", this.props.data.applicationForm);
         if (this.props.program === "1") {
             this.props.saveFunction();
             this.props.addProgram(); // addProgram 함수 호출

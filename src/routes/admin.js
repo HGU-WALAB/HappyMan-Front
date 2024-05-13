@@ -35,7 +35,11 @@ function Admin() {
             <Route path={process.env.REACT_APP_DEPLOY_URL + "main"} element={<Main />} />
             <Route path={process.env.REACT_APP_DEPLOY_URL + "login-ing"} element={<LoginIng />} />
 
-            {/* 로그인 상태 */}
+            {/* 프로그램 전체 조회 */}
+            <Route path={process.env.REACT_APP_DEPLOY_URL + "admin/program"} element={<ManageProgram />} />
+            {/* 프로그램 단일 조회 */}
+            <Route path={process.env.REACT_APP_DEPLOY_URL + "admin/program/detail/:id"} element={<AdminProgramDetail />} />
+            {/*  */}
             <Route path={process.env.REACT_APP_DEPLOY_URL + "program/:id"} element={<ProgramDetail />} />
             <Route path={process.env.REACT_APP_DEPLOY_URL + "program/:id/application"} element={<Application />} />
 
@@ -44,6 +48,7 @@ function Admin() {
             <Route path={process.env.REACT_APP_DEPLOY_URL + "admin/addprogram"} element={<AddProgram />} />
             <Route path={process.env.REACT_APP_DEPLOY_URL + "admin/addtemplate"} element={<AddTemplate />} />
             <Route path={process.env.REACT_APP_DEPLOY_URL + "admin/addsurvey"} element={<AddSurvey />} />
+
             <Route path={process.env.REACT_APP_DEPLOY_URL + "admin"} element={<AdminMain />} />
             <Route path={process.env.REACT_APP_DEPLOY_URL + "admin/application"} element={<ManageApplication />} />
             <Route path={process.env.REACT_APP_DEPLOY_URL + "admin/application/detail/:id"} element={<ManageApplicationDetail />} />
@@ -52,8 +57,7 @@ function Admin() {
             <Route path={process.env.REACT_APP_DEPLOY_URL + "admin/student"} element={<ManageStudent />} />
             <Route path={process.env.REACT_APP_DEPLOY_URL + "admin/instructor"} element={<ManageInstructor />} />
             <Route path={process.env.REACT_APP_DEPLOY_URL + "admin/user"} element={<ManageUser />} />
-            <Route path={process.env.REACT_APP_DEPLOY_URL + "admin/program"} element={<ManageProgram />} />
-            <Route path={process.env.REACT_APP_DEPLOY_URL + "admin/program/detail/:id"} element={<AdminProgramDetail />} />
+
             <Route path={process.env.REACT_APP_DEPLOY_URL + "admin/program/detail/:id/:applicantid"} element={<ApplicationFormView />} />
             <Route path={process.env.REACT_APP_DEPLOY_URL + "program/:id/survey"} element={<Survey />} />
             <Route path={process.env.REACT_APP_DEPLOY_URL + "mypage"} element={<MyPageLayout />} />

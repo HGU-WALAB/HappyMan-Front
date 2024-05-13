@@ -20,9 +20,20 @@ import NavbarDefault from "layouts/marketing/navbars/NavbarDefault";
 import "../assets/scss/programDetail.scss";
 import { Windows } from "react-bootstrap-icons";
 
-// 이걸 API부분으로 바꾸면 됨 (임시용)
-// import programData from "./programs.json";
+// 이걸 API부분으로 바꾸면 됨
 import { getProgramDetails } from "services/program";
+
+// token 유효성 검사를 위한 현재일자 가져오기
+const today = new Date();
+console.log("현재시간은 : ", today);
+const userData = JSON.parse(window.sessionStorage.getItem("userData"));
+const token = userData ? userData.exp : null;
+const status = userData ? userData.status : null;
+
+// 토큰 존재 + 유효 + 사용자 ADMIN인지 확인
+const isAdmin = token !== null && status === "ADMIN" && token < today.getTime();
+// 토큰 존재 + 유효 + 사용자 USER인지 확인
+const isUser = token !== null && status === "USER" && token < today.getTime();
 
 function Modal({ className, onClose, maskClosable, closable, visible, children }) {
     const onMaskClick = (e) => {
@@ -104,7 +115,6 @@ const Program = () => {
     const [programLoad, setProgramLoad] = useState(false);
 
     const id = useParams();
-
     var ID = parseInt(window.sessionStorage.getItem("id"));
     var programID = parseInt(id["id"]);
 
@@ -176,21 +186,23 @@ const Program = () => {
         setapplicantData(response.data);
     };
 
-    // 신청 폼 이동시 검증
+    // 신청 폼 이동시 검증 (일단 무시)
     const checkApply = async () => {
-        if (window.sessionStorage.getItem("id") === null) {
-            alert("로그인이 필요한 항목입니다. 로그인을 진행해 주세요.");
-        } else {
-            if (daysLeft === false) {
-                alert("신청기간이 마감되어서 신청 하실 수 없습니다.");
-            } else if (quotaLeft == false) {
-                alert("신청인원이 꽉 차서 신청 하실 수 없습니다.");
-            } else if (applicantData.length > 0) {
-                alert("이미 신청된 프로그램입니다.");
-            } else {
-                navigate("/HappyMan/program/" + programInfo.id.toString() + "/application");
-            }
-        }
+        console.log("URL : ", "/HappyMan/program/" + programID + "/application");
+        navigate("/HappyMan/program/" + programID + "/application");
+        // if (window.sessionStorage.getItem("id") === null) {
+        //     alert("로그인이 필요한 항목입니다. 로그인을 진행해 주세요.");
+        // } else {
+        //     if (daysLeft === false) {
+        //         alert("신청기간이 마감되어서 신청 하실 수 없습니다.");
+        //     } else if (quotaLeft == false) {
+        //         alert("신청인원이 꽉 차서 신청 하실 수 없습니다.");
+        //     } else if (applicantData.length > 0) {
+        //         alert("이미 신청된 프로그램입니다.");
+        //     } else {
+        //         navigate("/HappyMan/program/" + programInfo.id.toString() + "/application");
+        //     }
+        // }
     };
 
     //
@@ -249,22 +261,27 @@ const Program = () => {
     };
 
     useEffect(() => {
-        const fetchProgramDetails = async () => {
-            try {
-                const url = window.location.href;
-                const programId = parseInt(url.substring(url.lastIndexOf("/") + 1));
-                console.log("프로그램아이디 : ", programId);
-                const data = await getProgramDetails(programId); // 프로그램 ID를 매개변수로 전달
-                setProgramData(data); // 프로그램 데이터 상태 업데이트
-                setProgramLoad(true); // 프로그램 데이터 로딩이 완료되었으므로 true로 설정
-            } catch (error) {
-                console.error("프로그램 데이터를 가져오는 중 오류 발생:", error);
-            }
-        };
+        if (!programData) {
+            const fetchProgramDetails = async () => {
+                try {
+                    const url = window.location.href;
+                    const programId = parseInt(url.substring(url.lastIndexOf("/") + 1));
+                    console.log("프로그램아이디 : ", programId);
+                    const data = await getProgramDetails(programId);
+                    setProgramData(data);
+                    setProgramLoad(true);
 
-        fetchProgramDetails();
+                    if (data) {
+                        const isEarly = moment(today).format("YYYY-MM-DD HH:mm:ss") < data.applyEndDate;
+                        setApplyConfirm(isEarly);
+                    }
+                } catch (error) {
+                    console.error("프로그램 데이터를 가져오는 중 오류 발생:", error);
+                }
+            };
 
-        // useEffect의 두 번째 인수가 빈 배열인 경우, 컴포넌트가 마운트될 때 한 번만 실행됩니다.
+            fetchProgramDetails();
+        }
     }, []);
 
     // console.log("mamagerName : ", programData.managerName);
@@ -331,7 +348,7 @@ const Program = () => {
                                                     {/* <Link to={"/program/" + programInfo.id.toString() + "/application"} className="btn btn-success">
                             신청하기
                           </Link> */}
-                                                    {applyConfirm === 1 ? (
+                                                    {applyConfirm === true ? (
                                                         <Button className="btn btn-success" onClick={checkApply}>
                                                             신청하기
                                                         </Button>

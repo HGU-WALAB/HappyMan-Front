@@ -9,7 +9,7 @@ import { Input } from "reactstrap";
 import moment from "moment";
 
 const BasicInformation = (props) => {
-    const { validated, next, handleChange, onLoadPoster, onLoadFile, preview } = props;
+    const { validated, next, handleChange, onLoadPoster, onLoadFile, preview, setFormData } = props;
     const { name, information, applyStartDate, applyEndDate, startDate, endDate, managerName, managerContact, categoryId } = props.data;
     const [today, setToday] = useState(new Date());
 
@@ -38,6 +38,15 @@ const BasicInformation = (props) => {
     useLayoutEffect(() => {
         setToday(new Date());
     }, []);
+
+    const handleImageSelection = (e) => {
+        const file = e.target.files[0]; // 선택한 이미지 파일
+        onLoadPoster(e); // 미리보기 업데이트를 위해 onLoadPoster 함수 호출
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            image: file, // formData의 image 필드에 이미지 파일을 할당
+        }));
+    };
 
     // form 내용
     return (
@@ -82,7 +91,7 @@ const BasicInformation = (props) => {
                         {/* file */}
                         <Col xs={12} className="mb-4">
                             <Form.Group controlId="information">
-                                <Form.Label>첨부 파일 1</Form.Label>
+                                <Form.Label>첨부 파일 </Form.Label>
                                 <Form className="upload_input">
                                     <Input id="file" name="file" type="file" onChange={onLoadFile} multiple />
                                 </Form>
@@ -250,17 +259,20 @@ const BasicInformation = (props) => {
                         </Col>
 
                         {/* Project Cover Image */}
+                        {/* Project Cover Image */}
                         <Col xs={5} className="mb-4">
                             <h5 className="mb-3">프로그램 이미지(포스터) </h5>
                             <div className="img_wrap dropzone p-2 border-dashed mb-3 d-flex justify-content-center">
                                 {preview ? <img src={preview} alt="" width="100%" /> : <img src={PreviewDefault} alt="" width="100%" />}
                             </div>
-                            {/* <form className="upload_input">
-                <input type="file" id="image" accept="image/jpeg, image/png" onChange={onLoadPoster} />
-              </form> */}
-
                             <Form className="upload_input">
-                                <Input id="image" name="file" accept="image/jpeg, image/png, image/jpg, image/heic" type="file" onChange={onLoadPoster} />
+                                <Input
+                                    id="image"
+                                    name="file"
+                                    accept="image/jpeg, image/png, image/jpg, image/heic"
+                                    type="file"
+                                    onChange={handleImageSelection}
+                                />
                             </Form>
                         </Col>
                     </Row>

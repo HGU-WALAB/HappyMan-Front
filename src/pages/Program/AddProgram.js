@@ -43,13 +43,41 @@ const AddNewCourse = () => {
         applicationForm: "",
     });
 
+    // const onLoadPoster = async (e) => {
+    //     const file = e.target.files[0];
+    //     setPoster(file);
+    //     setPreview(URL.createObjectURL(file));
+    // };
     const onLoadPoster = async (e) => {
-        setPoster(e.target.files[0]);
-        setPreview(URL.createObjectURL(e.target.files[0]));
+        const file = e.target.files[0];
+        setPoster(file);
+        setPreview(URL.createObjectURL(file));
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            image: file,
+        }));
     };
 
+    // const onLoadFile = async (e) => {
+    //     const selectedFiles = e.target.files; // 선택한 파일들
+    //     setFiles(selectedFiles); // 선택한 파일들을 상태에 저장
+
+    //     // 선택한 파일들을 FormData에 추가
+    //     setFormData((prevFormData) => ({
+    //         ...prevFormData,
+    //         file: selectedFiles, // 파일들을 file 필드에 저장
+    //     }));
+    // };
+    // BasicInformation 컴포넌트의 파일 선택 부분 수정
     const onLoadFile = async (e) => {
-        setFiles(e.target.files);
+        const selectedFile = e.target.files[0]; // 단일 파일만 선택되도록 변경
+        setFiles(selectedFile); // 파일을 상태에 저장
+
+        // 선택한 파일을 FormData에 추가
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            file: selectedFile, // 파일을 file 필드에 저장 (단일 파일)
+        }));
     };
 
     const handleChange = (event) => {
@@ -117,8 +145,24 @@ const AddNewCourse = () => {
         setCurrentStep(currentStep === 1 ? 1 : currentStep - 1);
     };
 
+    // const saveApplication = (form) => {
+    //     setApplication(form);
+    // };
+
     const saveApplication = (form) => {
-        setApplication(form);
+        // setFormData({
+        //     ...formData,
+        //     applicationForm: form,
+        // });
+        setFormData((form) => ({
+            ...form,
+            applicationForm: form, // formData의 image 필드에 이미지 파일을 할당
+        }));
+        console.log("들어갔나 확인 : ", form);
+        setFormData((form) => ({
+            ...form,
+            applicationForm: form, // formData의 image 필드에 이미지 파일을 할당
+        }));
     };
 
     // 제출 버튼 클릭시 실행되는 동작 -> 서버에 프로그램 추가 요청
@@ -134,25 +178,29 @@ const AddNewCourse = () => {
         submitData.append("managerName", formData.managerName);
         submitData.append("managerContact", formData.managerContact);
         submitData.append("categoryId", formData.categoryId);
-        submitData.append("applicationForm", formData.applicationForm);
-        submitData.append("file", formData.file);
+        // submitData.append("applicationForm", formData.applicationForm);
+        // console.log("진짜 마지막 체크 : ", formData.applicationForm);
+        // submitData.append("applicationForm", formData.applicationForm);
+        console.log("진짜 마지막 체크 : ", JSON.stringify(formData.applicationForm.applicationForm));
+        submitData.append("applicationForm", JSON.stringify(formData.applicationForm.applicationForm));
+
+        // 파일이 있는 경우에만 FormData에 파일 추가
+        if (formData.file instanceof FileList) {
+            Array.from(formData.file).forEach((file, index) => {
+                // 파일의 이름을 명시적으로 설정
+                console.log("현재 개별 file은 : ", formData.file);
+                submitData.append(`file${index}`, file); // 파일을 file0, file1, ... 형태로 추가
+            });
+        } else if (formData.file instanceof File) {
+            submitData.append("file0", formData.file); // 단일 파일은 그대로 추가
+        }
+
         submitData.append("image", formData.image);
-        console.log("FD is : ", formData);
-        console.log("SD is : ", submitData);
 
-        console.log(submitData.get("name"));
-
-        // // 이미지 파일 추가
-        // if (poster != null) {
-        //     formData.append("img", poster);
-        // }
-
-        // // 파일 추가
-        // if (files != null) {
-        //     for (var i = 0; i < files.length; i++) {
-        //         formData.append("attach_file", files[i]);
-        //     }
-        // }
+        // console.log("FormData:", submitData); // FormData 출력
+        for (let value of submitData.values()) {
+            console.log(value);
+        }
 
         if (window.confirm("프로그램을 추가하시겠습니까?")) {
             try {
@@ -162,16 +210,15 @@ const AddNewCourse = () => {
                     {
                         headers: {
                             Authorization: "Bearer " + sessionStorage.getItem("token"),
-                            "Content-Type": "multipart/form-data",
+                            "Content-Type": "multipart/form-data", // multipart/form-data 형식으로 전송
                         },
                     }
                 );
 
-                alert(" 프로그램이 추가 되었습니다.");
-
+                alert("프로그램이 추가 되었습니다.");
                 navigate("/HappyMan/admin/program");
             } catch (error) {
-                console.error("프로그램 추가 중 에러가 발생했습니다 :", error);
+                console.error("프로그램 추가 중 에러가 발생했습니다:", error);
                 // 에러 처리 로직 추가
             }
         }
