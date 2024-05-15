@@ -29,6 +29,7 @@ const Application = () => {
     const [programInfo, setProgramInfo] = useState({});
 
     const [programInfoLoading, setProgramInfoLoading] = useState(false);
+    const [applicationData, setApplicationData] = useState();
 
     const [applicantInformation, setApplicantInformation] = useState(null);
     const [applicantInformationLoading, setApplicantInformationLoading] = useState(null);
@@ -65,6 +66,8 @@ const Application = () => {
                     });
 
                     console.log("불러온 값은 : ", response.data);
+                    setApplicationData(response.data.applicationForm);
+                    console.log("불러온 값 중 form은 : ", response.data.applicationForm);
                     setProgramInfo(response.data);
                     setProgramInfoLoading(true);
 
@@ -111,6 +114,9 @@ const Application = () => {
 
         fetchProgramInformation();
     }, [programId]);
+
+    // Render를 위해 넘겨주는 props 값들
+    const props = { programID: programID };
 
     return (
         <Fragment>
@@ -202,7 +208,7 @@ const Application = () => {
                                             </span>
                                             <span>
                                                 <span className="fw-bold text-dark"> 카테고리 - </span>
-                                                <span>{programInfo.category_name}</span>
+                                                <span>{programInfo.category}</span>
                                             </span>
                                         </ListGroup.Item>
                                     </ListGroup>

@@ -28,8 +28,8 @@ const ApplicationFormPractice = (props) => {
     const [formData, setFomData] = useState();
 
     useEffect(() => {
-        console.log("formData in ApplicationFormPractice:", props.data);
-    }, [props.data]);
+        console.log("formData in ApplicationFormPractice @@@ :", props.data.applicationForm);
+    }, [props.data.applicationForm]);
 
     const highFunction = (isSet) => {
         // console.log("isSet", isSet);

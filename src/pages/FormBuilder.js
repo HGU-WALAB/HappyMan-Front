@@ -31,27 +31,16 @@ class FormBuilder extends Component {
         };
     }
 
-    // componentDidUpdate(prevProps, prevState) {
-    //     // 이전 props의 formResult와 현재 props의 formResult를 비교하여 변경 여부를 확인합니다.
-    //     if (prevProps.formResult !== this.props.formResult) {
-    //         // console.log("Form Result Updated:", this.props.formResult);
-    //         // formResult를 formData의 applicationForm에 추가합니다.
-    //         const updatedApplicationForm = JSON.parse(this.props.formResult);
-    //         const updatedFormData = { ...this.props.formData, applicationForm: updatedApplicationForm };
-
-    //         // formData를 업데이트합니다.
-    //         this.props.setFormData(updatedFormData);
-    //     }
-    // }
     componentDidUpdate(prevProps, prevState) {
         // 이전 props의 formResult와 현재 props의 formResult를 비교하여 변경 여부를 확인합니다.
         if (prevProps.formResult !== this.props.formResult) {
+            // console.log("Form Result Updated:", this.props.formResult);
             // formResult를 formData의 applicationForm에 추가합니다.
             const updatedApplicationForm = JSON.parse(this.props.formResult);
-            const updatedFormData = { ...this.props.data, applicationForm: updatedApplicationForm };
+            const updatedFormData = { ...this.props.formData, applicationForm: updatedApplicationForm };
 
             // formData를 업데이트합니다.
-            this.props.setData(updatedFormData);
+            this.props.setFormData(updatedFormData);
         }
     }
 

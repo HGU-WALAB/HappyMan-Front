@@ -12,31 +12,42 @@ require("formBuilder/dist/form-render.min.js");
 const FormRender = (programID) => {
     const navigate = useNavigate();
 
-    const [originalFormData, setOriginalFormData] = useState([]);
+    const [formData, setFormData] = useState([]);
     const [isFormRender, setIsFormRender] = useState(false);
+    const [jsonObject, setJsonObject] = useState(null);
+
+    var formInformation = "";
+
+    // useLayoutEffect(() => {
+    //     console.log("받아온 프로그램 ID", programID.programID);
+    //     readFormData(programID.programID);
+    //     // readApplicantData(props.programid, props.userid);
+    //     // readApplicantInformation(props.userid);
+    // }, []);
 
     useLayoutEffect(() => {
-        console.log("받아온 프로그램 ID", programID.programID);
         readFormData(programID.programID);
-        // readApplicantData(props.programid, props.userid);
-        // readApplicantInformation(props.userid);
     }, []);
 
     useEffect(() => {
         componentDidMount();
-    }, [originalFormData]);
+    }, [formData]);
 
     const componentDidMount = () => {
+        console.log("실행확인");
         const getUserDataBtn = document.getElementById("get-user-data");
         const fbRender = document.getElementById("fb-render");
-        const formData = JSON.stringify(originalFormData);
+        console.log("O", formData);
         const formRenderInstance = $(fbRender).formRender({ formData });
-
+        console.log("Form 렌더링 현황 : ", formRenderInstance);
         getUserDataBtn.addEventListener("click", () => {
             const formInformation = formRenderInstance.userData;
             addFormData(formInformation);
+            console.log("Form에 담긴 정보", formInformation);
         });
     };
+
+    //
 
     // form의 값을 읽어옴 (프로그램 ID로)
     const readFormData = async (id) => {
@@ -47,38 +58,54 @@ const FormRender = (programID) => {
                 Authorization: "Bearer " + sessionStorage.getItem("token"),
             },
         });
+        console.log("받아온 JSON : ", response.data);
         const json_total = response.data.applicationForm;
-        console.log("받아온 JSON : ", json_total);
+        // const jsonObject = JSON.parse(json_total);
+        // console.log(jsonObject);
+        const jsonString = JSON.stringify(json_total);
         const json_sub = json_total.slice(1, json_total.length - 1);
         const arr = JSON.parse("[" + json_sub + "]");
-        // const arr = [json_total];
-
-        console.log("Arr", json_total);
-        setOriginalFormData(json_total);
+        setFormData(arr);
+        // console.log(originalFormData);
         setIsFormRender(true);
     };
-
-    // const readApplicantData = async (programID, userID) => {
-    //     const response = await axios.get(process.env.REACT_APP_RESTAPI_HOST + "applicant/" + programID + "/applicants/" + userID);
-    //     const canApply = response.data.length === 0;
-    //     // setCanApply(canApply); // 해당 부분에 대한 상태 업데이트 코드가 제거되어 있음
-    // };
-
-    // const readApplicantInformation = async (id) => {
-    //     const response = await axios.get(process.env.REACT_APP_RESTAPI_HOST + "user/loggedinUser/" + id);
-    //     // setApplicantInformation(response.data); // 해당 부분에 대한 상태 업데이트 코드가 제거되어 있음
-    // };
 
     const displayAlert = (message) => {
         alert(message);
     };
 
-    const saveApplicationData = async (programID, userID, formInformation) => {
-        // saveApplicationData 함수 내용은 그대로 유지
+    const saveApplicationData = async () => {
+        console.log("클릭은 되나");
+        var isFilled = true;
+        var params = new URLSearchParams();
+        console.log(programID.programID);
+        params.append("program_id", programID);
+        params.append("content", JSON.stringify(formInformation));
+
+        // for (var i = 0; i < formInformation.length; i++) {
+        //     if (formInformation[i].userData[0] === "" && formInformation[i].required === true) {
+        //         isFilled = false;
+        //         displayAlert("필수 항목을 입력하세요! : " + formInformation[i].label);
+        //         break;
+        //     }
+        // }
+
+        if (isFilled) {
+            console.log("여기도 들어와지나", formInformation.length);
+            if (formInformation.length > 0) {
+                const response = await axios.post(process.env.REACT_APP_RESTAPI_HOST + "applicant/apply", params);
+
+                displayAlert(" 프로그램이 신청 되었습니다.");
+                navigate("/Happyman");
+                // props.param.count = props.param.count + 1;
+            }
+
+            // }
+        }
     };
 
     const addFormData = async (formInformation) => {
-        // saveApplicationData 호출 추가
+        saveApplicationData();
     };
 
     return (

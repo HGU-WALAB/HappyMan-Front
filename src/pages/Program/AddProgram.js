@@ -159,10 +159,7 @@ const AddNewCourse = () => {
             applicationForm: form, // formData의 image 필드에 이미지 파일을 할당
         }));
         console.log("들어갔나 확인 : ", form);
-        setFormData((form) => ({
-            ...form,
-            applicationForm: form, // formData의 image 필드에 이미지 파일을 할당
-        }));
+        console.log("들어갔나 확인 : ", form.applicationForm);
     };
 
     // 제출 버튼 클릭시 실행되는 동작 -> 서버에 프로그램 추가 요청
@@ -181,8 +178,9 @@ const AddNewCourse = () => {
         // submitData.append("applicationForm", formData.applicationForm);
         // console.log("진짜 마지막 체크 : ", formData.applicationForm);
         // submitData.append("applicationForm", formData.applicationForm);
+        console.log("받아온 값들 ", formData.applicationForm.applicationForm);
         console.log("진짜 마지막 체크 : ", JSON.stringify(formData.applicationForm.applicationForm));
-        submitData.append("applicationForm", JSON.stringify(formData.applicationForm.applicationForm));
+        submitData.append("applicationForm", formData.applicationForm.applicationForm);
 
         // 파일이 있는 경우에만 FormData에 파일 추가
         if (formData.file instanceof FileList) {

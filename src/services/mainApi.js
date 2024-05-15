@@ -7,7 +7,7 @@ export async function getCategory() {
     try {
         const response = await axios.get(`${process.env.REACT_APP_RESTAPI_HOST}/api/happyman/all/categories`);
         const categoryData = response.data;
-        console.log("카테고리 정보 가져오기 성공");
+        // console.log("카테고리 정보 가져오기 성공");
         return categoryData;
     } catch (error) {
         console.log("카테고리 정보 가져오기 실패");

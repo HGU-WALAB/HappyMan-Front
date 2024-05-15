@@ -13,7 +13,7 @@ import { getCategory } from "services/mainApi";
 import { getProgramAdmin } from "services/program";
 
 const CoursesTable = ({ program_data }) => {
-    console.log("program_data : ", program_data);
+    // console.log("program_data : ", program_data);
     const [programInfo, setProgramInfo] = useState([]);
     const [programList, setProgramList] = useState([]);
     const [waitProgram, setWaitProgram] = useState([]);
@@ -36,12 +36,12 @@ const CoursesTable = ({ program_data }) => {
                 }));
                 // categoryOptions 상태 업데이트
                 setCategoryOptions(options);
-                console.log("카테고리 데이터 : ", options);
+                // console.log("카테고리 데이터 : ", options);
 
                 // 프로그램 정보 가져오기
                 const programData = await getProgramAdmin();
                 setProgramData(programData);
-                console.log("관리자 페이지 프로그램 데이터 : ", programData);
+                // console.log("관리자 페이지 프로그램 데이터 : ", programData);
             } catch (error) {
                 console.error("데이터 조회 실패: ", error);
             }
@@ -298,7 +298,7 @@ const CoursesTable = ({ program_data }) => {
 
     // 프로그램 가져와서 구분하는 부분
     const readProgram = async () => {
-        console.log("응답", programData);
+        // console.log("응답", programData);
 
         // 상태를 업데이트할 새로운 배열 생성
         const newWaitProgram = [];
