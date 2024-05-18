@@ -65,9 +65,9 @@ const Application = () => {
                         },
                     });
 
-                    console.log("불러온 값은 : ", response.data);
+                    // console.log("불러온 값은 : ", response.data);
                     setApplicationData(response.data.applicationForm);
-                    console.log("불러온 값 중 form은 : ", response.data.applicationForm);
+                    // console.log("불러온 값 중 form은 : ", response.data.applicationForm);
                     setProgramInfo(response.data);
                     setProgramInfoLoading(true);
 

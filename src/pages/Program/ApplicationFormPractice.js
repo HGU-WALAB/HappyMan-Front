@@ -28,7 +28,7 @@ const ApplicationFormPractice = (props) => {
     const [formData, setFomData] = useState();
 
     useEffect(() => {
-        console.log("formData in ApplicationFormPractice @@@ :", props.data.applicationForm);
+        // console.log("formData in ApplicationFormPractice @@@ :", props.data.applicationForm);
     }, [props.data.applicationForm]);
 
     const highFunction = (isSet) => {

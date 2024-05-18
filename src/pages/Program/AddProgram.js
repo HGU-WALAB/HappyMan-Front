@@ -84,10 +84,10 @@ const AddNewCourse = () => {
         // 입력된 값과 해당 입력 필드의 이름 출력
         // console.log("입력된 값:", event.target.value);
         // console.log("입력 필드의 이름:", event.target.name);
-        console.log("Form Data는 : ", formData);
+        // console.log("Form Data는 : ", formData);
 
         // formResults를 콘솔에 출력
-        console.log("formResults in AddNewCourse:", formData.formResults);
+        // console.log("formResults in AddNewCourse:", formData.formResults);
 
         // 날짜 필드인 경우에만 moment 형식으로 변환하여 설정
         if (
@@ -112,7 +112,7 @@ const AddNewCourse = () => {
     };
 
     useEffect(() => {
-        console.log("FD 는 말이죠 : ", formData);
+        // console.log("FD 는 말이죠 : ", formData);
     }, [formData]);
 
     // 정보 받아오기
@@ -158,8 +158,8 @@ const AddNewCourse = () => {
             ...form,
             applicationForm: form, // formData의 image 필드에 이미지 파일을 할당
         }));
-        console.log("들어갔나 확인 : ", form);
-        console.log("들어갔나 확인 : ", form.applicationForm);
+        // console.log("들어갔나 확인 : ", form);
+        // console.log("들어갔나 확인 : ", form.applicationForm);
     };
 
     // 제출 버튼 클릭시 실행되는 동작 -> 서버에 프로그램 추가 요청
@@ -178,8 +178,8 @@ const AddNewCourse = () => {
         // submitData.append("applicationForm", formData.applicationForm);
         // console.log("진짜 마지막 체크 : ", formData.applicationForm);
         // submitData.append("applicationForm", formData.applicationForm);
-        console.log("받아온 값들 ", formData.applicationForm.applicationForm);
-        console.log("진짜 마지막 체크 : ", JSON.stringify(formData.applicationForm.applicationForm));
+        // console.log("받아온 값들 ", formData.applicationForm.applicationForm);
+        // console.log("진짜 마지막 체크 : ", JSON.stringify(formData.applicationForm.applicationForm));
         submitData.append("applicationForm", formData.applicationForm.applicationForm);
 
         // 파일이 있는 경우에만 FormData에 파일 추가
@@ -197,7 +197,7 @@ const AddNewCourse = () => {
 
         // console.log("FormData:", submitData); // FormData 출력
         for (let value of submitData.values()) {
-            console.log(value);
+            // console.log(value);
         }
 
         if (window.confirm("프로그램을 추가하시겠습니까?")) {

@@ -133,7 +133,7 @@ const NavbarDefault = ({ headerstyle }, { props }) => {
             >
                 <Container fluid className="px-0 ps-2">
                     <Navbar.Brand as={Link} to="/HappyMan/">
-                        <Image src={Logo} alt="" width="120px" />
+                        <Image src={Logo} alt="" width="170px" />
                     </Navbar.Brand>
 
                     <div

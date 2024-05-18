@@ -1,4 +1,5 @@
-import React, { Fragment, useState, useLayoutEffect } from "react";
+import React, { Fragment, useState, useLayoutEffect, useEffect } from "react";
+import axios from "axios";
 import { Container, Row, Col, Nav, Tab } from "react-bootstrap";
 import NavbarDefault from "layouts/marketing/navbars/NavbarDefault";
 import Footer from "layouts/marketing/Footer";
@@ -21,6 +22,14 @@ const MyPageLayout = () => {
     const isAdmin = token !== null && status === "ADMIN" && token < today.getTime();
     const isUser = token !== null && status === "USER" && token < today.getTime();
 
+    useEffect(() => {
+        const response = axios.get(`${process.env.REACT_APP_RESTAPI_HOST}/api/happyman/admin/programs/110/applicants`, {
+            headers: {
+                Authorization: "Bearer " + sessionStorage.getItem("token"),
+            },
+        });
+    });
+
     useLayoutEffect(() => {
         setApplicantInformation(mypageinfo);
         setApplicantInformationLoading(false);
@@ -39,7 +48,7 @@ const MyPageLayout = () => {
                 <div className="pt-5 pb-5">
                     사용자야
                     <Container>
-                        <ProfileCover userInfo={applicantInformation} />
+                        {/* <ProfileCover userInfo={applicantInformation} /> */}
                         <Tab.Container id="left-tabs-example" defaultActiveKey="my_programs">
                             <Row className="mt-0 mt-md-4">
                                 <Col lg={3} md={4} sm={12}>
@@ -68,15 +77,19 @@ const MyPageLayout = () => {
                                 </Col>
                                 <Col lg={9} md={8} sm={12}>
                                     <Tab.Content>
+                                        {/* 신청한 프로그램 */}
                                         <Tab.Pane eventKey="my_programs">
                                             <MyPage></MyPage>
                                         </Tab.Pane>
+                                        {/* 찜한 프로그램 */}
                                         <Tab.Pane eventKey="liked_programs">
                                             <Bookmark></Bookmark>
                                         </Tab.Pane>
+                                        {/* 사용자 정보 */}
                                         <Tab.Pane eventKey="profile">
                                             <EditProfile userInfo={applicantInformation}></EditProfile>
                                         </Tab.Pane>
+                                        {/* 활동내역 보기 */}
                                         <Tab.Pane eventKey="portfolio">
                                             <Portfolio userInfo={applicantInformation}></Portfolio>
                                         </Tab.Pane>

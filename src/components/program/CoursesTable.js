@@ -245,11 +245,11 @@ const CoursesTable = ({ program_data }) => {
 
     // 필터링 기능
     const getFilterTerm = (event) => {
-        let filterTerm = event.target.value;
+        let filterTerm = event.target.label;
         // programList.map((item) => {
         if (filterTerm !== "") {
             const newProjectsList = programList.filter((project) => {
-                if (project.category_name === filterTerm) return project;
+                if (project.category === filterTerm) return project;
             });
             setProgramInfo(newProjectsList);
         } else {
@@ -270,25 +270,25 @@ const CoursesTable = ({ program_data }) => {
         } else if (sortTerm === "제목순") {
             setProgramInfo(
                 [...programInfo].sort((a, b) => {
-                    return (b.program_name < a.program_name) - (b.program_name > a.program_name);
+                    return (b.name < a.name) - (b.name > a.name);
                 })
             );
         } else if (sortTerm === "신청인원순") {
             setProgramInfo(
                 [...programInfo].sort((a, b) => {
-                    return b.applicants_num - a.applicants_num;
+                    return b.currentQuota - a.currentQuota;
                 })
             );
         } else if (sortTerm === "신청마감일자순") {
             setProgramInfo(
                 [...programInfo].sort((a, b) => {
-                    return (b.applyend_date < a.applyend_date) - (b.applyend_date > a.applyend_date);
+                    return (b.applyEndDate < a.applyEndDate) - (b.applyEndDate > a.applyEndDate);
                 })
             );
         } else if (sortTerm === "프로그램 진행일자순") {
             setProgramInfo(
                 [...programInfo].sort((a, b) => {
-                    return (b.start_date < a.start_date) - (b.start_date > a.start_date);
+                    return (b.startDate < a.startDate) - (b.startDate > a.startDate);
                 })
             );
         }

@@ -8,7 +8,8 @@ import { getProgramDetailsAdmin } from "services/program";
 import ProgramInformation from "components/marketing/pages/courses/add-new-course/steps/ProgramInformation";
 import ApplicationFormView from "components/dashboard/single/overview/ApplicationFormView";
 import ApplicantsListItems from "components/dashboard/user/ApplicantsListItems";
-import SurveyFormView from "components/dashboard/single/overview/SurveyFormView";
+import ApplicantsListItems2 from "components/dashboard/single/overview/ParticipantManage";
+import SurveyFormView from "components/dashboard/single/overview/ParticipantManage";
 import ApplicationDataView from "../pages/ApplicationDataView";
 import SurveyDataView from "../pages/SurveyDataView";
 
@@ -105,11 +106,7 @@ const AdminProgramDetail = () => {
                                                         정보
                                                     </Nav.Link>
                                                 </Nav.Item>
-                                                <Nav.Item>
-                                                    <Nav.Link eventKey="application" className="mb-sm-3 mb-md-0">
-                                                        신청서
-                                                    </Nav.Link>
-                                                </Nav.Item>
+
                                                 <Nav.Item>
                                                     <Nav.Link eventKey="applicationData" className="mb-sm-3 mb-md-0">
                                                         신청응답
@@ -117,17 +114,12 @@ const AdminProgramDetail = () => {
                                                 </Nav.Item>
                                                 <Nav.Item>
                                                     <Nav.Link eventKey="applicant" className="mb-sm-3 mb-md-0">
-                                                        신청현황
+                                                        신청자 관리
                                                     </Nav.Link>
                                                 </Nav.Item>
                                                 <Nav.Item>
                                                     <Nav.Link eventKey="survey" className="mb-sm-3 mb-md-0">
-                                                        설문지
-                                                    </Nav.Link>
-                                                </Nav.Item>
-                                                <Nav.Item>
-                                                    <Nav.Link eventKey="surveyData" className="mb-sm-3 mb-md-0">
-                                                        설문응답
+                                                        참가자 관리
                                                     </Nav.Link>
                                                 </Nav.Item>
                                             </Nav>
@@ -140,17 +132,12 @@ const AdminProgramDetail = () => {
                                                 <Tab.Pane eventKey="application" className="pb-4">
                                                     <ApplicationFormView param2={id} />
                                                 </Tab.Pane>
-                                                <Tab.Pane eventKey="applicationData" className="pb-4">
-                                                    <ApplicationDataView param3={id} />
-                                                </Tab.Pane>
+
                                                 <Tab.Pane eventKey="applicant" className="pb-4">
                                                     <ApplicantsListItems param4={id} />
                                                 </Tab.Pane>
                                                 <Tab.Pane eventKey="survey" className="pb-4">
-                                                    <SurveyFormView param3={id} />
-                                                </Tab.Pane>
-                                                <Tab.Pane eventKey="surveyData" className="pb-4">
-                                                    <SurveyDataView param3={id} />
+                                                    <ApplicantsListItems2 param4={id} />
                                                 </Tab.Pane>
                                             </Tab.Content>
                                         </Card.Body>
