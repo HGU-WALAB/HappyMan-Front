@@ -130,7 +130,7 @@ const AdminProgramDetail = () => {
                                                 프로그램 정보 수정
                                             </button>
                                             <> </>
-                                            <Link to="/HappyMan/admin/program" className="btn btn-success">
+                                            <Link to="/admin/program" className="btn btn-success">
                                                 프로그램 목록 보기
                                             </Link>
                                         </div>

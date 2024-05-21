@@ -50,7 +50,7 @@ const NavbarProfile = ({ logout }) => {
     // 로그아웃 시도 시 사용하는 기능 -> 세션스토리지 값 지우고 메인화면으로 되돌림
     const handleLogout = () => {
         sessionStorage.clear();
-        navigate("/HappyMan");
+        navigate("/");
         // }
     };
 

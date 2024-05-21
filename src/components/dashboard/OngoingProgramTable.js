@@ -171,7 +171,7 @@ const OngoingProgram = ({ ongoingProgram }) => {
                 accessor: "programName",
                 Header: "프로그램명",
                 Cell: ({ value, row }) => {
-                    const id = "/HappyMan/program/" + row.original.id.toString();
+                    const id = "/program/" + row.original.id.toString();
                     return (
                         <h5 className="mb-0">
                             <Link className="text-inherit" to={id}>

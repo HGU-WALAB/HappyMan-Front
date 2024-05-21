@@ -33,7 +33,7 @@ const SurveyListItems = ({ survey_data }) => {
                 accessor: "name",
                 Header: "제목",
                 Cell: ({ value, row }) => {
-                    const id = "/HappyMan/admin/survey/detail/" + row.original.id.toString();
+                    const id = "/admin/survey/detail/" + row.original.id.toString();
                     return (
                         <Link className="text-inherit" to={id}>
                             <div className="d-flex align-items-center">

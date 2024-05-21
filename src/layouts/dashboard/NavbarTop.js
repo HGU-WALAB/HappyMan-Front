@@ -34,7 +34,7 @@ const NavbarTop = (props) => {
 
             // setIsLogin(false);
             console.log("로그아웃 성공!!!");
-            navigate("/HappyMan/main");
+            navigate("/main");
         });
     };
 

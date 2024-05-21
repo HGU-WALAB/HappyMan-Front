@@ -20,19 +20,19 @@ export const DashboardMenu = [
         id: uuid(),
         title: "프로그램",
         icon: "clipboard",
-        link: "/HappyMan/admin/program",
+        link: "/admin/program",
     },
     {
         id: uuid(),
         title: "신청서 템플릿",
         icon: "book",
-        link: "/HappyMan/admin/application",
+        link: "/admin/application",
     },
     {
         id: uuid(),
         title: "설문지 템플릿",
         icon: "book",
-        link: "/HappyMan/admin/survey",
+        link: "/admin/survey",
     },
 ];
 
@@ -41,25 +41,25 @@ export const DashboardSuperMenu = [
         id: uuid(),
         title: "프로그램",
         icon: "clipboard",
-        link: "/HappyMan/admin/program",
+        link: "/admin/program",
     },
     {
         id: uuid(),
         title: "신청서 템플릿",
         icon: "book",
-        link: "/HappyMan/admin/application",
+        link: "/admin/application",
     },
     {
         id: uuid(),
         title: "설문지 템플릿",
         icon: "book",
-        link: "/HappyMan/admin/survey",
+        link: "/admin/survey",
     },
     {
         id: uuid(),
         title: "사용자",
         icon: "user",
-        link: "/HappyMan/admin/user",
+        link: "/admin/user",
     },
 ];
 

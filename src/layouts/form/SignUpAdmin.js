@@ -36,7 +36,7 @@ const SignUpAdmin = (props) => {
         if (window.confirm("관리자로 등록하시겠습니까?")) {
             const response = await axios.post(process.env.REACT_APP_RESTAPI_HOST + "login/signUp", params);
             alert("관리자 회원가입이 완료되었습니다!\n관리자로 승인이 되기 전까지 일반 사용자로 로그인 됩니다.\n다시 로그인 해주시기 바랍니다.");
-            navigate("/HappyMan/main");
+            navigate("/main");
         }
     };
     return (
@@ -66,8 +66,7 @@ const SignUpAdmin = (props) => {
                         <Form.Check type="checkbox" id="check-api-checkbox">
                             <Form.Check.Input type="checkbox" required />
                             <Form.Check.Label>
-                                <Link to="/HappyMan/terms-and-conditions">서비스 이용약관 </Link> 및{" "}
-                                <Link to="/HappyMan/personal-information">개인정보취급방침</Link>
+                                <Link to="/terms-and-conditions">서비스 이용약관 </Link> 및 <Link to="/personal-information">개인정보취급방침</Link>
                                 동의
                             </Form.Check.Label>
                         </Form.Check>
