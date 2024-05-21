@@ -30,7 +30,22 @@ import axios from "axios";
 // }
 
 // 프로그램 ID로 상세정보 가져오기
+
+// 비로그인
 export const getProgramDetails = async (programId) => {
+    try {
+        const response = await axios.get(`${process.env.REACT_APP_RESTAPI_HOST}/api/happyman/all/programs/${programId}`);
+        console.log("프로그램 상세 데이터 조회 성공 : ", response.data);
+        return response.data;
+    } catch (error) {
+        console.log("프로그램 상세 조회 (사용자) 실패 : ", error);
+
+        throw error;
+    }
+};
+
+// 사용자
+export const getProgramDetailsUser = async (programId) => {
     try {
         const response = await axios.get(`${process.env.REACT_APP_RESTAPI_HOST}/api/happyman/programs/${programId}`, {
             headers: {
@@ -46,6 +61,7 @@ export const getProgramDetails = async (programId) => {
     }
 };
 
+// 관리자
 export const getProgramDetailsAdmin = async (programId) => {
     try {
         const response = await axios.get(`${process.env.REACT_APP_RESTAPI_HOST}/api/happyman/admin/programs/${programId}`, {

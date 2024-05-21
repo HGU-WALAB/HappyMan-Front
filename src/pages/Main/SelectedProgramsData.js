@@ -12,7 +12,7 @@ import "tippy.js/animations/scale.css";
 import programImage from "assets/images/Default_img.png";
 import { FormSelect } from "components/elements/form-select/FormSelect";
 import { getPrograms, getProgramsAfterLogin } from "services/mainApi";
-import { getProgramDetails } from "services/program";
+// import { getProgramDetails } from "services/program";
 
 // 권한 확인
 const today = new Date();
@@ -26,7 +26,7 @@ const Whole = styled.div`
     /* border: 5px solid red; */
 `;
 
-const AllProgramsData = (props) => {
+const SelectedProgramsData = (props) => {
     const [programs, setPrograms] = useState([]);
     const [defaultCategory, setDefaultCategory] = useState("전체");
     const { categoryId } = props;
@@ -37,12 +37,11 @@ const AllProgramsData = (props) => {
                 let programData;
                 if (isAdmin || isUser) {
                     programData = await getProgramsAfterLogin();
-                    console.log(programData.programs);
                 } else {
                     programData = await getPrograms();
                 }
-                // const filteredPrograms = programData.programs.filter((program) => program.categoryId === categoryId);
-                setPrograms(programData.programs);
+                const filteredPrograms = programData.programs.filter((program) => program.categoryId === categoryId);
+                setPrograms(filteredPrograms);
                 console.log(categoryOptions);
             } catch (error) {
                 console.error("프로그램 정보를 불러오는 동안 오류가 발생했습니다:", error);
@@ -155,7 +154,7 @@ const AllProgramsData = (props) => {
                 <Row className="mt-4 m-3">
                     {termLoading ? (
                         programs
-                            // .filter((program) => program.categoryId === categoryId) // categoryId와 일치하는 프로그램만 필터링
+                            .filter((program) => program.categoryId === categoryId) // categoryId와 일치하는 프로그램만 필터링
                             .filter(filterByStatus)
                             .filter((program) => Object.values(program).join(" ").toLowerCase().includes(searchTerm.toLowerCase()))
                             .map((item, index) => {
@@ -249,4 +248,4 @@ const AllProgramsData = (props) => {
     );
 };
 
-export default AllProgramsData;
+export default SelectedProgramsData;

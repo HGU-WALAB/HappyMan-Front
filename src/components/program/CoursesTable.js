@@ -22,7 +22,54 @@ const CoursesTable = ({ program_data }) => {
     const [categories, setCategories] = useState([]);
     const [categoryOptions, setCategoryOptions] = useState([]);
     const [programData, setProgramData] = useState([]);
+    const [ids, setIds] = useState([]);
     const infinite = "무제한";
+
+    useEffect(() => {
+        // 입력받는 사용자 아이디를 확인할 떄
+        console.log("Updated IDs:", ids);
+    }, [ids]);
+
+    const updateIds = (id) => {
+        setIds((prevIds) => {
+            if (prevIds.includes(id)) {
+                return prevIds.filter((prevId) => prevId !== id); // 이미 선택되어 있는 경우 제거
+            } else {
+                return [...prevIds, id]; // 선택되어 있지 않은 경우 추가
+            }
+        });
+    };
+
+    const deletePrograms = async () => {
+        if (ids.length > 0) {
+            const queryString = `ids=${ids.join(",")}`;
+
+            // Retrieve the token
+            const token = sessionStorage.getItem("token");
+
+            // Log the ids, status, and token before making the API call
+            console.log("Selected IDs:", ids);
+            if (window.confirm("정말로 삭제하시겠습니까?")) {
+                try {
+                    const response = await axios.delete(`${process.env.REACT_APP_RESTAPI_HOST}/api/happyman/admin/programs?${queryString}`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
+
+                    console.log("Response:", response);
+
+                    window.location.reload();
+                    alert("프로그램이 삭제되었습니다");
+                } catch (error) {
+                    console.error("프로그램 삭제 실패:", error.response ? error.response.data : error.message);
+                    alert("프로그램 삭제 중 오류가 발생했습니다.");
+                }
+            }
+        } else {
+            alert("선택된 데이터가 없습니다");
+        }
+    };
 
     useEffect(() => {
         async function fetchData() {
@@ -234,7 +281,13 @@ const CoursesTable = ({ program_data }) => {
                     ),
                     Cell: ({ row }) => (
                         <div>
-                            <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
+                            <IndeterminateCheckbox
+                                {...row.getToggleRowSelectedProps()}
+                                onChange={(e) => {
+                                    row.getToggleRowSelectedProps().onChange(e);
+                                    updateIds(row.original.id); // Call the function to update the IDs
+                                }}
+                            />
                         </div>
                     ),
                 },
@@ -333,37 +386,37 @@ const CoursesTable = ({ program_data }) => {
     };
 
     // 프로그램 삭제
-    const removeProgram = async (e) => {
-        var removeProgramId = [];
+    // const removeProgram = async (e) => {
+    //     var removeProgramId = [];
 
-        e.map((d) => removeProgramId.push(d.original.id));
+    //     e.map((d) => removeProgramId.push(d.original.id));
 
-        var params = new URLSearchParams();
-        params.append("id", removeProgramId);
+    //     var params = new URLSearchParams();
+    //     params.append("id", removeProgramId);
 
-        if (window.confirm("삭제 하시겠습니까?")) {
-            const response = await axios.post(process.env.REACT_APP_RESTAPI_HOST + "program/deleteConfirm", params);
-            if (response.data === 0) {
-                if (window.confirm("현재 진행중인 프로그램 입니다. 그래도 삭제 하시겠습니까?")) {
-                    const res = await axios.post(process.env.REACT_APP_RESTAPI_HOST + "program/delete", params);
-                    const responseFile = await axios.post(process.env.REACT_APP_RESTAPI_HOST + "program/delete/files", params);
-                    alert("삭제 되었습니다.");
-                }
-            } else if (response.data === 2) {
-                if (window.confirm("신청한 학생이 있습니다. 그래도 삭제 하시겠습니까?")) {
-                    const res = await axios.post(process.env.REACT_APP_RESTAPI_HOST + "program/delete", params);
-                    const responseFile = await axios.post(process.env.REACT_APP_RESTAPI_HOST + "program/delete/files", params);
-                    alert("삭제 되었습니다.");
-                }
-            } else {
-                const res = await axios.post(process.env.REACT_APP_RESTAPI_HOST + "program/delete", params);
-                const responseFile = await axios.post(process.env.REACT_APP_RESTAPI_HOST + "program/delete/files", params);
-                alert("삭제 되었습니다.");
-            }
-            readProgram();
-            window.location.reload();
-        }
-    };
+    //     if (window.confirm("삭제 하시겠습니까?")) {
+    //         const response = await axios.post(process.env.REACT_APP_RESTAPI_HOST + "program/deleteConfirm", params);
+    //         if (response.data === 0) {
+    //             if (window.confirm("현재 진행중인 프로그램 입니다. 그래도 삭제 하시겠습니까?")) {
+    //                 const res = await axios.post(process.env.REACT_APP_RESTAPI_HOST + "program/delete", params);
+    //                 const responseFile = await axios.post(process.env.REACT_APP_RESTAPI_HOST + "program/delete/files", params);
+    //                 alert("삭제 되었습니다.");
+    //             }
+    //         } else if (response.data === 2) {
+    //             if (window.confirm("신청한 학생이 있습니다. 그래도 삭제 하시겠습니까?")) {
+    //                 const res = await axios.post(process.env.REACT_APP_RESTAPI_HOST + "program/delete", params);
+    //                 const responseFile = await axios.post(process.env.REACT_APP_RESTAPI_HOST + "program/delete/files", params);
+    //                 alert("삭제 되었습니다.");
+    //             }
+    //         } else {
+    //             const res = await axios.post(process.env.REACT_APP_RESTAPI_HOST + "program/delete", params);
+    //             const responseFile = await axios.post(process.env.REACT_APP_RESTAPI_HOST + "program/delete/files", params);
+    //             alert("삭제 되었습니다.");
+    //         }
+    //         readProgram();
+    //         window.location.reload();
+    //     }
+    // };
 
     return (
         <Fragment>
@@ -385,7 +438,7 @@ const CoursesTable = ({ program_data }) => {
                             variant="secondary"
                             className="danger-button justify-content-end"
                             onClick={() => {
-                                removeProgram(selectedFlatRows);
+                                deletePrograms();
                             }}
                         >
                             삭제하기

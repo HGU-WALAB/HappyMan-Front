@@ -350,7 +350,7 @@ const ApplicantsListItems = (props) => {
             },
         });
 
-        // console.log("ID는", id);
+        console.log("ID는", id);
         const programData = response.data.applicants; // 여러 사용자의 정보를 배열 형태로 가져옴
 
         // 프로그램 정보 갱신
@@ -362,6 +362,8 @@ const ApplicantsListItems = (props) => {
         setApplicants_num(response.data.currentQuota);
 
         setUserInfo(programData);
+
+        console.log(programData);
     };
 
     const readApplicantInformation = async (id) => {

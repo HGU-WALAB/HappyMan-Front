@@ -230,21 +230,6 @@ const OngoingProgram = ({ ongoingProgram }) => {
                     );
                 },
             },
-            {
-                accessor: "a",
-                Header: "비고",
-                Cell: ({ row }) => {
-                    return (
-                        <div className="d-grid d-md-block">
-                            <Link to="#">
-                                <Button variant="outline-danger" className="me-1">
-                                    신청취소
-                                </Button>
-                            </Link>
-                        </div>
-                    );
-                },
-            },
         ],
         []
     );

@@ -21,7 +21,7 @@ import "../assets/scss/programDetail.scss";
 import { Windows } from "react-bootstrap-icons";
 
 // 이걸 API부분으로 바꾸면 됨
-import { getProgramDetails } from "services/program";
+import { getProgramDetailsUser, getProgramDetails } from "services/program";
 
 // token 유효성 검사를 위한 현재일자 가져오기
 const today = new Date();
@@ -215,13 +215,42 @@ const Program = () => {
     };
 
     useEffect(() => {
+        // if (!programData) {
+        //     const fetchProgramDetails = async () => {
+        //         try {
+        //             const url = window.location.href;
+        //             const programId = parseInt(url.substring(url.lastIndexOf("/") + 1));
+        //             console.log("프로그램아이디 : ", programId);
+        //             const data = await getProgramDetailsUser(programId);
+        //             setProgramData(data);
+        //             setProgramLoad(true);
+
+        //             if (data) {
+        //                 const isEarly = moment(today).format("YYYY-MM-DD HH:mm:ss") < data.applyEndDate;
+        //                 setApplyConfirm(isEarly);
+        //             }
+        //         } catch (error) {
+        //             console.error("프로그램 데이터를 가져오는 중 오류 발생:", error);
+        //         }
+        //     };
+
+        //     fetchProgramDetails();
+        // }
         if (!programData) {
             const fetchProgramDetails = async () => {
                 try {
                     const url = window.location.href;
                     const programId = parseInt(url.substring(url.lastIndexOf("/") + 1));
                     console.log("프로그램아이디 : ", programId);
-                    const data = await getProgramDetails(programId);
+
+                    let data;
+                    if (isUser || isAdmin) {
+                        data = await getProgramDetailsUser(programId);
+                    } else {
+                        console.log("이걸로 실행");
+                        data = await getProgramDetails(programId);
+                    }
+
                     setProgramData(data);
                     setProgramLoad(true);
 
@@ -302,12 +331,16 @@ const Program = () => {
                                                     {/* <Link to={"/program/" + programInfo.id.toString() + "/application"} className="btn btn-success">
                             신청하기
                           </Link> */}
-                                                    {applyConfirm === true ? (
+                                                    {!isUser && !isAdmin ? (
+                                                        <Button className="btn btn-danger" disabled>
+                                                            신청불가
+                                                        </Button>
+                                                    ) : applyConfirm === true ? (
                                                         <Button className="btn btn-success" onClick={checkApply}>
                                                             신청하기
                                                         </Button>
                                                     ) : (
-                                                        <Button className="btn btn-secondary " disabled>
+                                                        <Button className="btn btn-secondary" disabled>
                                                             신청완료
                                                         </Button>
                                                     )}

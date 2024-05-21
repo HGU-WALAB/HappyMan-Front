@@ -737,6 +737,7 @@ import { Card, Row, Form, Col, InputGroup } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/esm/locale";
+import AllProgramsData from "pages/Main/AllProgramsData";
 
 const ProgramInformation = ({ data, setProgramData }) => {
     const handleInputChange = (e) => {
@@ -877,13 +878,22 @@ const ProgramInformation = ({ data, setProgramData }) => {
                                             <Form.Label>
                                                 카테고리 ID <span className="text-danger">*</span>
                                             </Form.Label>
-                                            <Form.Control
-                                                type="number"
+                                            <Form.Select
                                                 name="categoryId"
-                                                value={data.categoryId}
-                                                placeholder="카테고리 ID를 입력하세요."
-                                                onChange={handleInputChange}
-                                            />
+                                                value={data.categoryId} // 이 부분이 현재 선택된 카테고리 ID를 반영합니다.
+                                                onChange={handleInputChange} // 사용자가 선택할 때 이 함수가 호출됩니다.
+                                                aria-label="카테고리 선택"
+                                            >
+                                                <option value="1">대회</option>
+                                                <option value="2">봉사</option>
+                                                <option value="3">캠프</option>
+                                                <option value="4">행사</option>
+                                                <option value="5">맥북</option>
+                                                <option value="6">프로젝트/스터디</option>
+                                                <option value="7">인턴/현장실습</option>
+                                                <option value="8">특강</option>
+                                                <option value="9">기타</option>
+                                            </Form.Select>
                                         </Form.Group>
                                     </Col>
 

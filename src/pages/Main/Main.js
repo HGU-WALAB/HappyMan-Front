@@ -7,7 +7,8 @@ import { Col, Row, Container, Nav, Tab, Form } from "react-bootstrap";
 import HeroHeader from "components/marketing/pages/courses/course-index/HeroHeader";
 
 // import data files
-import AllProgramsData from "pages/Main/AllProgramsData";
+import SelectedProgramsData from "pages/Main/SelectedProgramsData";
+import AllProgramsData from "./AllProgramsData";
 
 // import layouts
 import NavbarDefault from "layouts/marketing/navbars/NavbarDefault";
@@ -74,8 +75,12 @@ const Main = ({}) => {
                                                 <Tab.Content>
                                                     {categories.map((category) => (
                                                         <Tab.Pane key={category.id} eventKey={category.id.toString()} className="pb-4 p-4 ps-0 pe-0">
-                                                            {/* 머저리같았음을 기억하기 .toString()은 죄악이다 */}
-                                                            {activeTab === category.id.toString() && <AllProgramsData categoryId={category.id} />}
+                                                            {activeTab === category.id.toString() &&
+                                                                (activeTab === "0" ? (
+                                                                    <AllProgramsData categoryId={category.id} />
+                                                                ) : (
+                                                                    <SelectedProgramsData categoryId={category.id} />
+                                                                ))}
                                                         </Tab.Pane>
                                                     ))}
                                                 </Tab.Content>
