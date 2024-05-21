@@ -14,7 +14,7 @@ function Admin() {
             <Routes>
                 <Route path={process.env.REACT_APP_DEPLOY_URL} element={<Main />} />
                 <Route path={process.env.REACT_APP_DEPLOY_URL + "main"} element={<Main />} />
-                <Route path={process.env.REACT_APP_DEPLOY_URL + "admin/*"} element={<Navigate replace to="/HappyMan/" />} />
+                <Route path={process.env.REACT_APP_DEPLOY_URL + "admin/*"} element={<Navigate replace to="/" />} />
                 <Route path={process.env.REACT_APP_DEPLOY_URL + "program/:id/application"} element={<Application />} />
                 <Route path={process.env.REACT_APP_DEPLOY_URL + "program/:id/survey"} element={<Survey />} />
                 <Route path={process.env.REACT_APP_DEPLOY_URL + "program/:id"} element={<ProgramDetail />} />

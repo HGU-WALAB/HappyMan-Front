@@ -32,7 +32,7 @@ const CompleteProgramTable = ({ table_data }) => {
                 accessor: "program_name",
                 Header: "프로그램명",
                 Cell: ({ value, row }) => {
-                    const id = "/HappyMan/program/" + row.original.program_id.toString();
+                    const id = "/program/" + row.original.program_id.toString();
                     return (
                         <h5 className="mb-0">
                             <Link className="text-inherit" to={id}>
@@ -87,7 +87,7 @@ const CompleteProgramTable = ({ table_data }) => {
                     var a = String(row.original.program_id);
                     var index = Number(row.id);
 
-                    var link = "/HappyMan/program/" + a + "/survey";
+                    var link = "/program/" + a + "/survey";
                     return (
                         <div className="d-grid d-md-block">
                             {row.original.confirm_survey === 1 ? (

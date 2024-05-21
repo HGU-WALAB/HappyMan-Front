@@ -90,7 +90,7 @@ const Bookmark = () => {
                 <Card.Body>
                     <Row>
                         {bookmarked.map((item, index) => {
-                            var address = "/HappyMan/program/" + item.id.toString();
+                            var address = "/program/" + item.id.toString();
                             return (
                                 <Col lg={4} md={12} sm={12} key={index}>
                                     <Card className={`mb-4 card-hover mx-2 main-program-card`}>

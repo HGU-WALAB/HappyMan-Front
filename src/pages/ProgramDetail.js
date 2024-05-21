@@ -142,8 +142,8 @@ const Program = () => {
 
     // 신청 폼 이동시 검증 (일단 무시)
     const checkApply = async () => {
-        console.log("URL : ", "/HappyMan/program/" + programID + "/application");
-        navigate("/HappyMan/program/" + programID + "/application");
+        console.log("URL : ", "/program/" + programID + "/application");
+        navigate("/program/" + programID + "/application");
         // if (window.sessionStorage.getItem("id") === null) {
         //     alert("로그인이 필요한 항목입니다. 로그인을 진행해 주세요.");
         // } else {
@@ -277,7 +277,7 @@ const Program = () => {
                     <Container>
                         <div className="d-flex justify-content-start mb-3">
                             <div>
-                                <Link to="/HappyMan/main" className="btn btn-outline-primary">
+                                <Link to="/main" className="btn btn-outline-primary">
                                     프로그램 목록보기
                                 </Link>
                             </div>

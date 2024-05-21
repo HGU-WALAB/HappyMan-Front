@@ -31,7 +31,7 @@ const SignIn = () => {
             window.sessionStorage.setItem("id", res.data.id);
 
             // window.location.reload();
-            navigate("/HappyMan/main", (params = { login: true }));
+            navigate("/main", (params = { login: true }));
             console.log("로그인 성공");
         } else {
             alert("로그인 할 수 없습니다. 관리자에게 문의해주세요.");
@@ -50,7 +50,7 @@ const SignIn = () => {
                     <Card>
                         <Card.Body className="p-6">
                             <div className="mb-4 d-flex flex-column align-items-center">
-                                <Link to="/HappyMan/" className="m-0">
+                                <Link to="/" className="m-0">
                                     <Image src={Logo} width="50px" className="mb-4" alt="" />
                                 </Link>
                                 <h1 className="mb-1 fw-bold">HappyMan</h1>

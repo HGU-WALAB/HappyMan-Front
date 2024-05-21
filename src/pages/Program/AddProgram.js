@@ -214,7 +214,7 @@ const AddNewCourse = () => {
                 );
 
                 alert("프로그램이 추가 되었습니다.");
-                navigate("/HappyMan/admin/program");
+                navigate("/admin/program");
             } catch (error) {
                 console.error("프로그램 추가 중 에러가 발생했습니다:", error);
                 // 에러 처리 로직 추가

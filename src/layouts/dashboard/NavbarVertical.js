@@ -157,7 +157,7 @@ const NavbarVertical = (props) => {
         <Fragment>
             <SimpleBar style={{ maxHeight: "100vh" }}>
                 <div className="nav-scroller ">
-                    <Link className="navbar-brand" to="/HappyMan/">
+                    <Link className="navbar-brand" to="/">
                         <Image src={InverseLogo} alt="" />
                     </Link>
                 </div>

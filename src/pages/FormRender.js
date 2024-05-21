@@ -245,7 +245,7 @@ const FormRender = (programID) => {
                 }
             );
             displayAlert("프로그램이 신청 되었습니다.");
-            navigate("/Happyman");
+            navigate("/");
         }
     };
 
