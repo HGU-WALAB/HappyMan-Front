@@ -1,5 +1,5 @@
 // import node module libraries
-import React, { Fragment, useMemo, useLayoutEffect, useState } from "react";
+import React, { Fragment, useMemo, useLayoutEffect, useState, useEffect } from "react";
 import { useTable, useFilters, useGlobalFilter, usePagination, useRowSelect } from "react-table";
 import { Link } from "react-router-dom";
 import { Row, Col, Table, Button } from "react-bootstrap";
@@ -16,8 +16,28 @@ const Bookmark = () => {
     const [toggleBookmark, setToggleBookmark] = useState(false);
     const [alllikeData, setAllLikeData] = useState([]);
     const [likedPrograms, setLikedPrograms] = useState([]);
+    const [bookmarked, setBookmarked] = useState([]);
 
     var ID = parseInt(window.sessionStorage.getItem("id"));
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                // 유저 북마크 조회
+                const bookmarked = await axios.get(`${process.env.REACT_APP_RESTAPI_HOST}/api/happyman/programs/bookmarked`, {
+                    headers: {
+                        Authorization: "Bearer " + sessionStorage.getItem("token"),
+                    },
+                });
+                console.log("Bookmarked", bookmarked.data.programs);
+                setBookmarked(bookmarked.data.programs);
+            } catch (error) {
+                console.error("Error fetching user information:", error);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     useLayoutEffect(() => {
         readLikedPrograms();
@@ -44,12 +64,19 @@ const Bookmark = () => {
         console.log("Liked Programs: ", response.data);
     };
 
+    // 찜 삭제
     const deleteLike = async (programID) => {
-        var params = new URLSearchParams();
-        params.append("user_id", ID);
-        params.append("program_id", programID);
-        const response = await axios.post(process.env.REACT_APP_RESTAPI_HOST + "like/delete", params);
-        window.location.reload();
+        try {
+            const token = sessionStorage.getItem("token");
+            await axios.delete(`${process.env.REACT_APP_RESTAPI_HOST}/api/happyman/bookmarks/${programID}`, {
+                headers: {
+                    Authorization: "Bearer " + token,
+                },
+            });
+            console.log("찜 삭제 성공! ");
+        } catch (error) {
+            console.error("찜 삭제 실패! 에러 : ", error);
+        }
     };
 
     return (
@@ -62,16 +89,16 @@ const Bookmark = () => {
                 </Card.Header>
                 <Card.Body>
                     <Row>
-                        {likedPrograms.map((item, index) => {
+                        {bookmarked.map((item, index) => {
                             var address = "/HappyMan/program/" + item.id.toString();
                             return (
                                 <Col lg={4} md={12} sm={12} key={index}>
                                     <Card className={`mb-4 card-hover mx-2 main-program-card`}>
                                         <Link to={address}>
                                             {/* <Image src={programImage} alt="" className="card-img-top rounded-top-md programImage" width="100px" height="170px" /> */}
-                                            {item.file_name ? (
+                                            {item.image ? (
                                                 <Image
-                                                    src={process.env.REACT_APP_RESTAPI_HOST + "resources/upload/" + item.file_name}
+                                                    src={`${process.env.REACT_APP_RESTAPI_HOST}${item.image}`}
                                                     alt=""
                                                     className="card-img-top rounded-top-md programImage"
                                                     width="100px"
@@ -96,7 +123,7 @@ const Bookmark = () => {
                                             </span>
                                             <h3 className="h4 text-truncate-line-2 " style={{ height: "2.7rem" }}>
                                                 <Link to={address} className="text-inherit">
-                                                    {item.program_name}
+                                                    {item.name}
                                                 </Link>
                                             </h3>
                                         </Card.Body>
@@ -105,7 +132,7 @@ const Bookmark = () => {
                                                 <Col className="col-auto">
                                                     <div className={`lh-1  "d-none"`}>
                                                         <div className="fw-bold">신청마감일자</div>
-                                                        <div className={` mt-1 `}>{item.applyend_date}</div>
+                                                        <div className={` mt-1 `}>{item.applyEndDate}</div>
                                                     </div>
                                                 </Col>
                                                 <Col className="col ms-2"></Col>

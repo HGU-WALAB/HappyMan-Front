@@ -4,15 +4,19 @@ import { Container, Row, Col, Nav, Tab } from "react-bootstrap";
 import NavbarDefault from "layouts/marketing/navbars/NavbarDefault";
 import Footer from "layouts/marketing/Footer";
 import ProfileCover from "components/marketing/common/headers/ProfileCover";
-import EditProfile from "../EditProfile";
+import ViewProfile from "../ViewProfile";
 import MyPage from "./MyPage";
 import Bookmark from "../Bookmark";
 import Portfolio from "../Portfolio";
 import mypageinfo from "./mypageinfo.json";
+import { Edit } from "react-feather";
 
 const MyPageLayout = () => {
-    const [applicantInformationLoading, setApplicantInformationLoading] = useState(true);
-    const [applicantInformation, setApplicantInformation] = useState(null);
+    // const [applicantInformationLoading, setApplicantInformationLoading] = useState(true);
+    // const [applicantInformation, setApplicantInformation] = useState(null);
+
+    const [userInfo, setUserInfo] = useState();
+    const [bookmarked, setBookmarked] = useState([]);
 
     const today = new Date();
     const userData = JSON.parse(window.sessionStorage.getItem("userData"));
@@ -23,16 +27,35 @@ const MyPageLayout = () => {
     const isUser = token !== null && status === "USER" && token < today.getTime();
 
     useEffect(() => {
-        const response = axios.get(`${process.env.REACT_APP_RESTAPI_HOST}/api/happyman/admin/programs/110/applicants`, {
-            headers: {
-                Authorization: "Bearer " + sessionStorage.getItem("token"),
-            },
-        });
-    });
+        const fetchData = async () => {
+            try {
+                // 유저 정보 불러오기
+                const info = await axios.get(`${process.env.REACT_APP_RESTAPI_HOST}/api/happyman/my-profile`, {
+                    headers: {
+                        Authorization: "Bearer " + sessionStorage.getItem("token"),
+                    },
+                });
+                // console.log("받아온 유저정보", info.data);
+                setUserInfo(info.data);
 
+                // 유저 북마크 조회
+                const bookmarked = await axios.get(`${process.env.REACT_APP_RESTAPI_HOST}/api/happyman/programs/bookmarked`, {
+                    headers: {
+                        Authorization: "Bearer " + sessionStorage.getItem("token"),
+                    },
+                });
+                console.log("Bookmarked", bookmarked.data.programs);
+                setBookmarked(bookmarked.data.programs);
+            } catch (error) {
+                console.error("Error fetching user information:", error);
+            }
+        };
+
+        fetchData();
+    }, []);
     useLayoutEffect(() => {
-        setApplicantInformation(mypageinfo);
-        setApplicantInformationLoading(false);
+        // setApplicantInformation(mypageinfo);
+        // setApplicantInformationLoading(false);
     }, []);
 
     return (
@@ -46,7 +69,6 @@ const MyPageLayout = () => {
             ) : (
                 // 일반 사용자 화면 출력
                 <div className="pt-5 pb-5">
-                    사용자야
                     <Container>
                         {/* <ProfileCover userInfo={applicantInformation} /> */}
                         <Tab.Container id="left-tabs-example" defaultActiveKey="my_programs">
@@ -86,13 +108,9 @@ const MyPageLayout = () => {
                                             <Bookmark></Bookmark>
                                         </Tab.Pane>
                                         {/* 사용자 정보 */}
-                                        <Tab.Pane eventKey="profile">
-                                            <EditProfile userInfo={applicantInformation}></EditProfile>
-                                        </Tab.Pane>
+                                        <Tab.Pane eventKey="profile">{userInfo && <ViewProfile userInfo={userInfo}></ViewProfile>}</Tab.Pane>
                                         {/* 활동내역 보기 */}
-                                        <Tab.Pane eventKey="portfolio">
-                                            <Portfolio userInfo={applicantInformation}></Portfolio>
-                                        </Tab.Pane>
+                                        {/* <Tab.Pane eventKey="portfolio">{bookmarked && <Portfolio userInfo={bookmarked}></Portfolio>}</Tab.Pane> */}
                                     </Tab.Content>
                                 </Col>
                             </Row>

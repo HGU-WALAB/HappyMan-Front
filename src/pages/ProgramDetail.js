@@ -119,55 +119,9 @@ const Program = () => {
     var programID = parseInt(id["id"]);
 
     const infinite = "무제한";
-    // const readProgramInformation = async () => {
-    //     setProgramInfoLoading(false);
-    //     var params = new URLSearchParams();
 
-    //     if (id["id"] != null) {
-    //         params.append("id", id["id"]);
-    //         const response = await axios.get(process.env.REACT_APP_RESTAPI_HOST + "program/information/" + id["id"]);
-
-    //         Dday(response.data[0].applyend_date);
-
-    //         response.data[0].start_date = moment(response.data[0].start_date).format("YY-MM-DD HH:mm");
-    //         response.data[0].end_date = moment(response.data[0].end_date).format("YY-MM-DD HH:mm");
-    //         response.data[0].applystart_date = moment(response.data[0].applystart_date).format("YY-MM-DD HH:mm");
-    //         response.data[0].applyend_date = moment(response.data[0].applyend_date).format("YY-MM-DD HH:mm");
-
-    //         setProgramInfo(response.data[0]);
-    //         var filePathList = [];
-
-    //         for (var i = 0; i < response.data.length; i++) {
-    //             if (response.data[i].file_type === 0) {
-    //                 filePathList.push(response.data[i].file_name);
-    //             } else if (response.data[i].file_type === 1) {
-    //                 setPoster(response.data[i].file_name);
-    //             }
-    //         }
-
-    //         setFilePath(filePathList);
-    //         setProgramInfoLoading(true);
-
-    //         if (response.data[0].applicants_num >= response.data[0].quota && response.data[0].quota != 0) {
-    //             setquotaLeft(false);
-    //         } else {
-    //             setquotaLeft(true);
-    //         }
-    //     }
-    // };
-    // const readProgramInformation = () => {
-    //     setProgramInfo(programData); // 프로그램 정보를 JSON 데이터로 설정
-    //     Dday(programData.applyend_date); // D-day 계산은 JSON 데이터에서 가져온 날짜를 사용합니다.
-    //     setProgramInfoLoading(true);
-    //     if (programData.applicants_num >= programData.quota && programData.quota !== 0) {
-    //         setquotaLeft(false);
-    //     } else {
-    //         setquotaLeft(true);
-    //     }
-    // };
-
-    const Dday = async (Applyenddate) => {
-        var date1 = moment(Applyenddate);
+    const Dday = async (applyEndDate) => {
+        var date1 = moment(applyEndDate);
         var date2 = moment();
 
         var days = date1.diff(date2, "days") + 1;
@@ -241,7 +195,7 @@ const Program = () => {
     };
 
     const onToggle = (e) => {
-        if (userInfo.status === 0) {
+        if (isAdmin) {
             alert("관리자는 찜 기능을 사용하실 수 없습니다. ");
         } else {
             if (toggleBookmark) {

@@ -103,7 +103,7 @@ const ApplicantsListItems = (props) => {
         []
     );
 
-    console.log("열에 담은 메모내용 ", columns);
+    // console.log("열에 담은 메모내용 ", columns);
 
     // const update = async (e) => {
     //     var updateApplicantStatus = [];
@@ -173,7 +173,8 @@ const ApplicantsListItems = (props) => {
     };
 
     useEffect(() => {
-        console.log("Updated IDs:", ids);
+        // 입력받는 사용자 아이디를 확인할 떄
+        // console.log("Updated IDs:", ids);
     }, [ids]);
 
     const data = useMemo(() => userInfo, [userInfo]);
@@ -349,7 +350,7 @@ const ApplicantsListItems = (props) => {
             },
         });
 
-        console.log("ID는", id);
+        // console.log("ID는", id);
         const programData = response.data.applicants; // 여러 사용자의 정보를 배열 형태로 가져옴
 
         // 프로그램 정보 갱신
@@ -361,8 +362,6 @@ const ApplicantsListItems = (props) => {
         setApplicants_num(response.data.currentQuota);
 
         setUserInfo(programData);
-
-        console.log(programData);
     };
 
     const readApplicantInformation = async (id) => {

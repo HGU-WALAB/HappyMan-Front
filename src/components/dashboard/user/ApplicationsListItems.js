@@ -26,6 +26,7 @@ const ApplicationsListItems = ({ application_data }) => {
         { value: "기타", label: "기타" },
     ];
 
+    // 테이블의 상위 부분
     const columns = useMemo(
         () => [
             { accessor: "id", Header: "ID", show: false },

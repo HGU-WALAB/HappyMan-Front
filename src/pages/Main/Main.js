@@ -61,6 +61,7 @@ const Main = ({}) => {
                                         <Col md={12}>
                                             <Tab.Container activeKey={activeTab} onSelect={handleTabChange}>
                                                 <Nav className="nav-lb-tab fs-4">
+                                                    {/* categories에 "전쳬" 를 넣고 id는 0으로 하고 이걸 누르면 전체가 다 나오게 만들기 */}
                                                     {categories.map((category) => (
                                                         <Nav.Item key={category.id}>
                                                             <Nav.Link eventKey={category.id.toString()} className="mb-sm-3 mb-md-0">

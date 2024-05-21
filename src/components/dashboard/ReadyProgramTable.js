@@ -1,39 +1,25 @@
-// import node module libraries
-import React, { Fragment, useMemo } from "react";
+import React, { Fragment, useEffect, useMemo } from "react";
 import { useTable, useFilters, useGlobalFilter, usePagination, useRowSelect } from "react-table";
 import { Link } from "react-router-dom";
 import { Col, Row, Table, Button } from "react-bootstrap";
-
-// Import required custom components
 import GlobalFilter from "components/elements/advance-table/GlobalFilter";
 import Pagination from "components/elements/advance-table/Pagination";
-// import Checkbox from "components/elements/advance-table/Checkbox";
 import DotBadge from "components/elements/bootstrap/DotBadge";
 import moment from "moment";
 import axios from "axios";
 
-const ReadyProgramTable = ({ table_data }) => {
-    var index;
+const ReadyProgramTable = ({ readyProgram }) => {
+    useEffect(() => {
+        console.log(readyProgram);
+    }, [readyProgram]);
 
-    const cancelApply = async (applicant_id, program_id) => {
-        var params = new URLSearchParams();
-        params.append("applicant_id", applicant_id);
-        params.append("program_id", program_id);
-        if (window.confirm("정말 신청을 취소하시겠습니까?")) {
-            const response = await axios.post(process.env.REACT_APP_RESTAPI_HOST + "applicant/delete", params);
-            alert("신청이 취소되었습니다.");
-            window.location.reload();
-        }
-    };
-    // program의 applicants num --
-    // applicant에서 삭제
     const columns = useMemo(
         () => [
-            { accessor: "_id", Header: "ID", show: false },
+            { accessor: "id", Header: "ID", show: false },
             {
                 Header: "번호",
                 Cell: ({ value, row }) => {
-                    index = Number(row.id) + 1;
+                    const index = Number(row.id) + 1;
                     return (
                         <h5 className="mb-0">
                             <Link to="#" className="text-inherit">
@@ -43,12 +29,11 @@ const ReadyProgramTable = ({ table_data }) => {
                     );
                 },
             },
-
             {
-                accessor: "program_name",
+                accessor: "programName",
                 Header: "프로그램명",
                 Cell: ({ value, row }) => {
-                    const id = "/HappyMan/program/" + row.original.program_id.toString();
+                    const id = "/HappyMan/program/" + row.original.id.toString();
                     return (
                         <h5 className="mb-0">
                             <Link className="text-inherit" to={id}>
@@ -58,9 +43,8 @@ const ReadyProgramTable = ({ table_data }) => {
                     );
                 },
             },
-
             {
-                accessor: "start_date",
+                accessor: "startDate",
                 Header: "시작일자",
                 Cell: ({ value }) => {
                     return (
@@ -70,9 +54,8 @@ const ReadyProgramTable = ({ table_data }) => {
                     );
                 },
             },
-
             {
-                accessor: "end_date",
+                accessor: "endDate",
                 Header: "종료일자",
                 Cell: ({ value }) => {
                     return (
@@ -82,9 +65,8 @@ const ReadyProgramTable = ({ table_data }) => {
                     );
                 },
             },
-
             {
-                accessor: "status_name",
+                accessor: "status",
                 Header: "상태",
                 Cell: ({ value }) => {
                     value = value.toLowerCase();
@@ -117,11 +99,7 @@ const ReadyProgramTable = ({ table_data }) => {
                     return (
                         <div className="d-grid d-md-block">
                             <Link to="#">
-                                <Button
-                                    variant="outline-danger"
-                                    className="me-1"
-                                    onClick={() => cancelApply(row.original.applicant_id, row.original.program_id)}
-                                >
+                                <Button variant="outline-danger" className="me-1">
                                     신청취소
                                 </Button>
                             </Link>
@@ -133,7 +111,7 @@ const ReadyProgramTable = ({ table_data }) => {
         []
     );
 
-    const data = useMemo(() => table_data, [table_data]);
+    const data = useMemo(() => readyProgram, [readyProgram]);
 
     const { getTableProps, getTableBodyProps, headerGroups, page, nextPage, previousPage, state, gotoPage, pageCount, prepareRow, setGlobalFilter } = useTable(
         {
@@ -157,7 +135,7 @@ const ReadyProgramTable = ({ table_data }) => {
 
     return (
         <Fragment>
-            <div className=" overflow-hidden">
+            <div className="overflow-hidden">
                 <Row>
                     <Col lg={12} md={12} sm={12} className="mb-lg-0 mb-2 py-4 px-5 ">
                         <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} placeholder="Search Course" />

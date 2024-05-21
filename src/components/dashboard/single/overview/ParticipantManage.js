@@ -513,7 +513,7 @@ const ApplicantsListItems2 = (props) => {
         []
     );
 
-    console.log("열에 담은 메모내용 ", columns);
+    // console.log("열에 담은 메모내용 ", columns);
 
     // const update = async (e) => {
     //     var updateApplicantStatus = [];

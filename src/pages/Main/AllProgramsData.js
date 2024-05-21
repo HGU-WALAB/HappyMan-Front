@@ -42,6 +42,7 @@ const AllProgramsData = (props) => {
                 }
                 const filteredPrograms = programData.programs.filter((program) => program.categoryId === categoryId);
                 setPrograms(filteredPrograms);
+                console.log(categoryOptions);
             } catch (error) {
                 console.error("프로그램 정보를 불러오는 동안 오류가 발생했습니다:", error);
             }
@@ -93,6 +94,14 @@ const AllProgramsData = (props) => {
         { value: "대기", label: "신청 대기" },
         { value: "마감", label: "신청 마감" },
     ];
+
+    const filterByStatus = (program) => {
+        if (term === "전체") return true;
+        if (term === "진행" && moment(program.applyEndDate).isAfter(moment())) return true;
+        if (term === "대기" && moment(program.applyStartDate).isAfter(moment())) return true;
+        if (term === "마감" && moment(program.applyEndDate).isBefore(moment())) return true;
+        return false;
+    };
 
     // 찜 추가
     const addLike = async (programID) => {
@@ -146,7 +155,7 @@ const AllProgramsData = (props) => {
                     {termLoading ? (
                         programs
                             .filter((program) => program.categoryId === categoryId) // categoryId와 일치하는 프로그램만 필터링
-                            // .filter((program) => program.categoryOptions === categoryId)
+                            .filter(filterByStatus)
                             .filter((program) => Object.values(program).join(" ").toLowerCase().includes(searchTerm.toLowerCase()))
                             .map((item, index) => {
                                 // 클릭한 페이지로 이동할 수 있게 해 줌
@@ -200,7 +209,7 @@ const AllProgramsData = (props) => {
                                                             <Tippy content="프로그램 찜하기" animation={"scale"}>
                                                                 <Button
                                                                     onClick={() => {
-                                                                        if (!isAdmin) {
+                                                                        if (isAdmin) {
                                                                             alert("관리자는 찜 기능을 사용하실 수 없습니다. ");
                                                                         } else {
                                                                             if (item.isBookmarked) {

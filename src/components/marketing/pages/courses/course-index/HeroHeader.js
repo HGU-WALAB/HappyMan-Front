@@ -11,7 +11,7 @@ import HeroImage from "assets/images/Main.png";
 const HeroHeader = () => {
     const navigate = useNavigate();
     const checkApply = async () => {
-        if (window.sessionStorage.getItem("id") === null) {
+        if (window.sessionStorage.getItem("userData") === null) {
             alert("로그인이 필요한 항목입니다. 로그인을 진행해 주세요.");
         } else {
             navigate("/HappyMan/mypage");

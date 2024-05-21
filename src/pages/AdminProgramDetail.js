@@ -1,5 +1,5 @@
 import { Fragment, useState, useLayoutEffect, useEffect } from "react";
-import { Row, Col, Card, Tab, Nav } from "react-bootstrap";
+import { Row, Col, Card, Tab, Nav, Button } from "react-bootstrap";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import NavbarVertical from "layouts/dashboard/NavbarVertical";
@@ -16,13 +16,19 @@ import SurveyDataView from "../pages/SurveyDataView";
 const AdminProgramDetail = () => {
     const [showMenu, setShowMenu] = useState(true);
     const [programName, setProgramName] = useState();
+    const [programData, setProgramData] = useState({
+        name: "",
+        information: "",
+        startDate: new Date(),
+        endDate: new Date(),
+        applyStartDate: new Date(),
+        applyEndDate: new Date(),
+        quota: "",
+        categoryId: "",
+        managerName: "",
+        managerContact: "",
+    });
     const id = useParams();
-
-    // useEffect(() => {
-    //     if (id && id.id) {
-    //         getProgramDetailsAdmin(id.id);
-    //     }
-    // }, [id]);
 
     useEffect(() => {
         const fetchProgramDetailsAdmin = async () => {
@@ -32,20 +38,14 @@ const AdminProgramDetail = () => {
                 console.log("프로그램아이디 : ", programId);
                 const data = await getProgramDetailsAdmin(programId); // 프로그램 ID를 매개변수로 전달
                 setProgramName(data.name); // 프로그램 데이터 상태 업데이트
-                // console.log("PN", data.name);
-                // setProgramName(true); // 프로그램 데이터 로딩이 완료되었으므로 true로 설정
+                setProgramData(data);
+                console.log(programData.name);
             } catch (error) {
                 console.error("프로그램 데이터를 가져오는 중 오류 발생:", error);
             }
         };
 
         fetchProgramDetailsAdmin();
-
-        // useEffect의 두 번째 인수가 빈 배열인 경우, 컴포넌트가 마운트될 때 한 번만 실행됩니다.
-    }, []);
-
-    useLayoutEffect(() => {
-        readProgramName();
     }, []);
 
     const readProgramName = async () => {
@@ -63,6 +63,43 @@ const AdminProgramDetail = () => {
 
     const ToggleMenu = () => {
         setShowMenu(!showMenu);
+    };
+
+    const handleProgramUpdate = async () => {
+        const formData = new FormData();
+        formData.append("id", id["id"]);
+        formData.append("name", programData.name);
+        formData.append("information", programData.information);
+        formData.append("startDate", programData.startDate);
+        formData.append("endDate", programData.endDate);
+        formData.append("applyStartDate", programData.applyStartDate);
+        formData.append("applyEndDate", programData.applyEndDate);
+        formData.append("quota", programData.quota);
+        formData.append("categoryId", programData.categoryId);
+        formData.append("managerName", programData.managerName);
+        formData.append("managerContact", programData.managerContact);
+
+        const token = sessionStorage.getItem("token");
+
+        if (window.confirm("프로그램 정보를 수정하시겠습니까?")) {
+            try {
+                const response = await axios.patch(
+                    `${process.env.REACT_APP_RESTAPI_HOST}/api/happyman/admin/programs/${id.id}`, // 여기서 수정
+                    formData, // FormData 객체를 요청 데이터로 전달
+                    {
+                        headers: {
+                            Authorization: "Bearer " + token,
+                            "Content-Type": "multipart/form-data", // multipart/form-data 형식으로 전송
+                        },
+                    }
+                );
+                window.location.reload();
+                alert("프로그램 정보가 수정되었습니다.");
+            } catch (error) {
+                console.error("Error updating user status:", error);
+                alert("프로그램 정보 수정에 실패하였습니다. 다시 시도해 주세요.");
+            }
+        }
     };
 
     return (
@@ -89,7 +126,11 @@ const AdminProgramDetail = () => {
                                             <h1 className="mb-1 h2 fw-bold">{programName}</h1>
                                         </div>
                                         <div>
-                                            <Link to="/HappyMan/admin/program" className="btn btn-success ">
+                                            <button className="btn btn-outline-success" onClick={handleProgramUpdate}>
+                                                프로그램 정보 수정
+                                            </button>
+                                            <> </>
+                                            <Link to="/HappyMan/admin/program" className="btn btn-success">
                                                 프로그램 목록 보기
                                             </Link>
                                         </div>
@@ -127,7 +168,7 @@ const AdminProgramDetail = () => {
                                         <Card.Body className="p-0">
                                             <Tab.Content>
                                                 <Tab.Pane eventKey="information" className="pb-4">
-                                                    <ProgramInformation param1={id} />
+                                                    {programData && <ProgramInformation param1={id} data={programData} setProgramData={setProgramData} />}
                                                 </Tab.Pane>
                                                 <Tab.Pane eventKey="application" className="pb-4">
                                                     <ApplicationFormView param2={id} />
