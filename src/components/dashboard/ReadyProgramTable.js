@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useMemo } from "react";
+import React, { Fragment, useEffect, useMemo, useState } from "react";
 import { useTable, useFilters, useGlobalFilter, usePagination, useRowSelect } from "react-table";
 import { Link } from "react-router-dom";
 import { Col, Row, Table, Button } from "react-bootstrap";
@@ -9,9 +9,24 @@ import moment from "moment";
 import axios from "axios";
 
 const ReadyProgramTable = ({ readyProgram }) => {
+    const [activeTab, setActiveTab] = useState(0);
+
     useEffect(() => {
-        console.log(readyProgram);
+        // console.log(readyProgram);
     }, [readyProgram]);
+
+    const applicationCancel = async (rowId) => {
+        console.log("취소버튼", rowId);
+        if (window.confirm("정말 신청을 취소하시겠습니까?")) {
+            const response = await axios.delete(`${process.env.REACT_APP_RESTAPI_HOST}/api/happyman/participants/${rowId}`, {
+                headers: {
+                    Authorization: "Bearer " + sessionStorage.getItem("token"),
+                },
+            });
+            alert("신청이 취소되었습니다.");
+            window.location.reload();
+        }
+    };
 
     const columns = useMemo(
         () => [
@@ -99,7 +114,7 @@ const ReadyProgramTable = ({ readyProgram }) => {
                     return (
                         <div className="d-grid d-md-block">
                             <Link to="#">
-                                <Button variant="outline-danger" className="me-1">
+                                <Button variant="outline-danger" className="me-1" onClick={() => applicationCancel(row.original.id)}>
                                     신청취소
                                 </Button>
                             </Link>

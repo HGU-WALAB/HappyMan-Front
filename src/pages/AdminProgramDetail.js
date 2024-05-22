@@ -19,6 +19,7 @@ const AdminProgramDetail = () => {
     const [programData, setProgramData] = useState({
         name: "",
         information: "",
+        image: "",
         startDate: new Date(),
         endDate: new Date(),
         applyStartDate: new Date(),
@@ -81,9 +82,19 @@ const AdminProgramDetail = () => {
         formData.append("managerContact", programData.managerContact);
         formData.append("teacher", programData.teacher);
 
+        if (programData.image instanceof FileList) {
+            for (let i = 0; i < programData.image.length; i++) {
+                formData.append(`image`, programData.image[i]);
+            }
+        } else if (programData.image instanceof File) {
+            formData.append("image", programData.image);
+        }
+
         const token = sessionStorage.getItem("token");
 
         if (window.confirm("프로그램 정보를 수정하시겠습니까?")) {
+            console.log("이미지 데이터:", programData.image); // 이미지 데이터가 제대로 설정되었는지 확인
+
             try {
                 const response = await axios.patch(
                     `${process.env.REACT_APP_RESTAPI_HOST}/api/happyman/admin/programs/${id.id}`, // 여기서 수정
@@ -128,7 +139,7 @@ const AdminProgramDetail = () => {
                                             <h1 className="mb-1 h2 fw-bold">{programName}</h1>
                                         </div>
                                         <div>
-                                            <button className="btn btn-outline-success" onClick={handleProgramUpdate}>
+                                            <button className="btn btn-outline-warning" onClick={handleProgramUpdate}>
                                                 프로그램 정보 수정
                                             </button>
                                             <> </>
@@ -150,11 +161,11 @@ const AdminProgramDetail = () => {
                                                     </Nav.Link>
                                                 </Nav.Item>
 
-                                                <Nav.Item>
+                                                {/* <Nav.Item>
                                                     <Nav.Link eventKey="applicationData" className="mb-sm-3 mb-md-0">
                                                         신청응답
                                                     </Nav.Link>
-                                                </Nav.Item>
+                                                </Nav.Item> */}
                                                 <Nav.Item>
                                                     <Nav.Link eventKey="applicant" className="mb-sm-3 mb-md-0">
                                                         신청자 관리
@@ -172,9 +183,9 @@ const AdminProgramDetail = () => {
                                                 <Tab.Pane eventKey="information" className="pb-4">
                                                     {programData && <ProgramInformation param1={id} data={programData} setProgramData={setProgramData} />}
                                                 </Tab.Pane>
-                                                <Tab.Pane eventKey="application" className="pb-4">
+                                                {/* <Tab.Pane eventKey="application" className="pb-4">
                                                     <ApplicationFormView param2={id} />
-                                                </Tab.Pane>
+                                                </Tab.Pane> */}
 
                                                 <Tab.Pane eventKey="applicant" className="pb-4">
                                                     <ApplicantsListItems param4={id} />

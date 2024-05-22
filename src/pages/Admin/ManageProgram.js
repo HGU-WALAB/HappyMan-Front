@@ -21,6 +21,8 @@ import { getProgramAdmin } from "services/program";
 
 const ManageProgram = () => {
     const [showMenu, setShowMenu] = useState(true);
+    const [activeTab, setActiveTab] = useState(0);
+
     const ToggleMenu = () => {
         return setShowMenu(!showMenu);
     };

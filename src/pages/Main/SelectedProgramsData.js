@@ -119,6 +119,7 @@ const SelectedProgramsData = (props) => {
                 }
             );
             console.log("찜 추가 성공! ");
+            window.location.reload();
         } catch (error) {
             console.error("찜 추가 실패! 에러 : ", error);
         }
@@ -134,6 +135,7 @@ const SelectedProgramsData = (props) => {
                 },
             });
             console.log("찜 삭제 성공! ");
+            window.location.reload();
         } catch (error) {
             console.error("찜 삭제 실패! 에러 : ", error);
         }

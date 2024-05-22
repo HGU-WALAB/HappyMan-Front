@@ -22,6 +22,7 @@ import { Windows } from "react-bootstrap-icons";
 
 // 이걸 API부분으로 바꾸면 됨
 import { getProgramDetailsUser, getProgramDetails } from "services/program";
+import { date } from "yup";
 
 // token 유효성 검사를 위한 현재일자 가져오기
 const today = new Date();
@@ -109,31 +110,19 @@ const Program = () => {
     const [userInfo, setUserInfo] = useState();
     const [filePath, setFilePath] = useState([]);
     const [poster, setPoster] = useState();
-    const [applyConfirm, setApplyConfirm] = useState();
+    const [applyConfirm, setApplyConfirm] = useState(true);
+    const [isFull, setIsFull] = useState(true);
     const [confirmLoading, setConfirmLoading] = useState(false);
     const [programData, setProgramData] = useState();
     const [programLoad, setProgramLoad] = useState(false);
+
+    // const isApplyEndDatePassed = new Date() > new Date(programData.applyEndDate);
 
     const id = useParams();
     var ID = parseInt(window.sessionStorage.getItem("id"));
     var programID = parseInt(id["id"]);
 
     const infinite = "무제한";
-
-    const Dday = async (applyEndDate) => {
-        var date1 = moment(applyEndDate);
-        var date2 = moment();
-
-        var days = date1.diff(date2, "days") + 1;
-
-        if (date2 > date1) {
-            setdaysLeft(false);
-            setDday("마감");
-        } else {
-            setdaysLeft(true);
-            setDday("D-" + days);
-        }
-    };
 
     const readApplicantData = async (programID, userID) => {
         const response = await axios.get(process.env.REACT_APP_RESTAPI_HOST + "applicant/" + programID + "/applicants/" + userID);
@@ -144,19 +133,6 @@ const Program = () => {
     const checkApply = async () => {
         console.log("URL : ", "/program/" + programID + "/application");
         navigate("/program/" + programID + "/application");
-        // if (window.sessionStorage.getItem("id") === null) {
-        //     alert("로그인이 필요한 항목입니다. 로그인을 진행해 주세요.");
-        // } else {
-        //     if (daysLeft === false) {
-        //         alert("신청기간이 마감되어서 신청 하실 수 없습니다.");
-        //     } else if (quotaLeft == false) {
-        //         alert("신청인원이 꽉 차서 신청 하실 수 없습니다.");
-        //     } else if (applicantData.length > 0) {
-        //         alert("이미 신청된 프로그램입니다.");
-        //     } else {
-        //         navigate("/HappyMan/program/" + programInfo.id.toString() + "/application");
-        //     }
-        // }
     };
 
     //
@@ -214,28 +190,14 @@ const Program = () => {
         setModalVisible(false);
     };
 
+    // useLayoutEffect(() => {
+    //     const applyDataObj = new Date(programData.applyEndDate.replace(" ", "T"));
+    //     const now = new Date();
+    //     const isPassed = applyDataObj < now;
+    //     console.log("지났나", isPassed);
+    // });
+
     useEffect(() => {
-        // if (!programData) {
-        //     const fetchProgramDetails = async () => {
-        //         try {
-        //             const url = window.location.href;
-        //             const programId = parseInt(url.substring(url.lastIndexOf("/") + 1));
-        //             console.log("프로그램아이디 : ", programId);
-        //             const data = await getProgramDetailsUser(programId);
-        //             setProgramData(data);
-        //             setProgramLoad(true);
-
-        //             if (data) {
-        //                 const isEarly = moment(today).format("YYYY-MM-DD HH:mm:ss") < data.applyEndDate;
-        //                 setApplyConfirm(isEarly);
-        //             }
-        //         } catch (error) {
-        //             console.error("프로그램 데이터를 가져오는 중 오류 발생:", error);
-        //         }
-        //     };
-
-        //     fetchProgramDetails();
-        // }
         if (!programData) {
             const fetchProgramDetails = async () => {
                 try {
@@ -250,13 +212,24 @@ const Program = () => {
                         console.log("이걸로 실행");
                         data = await getProgramDetails(programId);
                     }
-
+                    // Dday(programData.applyEndDate);
                     setProgramData(data);
                     setProgramLoad(true);
 
                     if (data) {
-                        const isEarly = moment(today).format("YYYY-MM-DD HH:mm:ss") < data.applyEndDate;
+                        const isEarly = moment(today).format("YYYY-MM-DD HH:mm:ss") > data.applyEndDate;
                         setApplyConfirm(isEarly);
+                        console.log("신청기간이 지났는가? : ", isEarly);
+
+                        console.log(data.quota);
+                        console.log(data.currentQuota);
+                        if (data.quota - data.currentQuota < 0) {
+                            setIsFull(false);
+                        } else {
+                            setIsFull(true);
+                        }
+
+                        console.log("신청인원이 마감되었는가? :", isFull);
                     }
                 } catch (error) {
                     console.error("프로그램 데이터를 가져오는 중 오류 발생:", error);
@@ -288,8 +261,8 @@ const Program = () => {
                                     {/*  Card body  */}
                                     <Card.Body>
                                         <Badge bg="warning" className="me-3">
-                                            {" "}
-                                            {dday}{" "}
+                                            {"~   "}
+                                            {moment(today).format("YYYY-MM-DD HH:mm:ss")}{" "}
                                         </Badge>
                                         <div className="d-flex justify-content-between align-items-center">
                                             <h1 className="fw-semi-bold mb-2">{programData.name}</h1>
@@ -331,20 +304,34 @@ const Program = () => {
 
                                             <div className="d-flex justify-content-end">
                                                 <div>
-                                                    {/* <Link to={"/program/" + programInfo.id.toString() + "/application"} className="btn btn-success">
-                            신청하기
-                          </Link> */}
-                                                    {!isUser && !isAdmin ? (
+                                                    {/* {(!isUser && !isAdmin) || (applyConfirm && isFull) ? (
                                                         <Button className="btn btn-danger" disabled>
                                                             신청불가
                                                         </Button>
-                                                    ) : applyConfirm === true ? (
+                                                    ) : programData.isApplied ? ( // isApplied가 true인 경우 '신청완료' 버튼을 표시
+                                                        <Button className="btn btn-secondary" disabled>
+                                                            신청완료
+                                                        </Button>
+                                                    ) : programData.isApplied === false ? (
                                                         <Button className="btn btn-success" onClick={checkApply}>
                                                             신청하기
                                                         </Button>
                                                     ) : (
                                                         <Button className="btn btn-secondary" disabled>
                                                             신청완료
+                                                        </Button>
+                                                    )} */}
+                                                    {(!isUser && !isAdmin) || applyConfirm || programData.isFull ? (
+                                                        <Button className="btn btn-danger" disabled>
+                                                            신청불가
+                                                        </Button>
+                                                    ) : programData.isApplied ? ( // isApplied가 true인 경우 '신청완료' 버튼을 표시
+                                                        <Button className="btn btn-secondary" disabled>
+                                                            신청완료
+                                                        </Button>
+                                                    ) : (
+                                                        <Button className="btn btn-success" onClick={checkApply}>
+                                                            신청하기
                                                         </Button>
                                                     )}
                                                 </div>
@@ -361,7 +348,7 @@ const Program = () => {
                                                 );
                                             })}
 
-                                            {filePath[0] ? (
+                                            {/* {filePath[0] ? (
                                                 <>
                                                     <br />
                                                     <br />
@@ -386,7 +373,7 @@ const Program = () => {
                                                 </>
                                             ) : (
                                                 ""
-                                            )}
+                                            )} */}
                                         </div>
                                     </Card.Body>
                                 </Card>
@@ -417,19 +404,19 @@ const Program = () => {
                                                 )}
                                             </>
                                         ) : (
-                                            <Image width="100%" object-fit="contain" src={`${process.env.REACT_APP_RESTAPI_HOST}${programData.image}`} alt="" />
+                                            <Image width="100%" object-fit="contain" src={DefaultImg} alt="" />
                                         )}
                                     </Card.Body>
                                 </Card>
-                                {programData.manager_name ? (
-                                    programData.manager_contact ? (
+                                {programData.managerName ? (
+                                    programData.managerContact ? (
                                         <Card className="border-0 mb-3 mb-lg-0">
                                             {/*  Card body */}
                                             <Card.Body>
                                                 <h3 className="mb-0">문의</h3>
                                                 <hr className="m-0 mb-2" />
-                                                <div className="mb-2"> 담당자: {programData.manager_name}</div>
-                                                <span>연락: {programData.manager_contact}</span>
+                                                <div className="mb-2"> 담당자: {programData.managerName}</div>
+                                                <span>연락: {programData.managerContact}</span>
                                             </Card.Body>
                                         </Card>
                                     ) : (
@@ -438,7 +425,7 @@ const Program = () => {
                                             <Card.Body>
                                                 <h3 className="mb-0">문의</h3>
                                                 <hr className="m-0 m-2" />
-                                                <div className="mb-2">담당자: {programData.manager_name}</div>
+                                                <div className="mb-2">담당자: {programData.managerName}</div>
                                             </Card.Body>
                                         </Card>
                                     )

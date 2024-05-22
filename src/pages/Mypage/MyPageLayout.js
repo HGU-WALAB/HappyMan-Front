@@ -82,7 +82,7 @@ const MyPageLayout = () => {
                                         </Nav.Item>
                                         <Nav.Item>
                                             <Nav.Link eventKey="liked_programs" className="border-bottom">
-                                                <i className={`fe fe-bookmark nav-icon`}></i> 저장한 프로그램
+                                                <i className={`fe fe-bookmark nav-icon`}></i> 찜한 프로그램
                                             </Nav.Link>
                                         </Nav.Item>
                                         <Nav.Item>

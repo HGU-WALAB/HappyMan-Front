@@ -74,10 +74,8 @@ const BasicInformation = (props) => {
                         {/* 프로그램 제목 */}
                         <Col md={6} xs={12} className="mb-4">
                             <Form.Group controlId="Teacher">
-                                <Form.Label>
-                                    강사명 <span className="text-danger">*</span>
-                                </Form.Label>
-                                <Form.Control type="text" placeholder="강사 이름을 입력하세요." name="teacher" onChange={handleChange} required />
+                                <Form.Label>강사명</Form.Label>
+                                <Form.Control type="text" placeholder="강사 이름을 입력하세요." name="teacher" onChange={handleChange} />
                                 <Form.Control.Feedback type="invalid">강사명을 입력해주세요.</Form.Control.Feedback>
                             </Form.Group>
                         </Col>
