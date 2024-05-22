@@ -11,8 +11,7 @@ function LoginBtn() {
         window.location.href =
             "https://walab.info:8443/HisnetLogin/hisnet-login?accessKey=LByzLqghXnUp0SHHbHiI&returnUrl=https://happymanhgu.netlify.app/login-ing";
         // 로컬 개발용
-        // window.location.href =
-        //     "https://walab.info:8443/HisnetLogin/hisnet-login?accessKey=LByzLqghXnUp0SHHbHiI&returnUrl=http://localhost:3000/HappyMan/login-ing";
+        // window.location.href = "https://walab.info:8443/HisnetLogin/hisnet-login?accessKey=LByzLqghXnUp0SHHbHiI&returnUrl=http://localhost:3000/login-ing";
 
         // navigate("/swap/sign-in"); // '/swap/sign-in'으로 페이지 이동을 합니다.
     };

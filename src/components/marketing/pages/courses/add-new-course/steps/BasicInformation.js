@@ -10,7 +10,7 @@ import moment from "moment";
 
 const BasicInformation = (props) => {
     const { validated, next, handleChange, onLoadPoster, onLoadFile, preview, setFormData } = props;
-    const { name, information, applyStartDate, applyEndDate, startDate, endDate, managerName, managerContact, categoryId } = props.data;
+    const { name, information, applyStartDate, applyEndDate, startDate, endDate, managerName, managerContact, categoryId, teacher } = props.data;
     const [today, setToday] = useState(new Date());
 
     // // 제출버튼 (임시)
@@ -61,7 +61,7 @@ const BasicInformation = (props) => {
                     {/* <Form> */}
                     <Row>
                         {/* 프로그램 제목 */}
-                        <Col xs={12} className="mb-4">
+                        <Col md={6} xs={12} className="mb-4">
                             <Form.Group controlId="Title">
                                 <Form.Label>
                                     프로그램 제목 <span className="text-danger">*</span>
@@ -70,6 +70,18 @@ const BasicInformation = (props) => {
                                 <Form.Control.Feedback type="invalid">제목을 입력해주세요.</Form.Control.Feedback>
                             </Form.Group>
                         </Col>
+
+                        {/* 프로그램 제목 */}
+                        <Col md={6} xs={12} className="mb-4">
+                            <Form.Group controlId="Teacher">
+                                <Form.Label>
+                                    강사명 <span className="text-danger">*</span>
+                                </Form.Label>
+                                <Form.Control type="text" placeholder="강사 이름을 입력하세요." name="teacher" onChange={handleChange} required />
+                                <Form.Control.Feedback type="invalid">강사명을 입력해주세요.</Form.Control.Feedback>
+                            </Form.Group>
+                        </Col>
+
                         {/* 프로그램 설명 */}
                         <Col xs={12} className="mb-4">
                             <Form.Group controlId="information">

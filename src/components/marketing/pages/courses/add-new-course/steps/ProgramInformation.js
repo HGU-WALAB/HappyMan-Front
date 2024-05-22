@@ -733,10 +733,11 @@
 // export default ProgramInformation;
 
 import React, { useState, useEffect } from "react";
-import { Card, Row, Form, Col, InputGroup } from "react-bootstrap";
+import { Card, Row, Form, Col, InputGroup, Image } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/esm/locale";
+import DefaultImg from "assets/images/Default_img.png";
 import AllProgramsData from "pages/Main/AllProgramsData";
 
 const ProgramInformation = ({ data, setProgramData }) => {
@@ -766,7 +767,7 @@ const ProgramInformation = ({ data, setProgramData }) => {
                         <Card.Body>
                             <Form>
                                 <Row>
-                                    <Col xs={12} className="mb-4">
+                                    <Col md={6} xs={12} className="mb-4">
                                         <Form.Group controlId="program_title">
                                             <Form.Label>
                                                 프로그램 제목 <span className="text-danger">*</span>
@@ -776,6 +777,21 @@ const ProgramInformation = ({ data, setProgramData }) => {
                                                 placeholder="프로그램 제목을 입력하세요."
                                                 name="name"
                                                 value={data.name}
+                                                required
+                                                onChange={handleInputChange}
+                                            />
+                                        </Form.Group>
+                                    </Col>
+                                    <Col md={6} xs={12} className="mb-4">
+                                        <Form.Group controlId="teacher">
+                                            <Form.Label>
+                                                강사명 <span className="text-danger">*</span>
+                                            </Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                placeholder="강사명을 입력하세요."
+                                                name="teacher"
+                                                value={data.teacher}
                                                 required
                                                 onChange={handleInputChange}
                                             />
@@ -928,6 +944,20 @@ const ProgramInformation = ({ data, setProgramData }) => {
                                     </Col>
                                 </Row>
                             </Form>
+                        </Card.Body>
+                    </Card>
+                </Col>
+                <Col xl={4} lg={12} md={12} sm={12}>
+                    <Card className="mb-3 me-2 mt-2 shadow">
+                        <Card.Header className="border-bottom px-4 py-3">
+                            <h4 className="mb-0">프로그램 포스터</h4>
+                        </Card.Header>
+                        <Card.Body className="p-3">
+                            {data.image ? (
+                                <Image width="100%" object-fit="contain" src={`${process.env.REACT_APP_RESTAPI_HOST}${data.image}`} alt="" />
+                            ) : (
+                                <Image width="100%" object-fit="contain" src={DefaultImg} alt="" />
+                            )}
                         </Card.Body>
                     </Card>
                 </Col>

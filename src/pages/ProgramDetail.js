@@ -302,6 +302,9 @@ const Program = () => {
                                         <div className="d-flex justify-content-between">
                                             <div>
                                                 <Icon path={mdiCalendarClock} size={0.7} />
+                                                <span> 강사명 : {programData.teacher}</span>
+                                                <br />
+                                                <Icon path={mdiCalendarClock} size={0.7} />
                                                 <span>
                                                     {" "}
                                                     신청기간 : {programData.applyStartDate} ~ {programData.applyEndDate}

@@ -142,7 +142,7 @@ const ApplicationFormPractice = (props) => {
 
     return (
         <Form onSubmit={next}>
-            {readyJson && readyElementOption ? (
+            {/* {readyJson && readyElementOption ? (
                 <div className="d-flex justify-content-end">
                     <Form.Group className="mb-3 w-26 ">
                         <FormSelect
@@ -166,7 +166,7 @@ const ApplicationFormPractice = (props) => {
                         />
                     </Form.Group>
                 </div>
-            )}
+            )} */}
 
             {
                 // readyJson && formContent ? (

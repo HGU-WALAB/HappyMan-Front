@@ -183,6 +183,12 @@ const Application = () => {
                                             <span className="text-success me-1">
                                                 <i className="fe fe-user"></i>
                                             </span>
+                                            <span className="fw-bold text-dark"> 강사명 - </span>
+                                            <span> {programInfo.teacher}</span>
+                                            <br />
+                                            <span className="text-success me-1">
+                                                <i className="fe fe-user"></i>
+                                            </span>
                                             <span className="fw-bold text-dark"> 모집인원 - </span>
                                             <span>
                                                 {" "}

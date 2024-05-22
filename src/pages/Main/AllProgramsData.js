@@ -120,6 +120,8 @@ const AllProgramsData = (props) => {
                 }
             );
             console.log("찜 추가 성공! ");
+            alert("찜 추가에 성공했습니다!");
+            window.location.reload();
         } catch (error) {
             console.error("찜 추가 실패! 에러 : ", error);
         }
@@ -135,6 +137,8 @@ const AllProgramsData = (props) => {
                 },
             });
             console.log("찜 삭제 성공! ");
+            alert("찜 삭제에 성공했습니다!");
+            window.location.reload();
         } catch (error) {
             console.error("찜 삭제 실패! 에러 : ", error);
         }
@@ -183,6 +187,7 @@ const AllProgramsData = (props) => {
                                                     />
                                                 )}
                                             </Link>
+
                                             <Card.Body style={{ height: "6rem" }}>
                                                 <span className="text-dark fw-bold">
                                                     <Badge bg="primary" className="me-3 main-program-badge">
@@ -193,6 +198,10 @@ const AllProgramsData = (props) => {
                                                 <h3 className="h4 text-truncate-line-2 " style={{ height: "2.7rem" }}>
                                                     <Link to={address} className="text-inherit">
                                                         {item.name}
+                                                    </Link>
+                                                    <br />
+                                                    <Link to={address} className="text-inherit">
+                                                        강사 : {item.teacher}
                                                     </Link>
                                                 </h3>
                                             </Card.Body>

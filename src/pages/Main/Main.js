@@ -40,6 +40,7 @@ const Main = ({}) => {
                 setCategories(categoryData.categories);
                 setTotalLoading(false);
                 console.log("카테고리 데이터 : ", categoryData.categories);
+                handleTabChange(activeTab);
             } catch (error) {
                 console.error("카테고리 정보를 가져오는 데 실패했습니다.", error);
                 setTotalLoading(false);

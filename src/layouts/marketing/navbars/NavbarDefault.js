@@ -47,6 +47,10 @@ const NavbarDefault = ({ headerstyle }, { props }) => {
                         <Nav.Link className="h4" href="/admin/program">
                             관리자 페이지
                         </Nav.Link>
+                        {/* <Nav.Link className="h4" href="/admin/program" target="_blank" rel="noopener noreferrer">
+                            관리자 페이지
+                        </Nav.Link> */}
+
                         <Nav.Link className="h4" href="/mypage">
                             마이페이지
                         </Nav.Link>

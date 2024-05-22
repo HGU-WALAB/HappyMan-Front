@@ -27,6 +27,7 @@ const AdminProgramDetail = () => {
         categoryId: "",
         managerName: "",
         managerContact: "",
+        teacher: "",
     });
     const id = useParams();
 
@@ -78,6 +79,7 @@ const AdminProgramDetail = () => {
         formData.append("categoryId", programData.categoryId);
         formData.append("managerName", programData.managerName);
         formData.append("managerContact", programData.managerContact);
+        formData.append("teacher", programData.teacher);
 
         const token = sessionStorage.getItem("token");
 
