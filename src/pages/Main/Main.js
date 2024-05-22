@@ -24,7 +24,7 @@ const Main = ({}) => {
     const [fileInfo, setFileInfo] = useState([]);
     const [categories, setCategories] = useState([]); // json 형식의 로딩을 위해서
     const [selectedCategory, setSelectedCategory] = useState("all"); // 카테고리별로 보여주기 위함
-    const [activeTab, setActiveTab] = useState("all");
+    const [activeTab, setActiveTab] = useState(0);
 
     const handleTabChange = (categoryId) => {
         console.log("카테고리 ID : ", categoryId);
