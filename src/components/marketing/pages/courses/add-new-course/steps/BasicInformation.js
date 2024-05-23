@@ -237,6 +237,10 @@ const BasicInformation = (props) => {
                                     <option value="3">캠프</option>
                                     <option value="4">행사</option>
                                     <option value="5">맥북</option>
+                                    <option value="6">프로젝트/스터디</option>
+                                    <option value="7">인턴/현장실습</option>
+                                    <option value="8">특강</option>
+                                    <option value="9">기타</option>
                                 </select>
                                 <Form.Control.Feedback type="invalid">카테고리를 선택해주세요.</Form.Control.Feedback>
                             </Form.Group>
