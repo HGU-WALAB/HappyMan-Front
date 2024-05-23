@@ -110,7 +110,7 @@ const MyPageLayout = () => {
                                         {/* 사용자 정보 */}
                                         <Tab.Pane eventKey="profile">{userInfo && <ViewProfile userInfo={userInfo}></ViewProfile>}</Tab.Pane>
                                         {/* 활동내역 보기 */}
-                                        {/* <Tab.Pane eventKey="portfolio">{bookmarked && <Portfolio userInfo={bookmarked}></Portfolio>}</Tab.Pane> */}
+                                        <Tab.Pane eventKey="portfolio">{<Portfolio />}</Tab.Pane>
                                     </Tab.Content>
                                 </Col>
                             </Row>

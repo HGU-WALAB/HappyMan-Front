@@ -185,6 +185,23 @@ const AllProgramsData = (props) => {
                                                     />
                                                 )}
                                             </Link>
+                                            {/* <Link to={address}>
+                                                {item.image ? (
+                                                    <Image
+                                                        src={`${process.env.REACT_APP_RESTAPI_HOST}${item.image}`}
+                                                        alt=""
+                                                        className="card-img-top rounded-top-md programImage"
+                                                        style={{ maxWidth: "230px", maxHeight: "230px", width: "100%", height: "100%" }}
+                                                    />
+                                                ) : (
+                                                    <Image
+                                                        src={programImage}
+                                                        alt=""
+                                                        className="card-img-top rounded-top-md programImage"
+                                                        style={{ maxWidth: "100px", maxHeight: "170px", width: "auto", height: "auto" }}
+                                                    />
+                                                )}
+                                            </Link> */}
 
                                             <Card.Body style={{ height: "6rem" }}>
                                                 <span className="text-dark fw-bold">
@@ -195,8 +212,9 @@ const AllProgramsData = (props) => {
                                                 </span>
                                                 <h3 className="h4 text-truncate-line-2 " style={{ height: "2.7rem" }}>
                                                     <Link to={address} className="text-inherit">
-                                                        {item.name}
+                                                        {item.name.length > 15 ? item.name.substring(0, 15) + "..." : item.name}
                                                     </Link>
+
                                                     <br />
                                                     <Link to={address} className="text-inherit">
                                                         강사 : {item.teacher}

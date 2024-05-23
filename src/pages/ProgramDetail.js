@@ -149,22 +149,6 @@ const Program = () => {
         }
     };
 
-    const deleteLike = async (userID, programID) => {
-        setToggleBookmark(false);
-        var params = new URLSearchParams();
-        params.append("user_id", userID);
-        params.append("program_id", programID);
-        const response = await axios.post(process.env.REACT_APP_RESTAPI_HOST + "like/delete", params);
-    };
-
-    const addLike = async (userID, programID) => {
-        setToggleBookmark(true);
-        var params = new URLSearchParams();
-        params.append("user_id", userID);
-        params.append("program_id", programID);
-        const response = await axios.post(process.env.REACT_APP_RESTAPI_HOST + "like/add", params);
-    };
-
     const readApplicantInformation = async (id) => {
         const response = await axios.get(process.env.REACT_APP_RESTAPI_HOST + "user/loggedinUser/" + id);
         setUserInfo(response.data[0]);
@@ -174,10 +158,10 @@ const Program = () => {
         if (isAdmin) {
             alert("관리자는 찜 기능을 사용하실 수 없습니다. ");
         } else {
-            if (toggleBookmark) {
-                deleteLike(ID, programID);
+            if (programData.isBookmarked) {
+                deleteLike(programID);
             } else {
-                addLike(ID, programID);
+                addLike(programID);
             }
         }
     };
@@ -242,6 +226,44 @@ const Program = () => {
 
     // console.log("mamagerName : ", programData.managerName);
 
+    // 찜 추가
+    const addLike = async (programID) => {
+        try {
+            const token = sessionStorage.getItem("token");
+            const response = await axios.post(
+                process.env.REACT_APP_RESTAPI_HOST + "/api/happyman/bookmarks",
+                {
+                    programId: programID,
+                },
+                {
+                    headers: {
+                        Authorization: "Bearer " + token,
+                    },
+                }
+            );
+            console.log("찜 추가 성공! ");
+            window.location.reload();
+        } catch (error) {
+            console.error("찜 추가 실패! 에러 : ", error);
+        }
+    };
+
+    // 찜 삭제
+    const deleteLike = async (programID) => {
+        try {
+            const token = sessionStorage.getItem("token");
+            await axios.delete(`${process.env.REACT_APP_RESTAPI_HOST}/api/happyman/bookmarks/${programID}`, {
+                headers: {
+                    Authorization: "Bearer " + token,
+                },
+            });
+            console.log("찜 삭제 성공! ");
+            window.location.reload();
+        } catch (error) {
+            console.error("찜 삭제 실패! 에러 : ", error);
+        }
+    };
+
     return (
         <Fragment>
             <NavbarDefault login />
@@ -268,7 +290,7 @@ const Program = () => {
                                             <h1 className="fw-semi-bold mb-2">{programData.name}</h1>
                                             <OverlayTrigger key="top" placement="top" overlay={<Tooltip id="tooltip-top">프로그램 찜 하기</Tooltip>}>
                                                 <Button onClick={onToggle} type="button" className="p-0 bg-transparent border-0 text-primary fs-3 mb-3 ">
-                                                    {toggleBookmark ? <i class="fas fa-bookmark"></i> : <i class="far fa-bookmark"></i>}
+                                                    {programData.isBookmarked ? <i class="fas fa-bookmark"></i> : <i class="far fa-bookmark"></i>}
                                                 </Button>
                                             </OverlayTrigger>
                                         </div>
@@ -381,7 +403,7 @@ const Program = () => {
                             <Col xl={4} lg={12} md={12} sm={12}>
                                 <Card className="mb-3">
                                     <Card.Body>
-                                        {poster ? (
+                                        {programData.image ? (
                                             <>
                                                 <Image
                                                     width="100%"
@@ -416,7 +438,7 @@ const Program = () => {
                                                 <h3 className="mb-0">문의</h3>
                                                 <hr className="m-0 mb-2" />
                                                 <div className="mb-2"> 담당자: {programData.managerName}</div>
-                                                <span>연락: {programData.managerContact}</span>
+                                                <span>연락처: {programData.managerContact}</span>
                                             </Card.Body>
                                         </Card>
                                     ) : (

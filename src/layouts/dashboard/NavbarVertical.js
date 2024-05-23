@@ -22,18 +22,18 @@ export const DashboardMenu = [
         icon: "clipboard",
         link: "/admin/program",
     },
-    {
-        id: uuid(),
-        title: "신청서 템플릿",
-        icon: "book",
-        link: "/admin/application",
-    },
-    {
-        id: uuid(),
-        title: "설문지 템플릿",
-        icon: "book",
-        link: "/admin/survey",
-    },
+    // {
+    //     id: uuid(),
+    //     title: "신청서 템플릿",
+    //     icon: "book",
+    //     link: "/admin/application",
+    // },
+    // {
+    //     id: uuid(),
+    //     title: "설문지 템플릿",
+    //     icon: "book",
+    //     link: "/admin/survey",
+    // },
 ];
 
 export const DashboardSuperMenu = [

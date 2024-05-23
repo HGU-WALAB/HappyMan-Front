@@ -193,7 +193,11 @@ const SelectedProgramsData = (props) => {
                                                 </span>
                                                 <h3 className="h4 text-truncate-line-2 " style={{ height: "2.7rem" }}>
                                                     <Link to={address} className="text-inherit">
-                                                        {item.name}
+                                                        {item.name.length > 15 ? item.name.substring(0, 15) + "..." : item.name}
+                                                    </Link>
+                                                    <br />
+                                                    <Link to={address} className="text-inherit">
+                                                        강사 : {item.teacher}
                                                     </Link>
                                                 </h3>
                                             </Card.Body>
