@@ -250,62 +250,6 @@ const ApplicantsListItems = (props) => {
         }
     );
 
-    // const {
-    //     getTableProps,
-    //     getTableBodyProps,
-    //     headerGroups,
-    //     page,
-    //     nextPage,
-    //     previousPage,
-    //     state,
-    //     gotoPage,
-    //     pageCount,
-    //     prepareRow,
-    //     setGlobalFilter,
-    //     selectedFlatRows,
-    //     state: { selectedRowIds },
-    // } = useTable(
-    //     {
-    //         columns,
-    //         data,
-    //         initialState: {
-    //             pageSize: 10,
-    //             hiddenColumns: columns.map((column) => {
-    //                 if (column.show === false) return column.accessor || column.id;
-    //                 else return false;
-    //             }),
-    //         },
-    //     },
-    //     useFilters,
-    //     useGlobalFilter,
-    //     usePagination,
-    //     useRowSelect,
-    //     (hooks) => {
-    //         hooks.visibleColumns.push((columns) => [
-    //             {
-    //                 id: "selection",
-    //                 Header: ({ getToggleAllPageRowsSelectedProps }) => (
-    //                     <div>
-    //                         <IndeterminateCheckbox {...getToggleAllPageRowsSelectedProps()} />
-    //                     </div>
-    //                 ),
-    //                 Cell: ({ row }) => (
-    //                     <div>
-    //                         <IndeterminateCheckbox
-    //                             {...row.getToggleRowSelectedProps()}
-    //                             onChange={(e) => {
-    //                                 row.getToggleRowSelectedProps().onChange(e);
-    //                                 updateIds(row.original.id); // Call the function to update the IDs
-    //                             }}
-    //                         />
-    //                     </div>
-    //                 ),
-    //             },
-    //             ...columns,
-    //         ]);
-    //     }
-    // );
-
     const { pageIndex, globalFilter } = state;
 
     // const handleChangeSelect = (e) => {
@@ -313,6 +257,7 @@ const ApplicantsListItems = (props) => {
     // };
     const handleChangeSelect = (e) => {
         setApplicantStatus(e.target.value);
+        console.log(applicantStatus);
     };
 
     useLayoutEffect(() => {
@@ -321,27 +266,6 @@ const ApplicantsListItems = (props) => {
         setProgram_id(props.param4.id);
     }, []);
 
-    // 프로그램 정보 읽어오기
-    // const readProgramStatus = async (id) => {
-    //     const response = await axios.get(`${process.env.REACT_APP_RESTAPI_HOST}/api/happyman/admin/programs/110/applicants`, {
-    //         headers: {
-    //             Authorization: "Bearer " + sessionStorage.getItem("token"),
-    //         },
-    //     });
-    //     console.log("불러온 정보는", response);
-    //     const programData = response.data.applicants;
-    //     // 신청자 상태 갱신
-    //     setProgram_status(programData.status);
-    //     // 신청자 신청서 갱신
-    //     // setApplicantInformationLoading(false)
-    //     // setApplicantInformationLoading(true);
-    //     // setUserInfo(response.data);
-    //     // 신청 총원, 현재원 갱신
-    //     setProgramQuota(programData.quota);
-    //     setApplicants_num(programData.currentQuota);
-    //     console.log("사용자 상태는", program_status);
-    //     console.log("정보", programData);
-    // };
     // 프로그램 정보 읽어오기
     const readProgramStatus = async (id) => {
         const response = await axios.get(`${process.env.REACT_APP_RESTAPI_HOST}/api/happyman/admin/programs/${id}/applicants`, {
@@ -394,7 +318,6 @@ const ApplicantsListItems = (props) => {
                         <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} placeholder="Search Students" />
                     </Col>
 
-                    {/* 사용자 상태 따라 다른 필터링 출력 -> 논의가 좀 필요할듯*/}
                     <Col xl={2} lg={12} md={3} sm={12} className="mb-lg-0 mb-2 px-3 py-4 ">
                         <Form.Select onChange={handleChangeSelect}>
                             <option value="미수료">승인</option>

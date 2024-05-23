@@ -23,7 +23,7 @@ const ApplicantsListItems2 = (props) => {
     const [applicants_num, setApplicants_num] = useState();
     const [applicants, setApplicants] = useState([]);
     const [ids, setIds] = useState([]);
-    const [applicantStatus, setApplicantStatus] = useState("미수료");
+    const [applicantStatus, setApplicantStatus] = useState("수료");
 
     const infinite = "무제한";
 
@@ -102,29 +102,6 @@ const ApplicantsListItems2 = (props) => {
         ],
         []
     );
-
-    // console.log("열에 담은 메모내용 ", columns);
-
-    // const update = async (e) => {
-    //     var updateApplicantStatus = [];
-    //     var params = new URLSearchParams();
-
-    //     e.map((d) => {
-    //         updateApplicantStatus.push(applicant_status);
-    //     });
-
-    //     params.append("status", updateApplicantStatus);
-    //     params.append("program_id", program_id);
-    //     console.log(params);
-
-    //     if (updateApplicantId != "") {
-    //         if (window.confirm("사용자 상태를 수정하시겠습니까?")) {
-    //             const response = await axios.patch(process.env.REACT_APP_RESTAPI_HOST + "/api/happyman/admin/programs/110/applicants", params);
-    //             readApplicantInformation(props.param4.id);
-    //             alert("사용자 상태가 수정되었습니다.");
-    //         }
-    //     }
-    // };
 
     const update = async () => {
         if (ids.length > 0) {

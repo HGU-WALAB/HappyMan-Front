@@ -1,37 +1,3 @@
-// import { Fragment, useLayoutEffect, useState, useRef } from "react";
-// import { Card, Button, Row, Col, Image, Table, Form } from "react-bootstrap";
-// import Modal, { ModalProvider, BaseModalBackground } from "styled-react-modal";
-// import styled from "styled-components";
-// import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-// import { Doughnut } from "react-chartjs-2";
-// import ProfileBackground from "assets/images/background/profile-bg.jpg";
-// import axios from "axios";
-// import html2canvas from "html2canvas";
-// import { jsPDF } from "jspdf";
-// import moment from "moment";
-
-// ChartJS.register(ArcElement, Tooltip, Legend);
-
-// const Portfolio = (props) => {
-//     return <Card><Doughnut data={} /></Card>;
-// };
-
-// export default Portfolio;
-
-// const StyledModal = Modal.styled`
-//   width: 50rem;
-//   height: auto;
-//   padding : 20px;
-//   border-radius:20px;
-//   background-color: white;
-//   opacity: ${(props) => props.opacity};
-//   transition : all 0.3s ease-in-out;`;
-
-// const FadingBackground = styled(BaseModalBackground)`
-//     opacity: ${(props) => props.opacity};
-//     transition: all 0.3s ease-in-out;
-// `;
-
 import { Fragment, useLayoutEffect, useState, useRef, useEffect } from "react";
 import { Card, Button, Row, Col, Image, Table, Form } from "react-bootstrap";
 import Modal, { ModalProvider, BaseModalBackground } from "styled-react-modal";
