@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 // import custom components
 import { FormSelect } from "components/elements/form-select/FormSelect";
 import { FlatPickr } from "components/elements/flat-pickr/FlatPickr";
-import data from "../layouts/form/data.json";
+// import data from "../layouts/form/data.json";
 
 import axios from "axios";
 

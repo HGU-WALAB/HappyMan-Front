@@ -74,6 +74,7 @@ const Bookmark = () => {
                 },
             });
             console.log("찜 삭제 성공! ");
+            window.location.reload();
         } catch (error) {
             console.error("찜 삭제 실패! 에러 : ", error);
         }

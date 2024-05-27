@@ -4,10 +4,10 @@ import { Container, Row, Col, Nav, Tab } from "react-bootstrap";
 import NavbarDefault from "layouts/marketing/navbars/NavbarDefault";
 import Footer from "layouts/marketing/Footer";
 import ProfileCover from "components/marketing/common/headers/ProfileCover";
-import ViewProfile from "../ViewProfile";
-import MyPage from "./MyPage";
-import Bookmark from "../Bookmark";
-import Portfolio from "../Portfolio";
+import ViewProfile from "./ProfileInfo/ViewProfile";
+import MyPage from "./ApplicatedPrograms/MyPage";
+import Bookmark from "./Bookmarked/Bookmark";
+import Portfolio from "./Portfolio";
 import mypageinfo from "./mypageinfo.json";
 import { Edit } from "react-feather";
 

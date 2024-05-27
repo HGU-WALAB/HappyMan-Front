@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "react-bootstrap"; // 버튼 컴포넌트를 임포트합니다.
 import { useNavigate } from "react-router-dom"; // useNavigate 훅을 임포트합니다.
+import { loginState } from "recoil/atoms/loginState";
 
 function LoginBtn() {
     const navigate = useNavigate(); // useNavigate 훅을 사용합니다.

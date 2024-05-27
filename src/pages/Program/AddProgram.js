@@ -8,7 +8,7 @@ import moment from "moment";
 import GKStepper from "components/elements/stepper/GKStepper";
 
 // import sub components ( Steps )
-import BasicInformation from "components/marketing/pages/courses/add-new-course/steps/BasicInformation";
+import BasicInformation from "pages/Program/BasicInformation";
 import ApplicationFormPractice from "pages/Program/ApplicationFormPractice";
 import SurveyForm from "pages/SurveyForm";
 

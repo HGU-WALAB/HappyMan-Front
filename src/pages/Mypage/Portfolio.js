@@ -11,6 +11,8 @@ import { jsPDF } from "jspdf";
 import moment from "moment";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
+const userData = JSON.parse(window.sessionStorage.getItem("userData"));
+// const userName = userData.name;
 
 const Portfolio = (props) => {
     const [complete, setComplete] = useState();
@@ -48,19 +50,6 @@ const Portfolio = (props) => {
         ],
     };
 
-    // return (
-    //     <Card>
-    //         {data ? (
-    //             <DonutDiv>
-    //                 <Doughnut data={data} />
-    //                 <div>수료율 {((complete / (uncomplete + complete)) * 100).toFixed(2)}%</div>
-    //                 <Doughnut data={data} />
-    //             </DonutDiv>
-    //         ) : (
-    //             <div>수료한 캠프가 없습니다</div>
-    //         )}
-    //     </Card>
-    // );
     return (
         <Card>
             {semesters.length > 0 ? (
@@ -82,20 +71,22 @@ const Portfolio = (props) => {
                     // 수료율 체크
                     const completionRate = ((semesterData.completed / (semesterData.completed + semesterData.uncompleted)) * 100).toFixed(2);
 
-                    // 출력되는 데이터
+                    // 화면 출력
                     return (
-                        <Whole>
-                            <DonutDiv key={index}>
-                                <h5>{semesterData.semester}학기</h5>
-                                <Doughnut data={data} />
-                                <div>수료율 {completionRate}%</div>
-                            </DonutDiv>
-                        </Whole>
+                        <>
+                            <Whole>
+                                <DonutDiv key={index}>
+                                    <h5>{semesterData.semester}학기</h5>
+                                    <Doughnut data={data} />
+                                    <div>수료율 {completionRate}%</div>
+                                </DonutDiv>
+                            </Whole>
+                        </>
                     );
                 })
             ) : (
                 // 수료여부가 없을 시 데이터
-                <div>수료한 캠프가 없습니다</div>
+                <div>수료한/미수료 한 캠프가 없습니다</div>
             )}
         </Card>
     );
@@ -112,6 +103,9 @@ const DonutDiv = styled.div`
     align-items: center;
     width: 50%;
     padding: 5%;
+    /* border: 1px solid red; */
+    margin: 2%;
+    /* text-align: center; */
 `;
 
 const StyledModal = Modal.styled`

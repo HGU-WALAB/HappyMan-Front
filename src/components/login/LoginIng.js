@@ -1,15 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { recoilPersist } from "recoil-persist";
 import { tokenState } from "atom/swapState";
 import { getToken } from "services/loginApi";
 import { jwtDecode } from "jwt-decode";
+import { loginState } from "recoil/atoms/loginState";
 import jsPDF from "jspdf";
 
 const { persistAtom } = recoilPersist();
 
 function LoginIng() {
     const [tokenData, setTokenData] = useRecoilState(tokenState);
+    const [loginInfo, setLoginInfo] = useRecoilState(loginState);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -26,6 +28,7 @@ function LoginIng() {
                     const tokenData = jwtDecode(token);
                     setTokenData(tokenData);
                     sessionStorage.setItem("userData", JSON.stringify(tokenData));
+                    setLoginInfo(JSON.stringify(tokenData));
                     console.log("Token", tokenData);
 
                     // 일단 임시로 멈춤용도 alert
