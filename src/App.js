@@ -11,6 +11,14 @@ import { tokenState } from "atom/swapState";
 
 const { persistAtom } = recoilPersist();
 
+// 배포 환경에서 console.log, console.warn 지우기
+if (process.env.NODE_ENV === "production") {
+    console = window.console || {};
+    console.log = function no_console() {};
+    console.warn = function no_console() {};
+    console.error = function () {};
+}
+
 function App() {
     // token 유효성 검사를 위한 현재일자 가져오기
     const today = new Date();
