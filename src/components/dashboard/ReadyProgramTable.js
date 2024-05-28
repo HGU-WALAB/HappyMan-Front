@@ -48,7 +48,7 @@ const ReadyProgramTable = ({ readyProgram }) => {
                 accessor: "programName",
                 Header: "프로그램명",
                 Cell: ({ value, row }) => {
-                    const id = "/program/" + row.original.id.toString();
+                    const id = "/program/" + row.original.programId.toString();
                     return (
                         <h5 className="mb-0">
                             <Link className="text-inherit" to={id}>
