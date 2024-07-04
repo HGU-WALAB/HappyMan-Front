@@ -63,7 +63,7 @@ const Main = ({}) => {
                                         <Col md={12}>
                                             <Tab.Container activeKey={activeTab} onSelect={handleTabChange}>
                                                 <Nav className="nav-lb-tab fs-4">
-                                                    {/* categories에 "전쳬" 를 넣고 id는 0으로 하고 이걸 누르면 전체가 다 나오게 만들기 */}
+                                                    {/* categories에 "전체" 를 넣고 id는 0으로 하고 이걸 누르면 전체가 다 나오게 만들기 */}
                                                     {/* 이 부분 API와 파일구성 수정 예정 */}
                                                     {categories.map((category) => (
                                                         <Nav.Item key={category.id}>
@@ -93,7 +93,7 @@ const Main = ({}) => {
                             </div>
                         </Container>
                     </div>
-                    {/* 하단부 Footer */}
+                    {/* 하단부 Footer 수정*/}
                     <Footer />
                 </>
             ) : (
