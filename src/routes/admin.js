@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Main from "../pages/Main/Main";
 import "assets/scss/theme.scss";
 import AddProgram from "../pages/Program/AddProgram";
-import AddSurvey from "../pages/AddSurvey";
+import AddSurvey from "../pages/Notnow/AddSurvey";
 import ManageApplication from "../pages/ManageApplication";
 import ManageApplicationDetail from "../pages/ManageApplicationDetail";
 import ManageSurvey from "../pages/ManageSurvey";

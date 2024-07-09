@@ -17,6 +17,9 @@ import axios from "axios";
 import { getCategory, getCategoryAfterLogin } from "services/mainApi";
 import { get } from "jquery";
 
+const userData = JSON.parse(window.sessionStorage.getItem("userData"));
+console.log("유저데이터 정보", userData);
+
 const Main = ({}) => {
     // const [totalInfo, setTotalInfo] = useState([]);
     // const [eventInfo, setEventInfo] = useState([]);

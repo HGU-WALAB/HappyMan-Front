@@ -6,7 +6,7 @@ import axios from "axios";
 import Element from "json/Element";
 import ElementCreate from "json/ElementCreate";
 import jsonSkeleton from "json/jsonSkeleton.json";
-import FormBuilder from "./FormBuilder";
+import FormBuilder from "../FormBuilder";
 import { Link, useNavigate } from "react-router-dom";
 import NavbarVertical from "layouts/dashboard/NavbarVertical";
 import NavbarTop from "layouts/dashboard/NavbarTop";

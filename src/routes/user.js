@@ -7,6 +7,7 @@ import ProgramDetail from "../pages/ProgramDetail";
 import MyPageLayout from "../pages/Mypage/MyPageLayout";
 import Terms from "../pages/terms";
 import PersonalInfo from "../pages/PersonalInfo";
+import LoginIng from "components/login/LoginIng";
 
 function Admin() {
     return (
@@ -21,6 +22,7 @@ function Admin() {
                 <Route path={process.env.REACT_APP_DEPLOY_URL + "mypage"} element={<MyPageLayout />} />
                 <Route path={process.env.REACT_APP_DEPLOY_URL + "terms-and-conditions"} element={<Terms />} />
                 <Route path={process.env.REACT_APP_DEPLOY_URL + "personal-information"} element={<PersonalInfo />} />
+                <Route path={process.env.REACT_APP_DEPLOY_URL + "login-ing"} element={<LoginIng />} />
             </Routes>
         </>
     );

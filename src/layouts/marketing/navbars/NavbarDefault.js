@@ -15,6 +15,7 @@ import "../../../assets/scss/navbar.scss";
 // import media files
 import Logo from "assets/images/SWAPLogo.png";
 import NavbarProfile from "./NavbarProfile";
+import { isActive } from "functions/isActive";
 
 const NavbarDefault = ({ headerstyle }, { props }) => {
     const navigate = useNavigate();
@@ -35,7 +36,10 @@ const NavbarDefault = ({ headerstyle }, { props }) => {
 
     const userData = JSON.parse(window.sessionStorage.getItem("userData"));
     const token = userData ? userData.exp : null;
+
     const status = userData ? userData.status : null;
+
+    isActive();
 
     // 현재 사용자의 상태를 세션스토리지에서 가져와 위의 퀵메뉴 출력
     const QuickMenu = () => {
@@ -165,7 +169,7 @@ const NavbarDefault = ({ headerstyle }, { props }) => {
 
                         <Nav className="navbar-nav navbar-right-wrap ms-auto d-flex nav-top-wrap">
                             {/* 세션스토리지의 토큰 값이 유효하면 퀵메뉴, 유효하지 않으면 로그인 창 출력 */}
-                            {token !== null && token < today.getTime() ? (
+                            {token !== null && isActive() ? (
                                 <QuickMenu />
                             ) : (
                                 // 로그인 창으로 이동
