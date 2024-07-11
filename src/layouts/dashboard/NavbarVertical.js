@@ -22,12 +22,12 @@ export const DashboardMenu = [
         icon: "clipboard",
         link: "/admin/program",
     },
-    // {
-    //     id: uuid(),
-    //     title: "신청서 템플릿",
-    //     icon: "book",
-    //     link: "/admin/application",
-    // },
+    {
+        id: uuid(),
+        title: "사용자",
+        icon: "user",
+        link: "/admin/user",
+    },
     // {
     //     id: uuid(),
     //     title: "설문지 템플릿",

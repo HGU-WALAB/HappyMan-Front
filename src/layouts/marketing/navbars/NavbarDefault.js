@@ -55,9 +55,9 @@ const NavbarDefault = ({ headerstyle }, { props }) => {
                             관리자 페이지
                         </Nav.Link> */}
 
-                        <Nav.Link className="h4" href="/mypage">
+                        {/* <Nav.Link className="h4" href="/mypage">
                             마이페이지
-                        </Nav.Link>
+                        </Nav.Link> */}
                     </Nav>
                 ) : (
                     // 사용자일 때

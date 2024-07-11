@@ -45,16 +45,16 @@ const ApplicationFormPractice = (props) => {
         setJson(jsonSkeleton);
     }, []);
 
-    // const templateOptions = [
-    //   { value: "1", label: "대회" },
-    //   { value: "2", label: "봉사" },
-    //   { value: "3", label: "캠프" },
-    //   { value: "4", label: "동아리" },
-    //   { value: "5", label: "행사" },
-    //   { value: "6", label: "기타" },
-    //   { value: "7", label: "직접생성" },
-    // ];
-    const [templateOptions, setTemplateOptions] = useState([]);
+    const templateOptions = [
+        { value: "1", label: "대회" },
+        { value: "2", label: "봉사" },
+        { value: "3", label: "캠프" },
+        { value: "4", label: "동아리" },
+        { value: "5", label: "행사" },
+        { value: "6", label: "기타" },
+        { value: "7", label: "직접생성" },
+    ];
+    // const [templateOptions, setTemplateOptions] = useState([]);
 
     const elementOptions = [
         { value: "1", label: "Text" },
@@ -142,7 +142,7 @@ const ApplicationFormPractice = (props) => {
 
     return (
         <Form onSubmit={next}>
-            {/* {readyJson && readyElementOption ? (
+            {readyJson && readyElementOption ? (
                 <div className="d-flex justify-content-end">
                     <Form.Group className="mb-3 w-26 ">
                         <FormSelect
@@ -166,7 +166,7 @@ const ApplicationFormPractice = (props) => {
                         />
                     </Form.Group>
                 </div>
-            )} */}
+            )}
 
             {
                 // readyJson && formContent ? (

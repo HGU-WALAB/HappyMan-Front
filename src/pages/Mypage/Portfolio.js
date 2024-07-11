@@ -52,6 +52,12 @@ const Portfolio = (props) => {
 
     return (
         <Card>
+            <Card.Header>
+                <div className="mb-3 mb-lg-0">
+                    <h3 className="mb-0">활동내역 한눈에 보기</h3>
+                    <p className="mb-0">지난 기록들을 그래프로 한눈에 확인하세요.</p>
+                </div>
+            </Card.Header>
             {semesters.length > 0 ? (
                 // 수료여부가 있을 시 데이터
                 semesters.map((semesterData, index) => {

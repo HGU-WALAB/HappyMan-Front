@@ -142,11 +142,13 @@ const MyPage = () => {
                 <Col lg={12} md={12} sm={12}>
                     <Tab.Container defaultActiveKey="application">
                         <Card className="border-0">
-                            <Card.Header className="border-bottom-0 p-0 bg-white">
+                            <Card.Header>
                                 <div className="mb-3 mb-lg-0">
                                     <h3 className="mb-0">신청한 프로그램</h3>
-                                    <p className="mb-0">신청한 프로그램들을 확인할 수 있습니다.</p>
+                                    <p className="mb-0">신청한 프로그램들을 확인해보세요.</p>
                                 </div>
+                            </Card.Header>
+                            <Card.Header className="border-bottom-0 p-0 bg-white">
                                 <Nav className="nav-lb-tab fs-4">
                                     <Nav.Item>
                                         <Nav.Link eventKey="application" className="mb-sm-3 mb-md-0">
