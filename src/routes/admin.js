@@ -89,6 +89,7 @@ import AdminMain from "../pages/Admin/ManageProgram";
 import AddTemplate from "../pages/AddTemplate";
 import LoginIng from "components/login/LoginIng";
 
+import NotLogin from "./notLogin";
 import { isActive } from "functions/isActive";
 import Application from "../pages/Application";
 import Survey from "../pages/Survey";
@@ -112,8 +113,8 @@ function Admin() {
         const path = window.location.pathname.replace(process.env.REACT_APP_DEPLOY_URL, "");
         const isRootOrMain = path === "/" || path === "" || path === "main";
         if (!activeStatus && !isRootOrMain) {
-            alert("로그인 세션이 만료되었습니다. 초기 페이지로 돌아갑니다");
-            console.log("로그인 세션이 만료되었습니다. 초기 페이지로 돌아갑니다");
+            alert("로그인 세션이 만료되었습니다. 초기 페이지로 돌아갑니다 (관리자 라우터)");
+            console.log("로그인 세션이 만료되었습니다. 초기 페이지로 돌아갑니다 (관리자 라우터)");
             <Navigate to={process.env.REACT_APP_DEPLOY_URL} replace />;
         }
     }, []);
@@ -126,7 +127,7 @@ function Admin() {
             <Route path={process.env.REACT_APP_DEPLOY_URL + "login-ing"} element={<LoginIng />} />
 
             {/* isActive가 false이면 메인 페이지 외의 다른 페이지로 리다이렉트 */}
-            {!isActive && (
+            {/* {!checkActive && (
                 <>
                     <Route path={process.env.REACT_APP_DEPLOY_URL + "admin/*"} element={<Navigate to={process.env.REACT_APP_DEPLOY_URL + "/"} replace />} />
                     <Route path={process.env.REACT_APP_DEPLOY_URL + "program/*"} element={<Navigate to={process.env.REACT_APP_DEPLOY_URL + "/"} replace />} />
@@ -140,7 +141,7 @@ function Admin() {
                         element={<Navigate to={process.env.REACT_APP_DEPLOY_URL + "/"} replace />}
                     />
                 </>
-            )}
+            )} */}
 
             {/* 프로그램 전체 조회 */}
             <Route path={process.env.REACT_APP_DEPLOY_URL + "admin/program"} element={<ManageProgram />} />

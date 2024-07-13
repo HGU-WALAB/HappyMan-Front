@@ -72,7 +72,7 @@ import ManageProgram from "pages/Admin/ManageProgram";
 import AdminProgramDetail from "pages/AdminProgramDetail";
 import ApplicationFormView from "components/dashboard/single/overview/ApplicationFormView";
 
-function Admin() {
+function NotLogin() {
     const [checkActive, setCheckActive] = useState(true);
 
     useEffect(() => {
@@ -81,7 +81,7 @@ function Admin() {
         const path = window.location.pathname.replace(process.env.REACT_APP_DEPLOY_URL, "");
         const isRootOrMain = path === "/" || path === "" || path === "main";
         if (!activeStatus && !isRootOrMain) {
-            alert("로그인 세션이 만료되었습니다. 초기 페이지로 돌아갑니다");
+            alert("접근 권한이 없습니다. 초기 페이지로 돌아갑니다");
             console.log("로그인 세션이 만료되었습니다. 초기 페이지로 돌아갑니다");
         }
     }, []);
@@ -117,4 +117,4 @@ function Admin() {
     );
 }
 
-export default Admin;
+export default NotLogin;
