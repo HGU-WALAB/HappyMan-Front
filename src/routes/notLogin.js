@@ -49,7 +49,7 @@
 //                 <Route path={process.env.REACT_APP_DEPLOY_URL + "personal-information"} element={<PersonalInfo />} />
 //             </Routes>
 //         </>
-//     );
+//     );ㄴㅇ
 // }
 
 // export default Admin;
