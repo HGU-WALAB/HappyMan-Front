@@ -81,6 +81,8 @@ function NotLogin() {
         const path = window.location.pathname.replace(process.env.REACT_APP_DEPLOY_URL, "");
         const isRootOrMain = path === "/" || path === "" || path === "main";
         if (!activeStatus && !isRootOrMain) {
+            // 241204 - 문제점 수정용 콘솔로그 추가
+            console.log("Error : ", activeStatus, isRootOrMain);
             alert("접근 권한이 없습니다. 초기 페이지로 돌아갑니다");
             console.log("로그인 세션이 만료되었습니다. 초기 페이지로 돌아갑니다");
         }
